@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 
 /**
- * Created by nilenth on 10/24/2017.
+ * Created by chathura on 03/07/2018.
  */
 public class LoginTest {
     static WebDriver driver = null;

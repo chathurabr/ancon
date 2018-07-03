@@ -9,6 +9,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * Created by chathura on 03/07/2018.
+ */
+
 public class DriverFactory {
     private static String url;
 
@@ -24,7 +28,7 @@ public class DriverFactory {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //"E:\selenium\ancon2\src\main\java\com\ancon\automation\webDriver\chromedriver.exe"
+
 
         // set web driver
 
