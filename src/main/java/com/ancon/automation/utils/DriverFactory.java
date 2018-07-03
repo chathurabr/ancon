@@ -2,9 +2,14 @@ package com.ancon.automation.utils;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxBinary;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -15,10 +20,11 @@ import java.util.Properties;
 
 public class DriverFactory {
     private static String url;
+    protected WebDriverWait wait;
+    public static WebDriver driver;
 
     public static WebDriver getDriver() {
         String filePath = System.getProperty("user.dir");
-
         // get data from property file
         Properties properties = new Properties();
         try {
@@ -30,11 +36,17 @@ public class DriverFactory {
         }
 
 
-        // set web driver
+        // set chrome web driver
+    //    WebDriver driver;
+     //   System.setProperty("webdriver.chrome.driver", filePath + "\\src\\main\\java\\com\\ancon\\automation\\webDriver\\chromedriver.exe");
+      //  driver = new ChromeDriver();
 
-        WebDriver driver;
-        System.setProperty("webdriver.chrome.driver", filePath + "\\src\\main\\java\\com\\ancon\\automation\\webDriver\\chromedriver.exe");
-        driver = new ChromeDriver();
+        // set Firefox web driver
+        System.setProperty("webdriver.gecko.driver", filePath +"\\src\\main\\java\\com\\ancon\\automation\\webDriver\\geckodriver.exe");
+        WebDriver driver = new FirefoxDriver();
+
+
+
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
         DesiredCapabilities chromeCapabilities = DesiredCapabilities.chrome();
