@@ -32,7 +32,7 @@ public class DriverFactory {
 
         // set web driver
 
-        WebDriver driver = null;
+        WebDriver driver;
         System.setProperty("webdriver.chrome.driver", filePath + "\\src\\main\\java\\com\\ancon\\automation\\webDriver\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
