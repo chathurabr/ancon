@@ -20,6 +20,7 @@ import java.util.Properties;
 
 public class DriverFactory {
     private static String url;
+    private static String browser;
     protected WebDriverWait wait;
     public static WebDriver driver;
 
@@ -30,27 +31,44 @@ public class DriverFactory {
         try {
             properties.load(new FileInputStream(filePath + "\\src\\main\\java\\com\\ancon\\automation\\utils\\Base.properties"));
             url= properties.getProperty("URL");
+            browser =  properties.getProperty("browser");
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
-        // set chrome web driver
-    //    WebDriver driver;
-     //   System.setProperty("webdriver.chrome.driver", filePath + "\\src\\main\\java\\com\\ancon\\automation\\webDriver\\chromedriver.exe");
-      //  driver = new ChromeDriver();
 
-        // set Firefox web driver
-        System.setProperty("webdriver.gecko.driver", filePath +"\\src\\main\\java\\com\\ancon\\automation\\webDriver\\geckodriver.exe");
-        WebDriver driver = new FirefoxDriver();
+        //Check if parameter passed from TestNG is 'firefox'
+        if(browser.equalsIgnoreCase("firefox")){
+            //create firefox instance
+            System.setProperty("webdriver.gecko.driver", filePath +"\\src\\main\\java\\com\\ancon\\automation\\webDriver\\geckodriver.exe");
+            driver = new FirefoxDriver();
+        }
+        //Check if parameter passed as 'chrome'
+        else if(browser.equalsIgnoreCase("chrome")){
+            //set path to chromedriver.exe
+            System.setProperty("webdriver.chrome.driver", filePath + "\\src\\main\\java\\com\\ancon\\automation\\webDriver\\chromedriver.exe");
+            //create chrome instance
+            driver = new ChromeDriver();
+            DesiredCapabilities chromeCapabilities = DesiredCapabilities.chrome();
+            chromeCapabilities.setCapability(CapabilityType.ForSeleniumServer.ENSURING_CLEAN_SESSION, true);
+        }
+
+        else{
+            //If no browser passed throw exception
+            try {
+                throw new Exception("Browser is not correct");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
 
 
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
-        DesiredCapabilities chromeCapabilities = DesiredCapabilities.chrome();
-        chromeCapabilities.setCapability(CapabilityType.ForSeleniumServer.ENSURING_CLEAN_SESSION, true);
+
         driver.get(url);
         return driver;
     }

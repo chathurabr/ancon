@@ -47,6 +47,9 @@ public class Tenants {
         JavascriptExecutor executor = (JavascriptExecutor)driver;
         executor.executeScript("arguments[0].click()", element);
         System.out.println("button clicked");*/
+        String currentDir = System.getProperty("user.dir");
+        driver.findElement(btn_logoUpload).sendKeys("C:\\Users\\chathurar\\Desktop\\New folder\\alignmet.jpg");
+
 
         //Tenant admin details
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_email))).sendKeys(email);

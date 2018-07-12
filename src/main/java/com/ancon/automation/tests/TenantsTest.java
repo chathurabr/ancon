@@ -36,6 +36,7 @@ public class TenantsTest {
         tenants.createNewTenant("Create a Tenant");
         tenants.tenantDetails("saman","123546","a@mail.com","nuwan","sameera");
 
+
     }
 
 
