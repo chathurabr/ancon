@@ -22,7 +22,7 @@ public class DriverFactory {
     private static String url;
     private static String browser;
     protected WebDriverWait wait;
-    public static WebDriver driver;
+    static WebDriver driver;
 
     public static WebDriver getDriver() {
         String filePath = System.getProperty("user.dir");
@@ -32,12 +32,9 @@ public class DriverFactory {
             properties.load(new FileInputStream(filePath + "\\src\\main\\java\\com\\ancon\\automation\\utils\\Base.properties"));
             url= properties.getProperty("URL");
             browser =  properties.getProperty("browser");
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
 
         //Check if parameter passed from TestNG is 'firefox'
         if(browser.equalsIgnoreCase("firefox")){
@@ -45,6 +42,7 @@ public class DriverFactory {
             System.setProperty("webdriver.gecko.driver", filePath +"\\src\\main\\java\\com\\ancon\\automation\\webDriver\\geckodriver.exe");
             driver = new FirefoxDriver();
         }
+
         //Check if parameter passed as 'chrome'
         else if(browser.equalsIgnoreCase("chrome")){
             //set path to chromedriver.exe
@@ -58,17 +56,14 @@ public class DriverFactory {
         else{
             //If no browser passed throw exception
             try {
-                throw new Exception("Browser is not correct");
+                throw new Exception("Browser name is not correct");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-
-
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
-
         driver.get(url);
         return driver;
     }

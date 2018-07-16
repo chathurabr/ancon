@@ -26,17 +26,18 @@ public class Login  {
         this.driver = driver;
     }
 
-
-    public void loginToAncon() {
+    public void loginToAncon(String email, String password) {
         WebElement loginEmail = driver.findElement(txt_useremail);
         loginEmail.clear();
-        loginEmail.sendKeys("Admin@gmail.com");
+        loginEmail.sendKeys(email);
+        System.out.println("Enter Username");
         WebElement loginpassword = driver.findElement(txt_password);
         loginpassword.clear();
-        loginpassword.sendKeys("admin123");
+        loginpassword.sendKeys(password);
+        System.out.println("Enter password");
         driver.findElement(btn_Submit).click();
         Assert.assertEquals(getUsername(), "Dashboard");
-
+        System.out.println("Successfully loged in to the Ancon");
     }
 
     public String getUsername() {

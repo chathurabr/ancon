@@ -10,12 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-/***************************************************************************************
- * 										This class contains 
- *					Screenshot snap 
- *
- *
- *****************************************************************************************/
 public class CommonScreenshot extends DriverFactory {
    // private static WebDriver driver;
     static WebDriver wdd = DriverFactory.driver;
@@ -27,7 +21,6 @@ public class CommonScreenshot extends DriverFactory {
             File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
             String filePath = System.getProperty("user.dir");
             FileUtils.copyFile(scrFile, new File(filePath + "\\src\\main\\java\\com\\ancon\\automation\\screenshots\\" + testResult.getName() + "-" + Arrays.toString(testResult.getParameters()) + ".jpg"));
-
         }
         return wdd;
     }

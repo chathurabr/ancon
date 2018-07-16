@@ -14,7 +14,7 @@ public class CommonClass {
     static WebDriver driver ;
     static WebDriverWait wait;
 
-    static By lbl_pagename = By.xpath("//h1");
+    static By lbl_pagename = By.xpath("//h1[contains(text(),'')]");
 
 
     public CommonClass(WebDriver driver) {
@@ -26,6 +26,7 @@ public class CommonClass {
         WebElement menu = driver.findElement(By.xpath("//a[contains(text(),'"+menuName+"')]"));
         wait.until(ExpectedConditions.elementToBeClickable(menu)).click();
         Assert.assertEquals(getPageName(),menuName);
+        System.out.println(menuName+ "Header is available");
     }
 
     public static String getPageName() {
