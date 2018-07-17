@@ -1,5 +1,6 @@
 package com.ancon.automation.utils;
 
+import com.ancon.automation.pages.CommonClass;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxBinary;
@@ -29,7 +30,7 @@ public class DriverFactory {
         // get data from property file
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream(filePath + "\\src\\main\\java\\com\\ancon\\automation\\utils\\Base.properties"));
+            properties.load(new FileInputStream(filePath + CommonClass.path+"utils\\Base.properties"));
             url= properties.getProperty("URL");
             browser =  properties.getProperty("browser");
         } catch (IOException e) {
@@ -39,14 +40,14 @@ public class DriverFactory {
         //Check if parameter passed from TestNG is 'firefox'
         if(browser.equalsIgnoreCase("firefox")){
             //create firefox instance
-            System.setProperty("webdriver.gecko.driver", filePath +"\\src\\main\\java\\com\\ancon\\automation\\webDriver\\geckodriver.exe");
+            System.setProperty("webdriver.gecko.driver", filePath +CommonClass.path+"webDriver\\geckodriver.exe");
             driver = new FirefoxDriver();
         }
 
         //Check if parameter passed as 'chrome'
         else if(browser.equalsIgnoreCase("chrome")){
             //set path to chromedriver.exe
-            System.setProperty("webdriver.chrome.driver", filePath + "\\src\\main\\java\\com\\ancon\\automation\\webDriver\\chromedriver.exe");
+            System.setProperty("webdriver.chrome.driver", filePath + CommonClass.path+"webDriver\\chromedriver.exe");
             //create chrome instance
             driver = new ChromeDriver();
             DesiredCapabilities chromeCapabilities = DesiredCapabilities.chrome();

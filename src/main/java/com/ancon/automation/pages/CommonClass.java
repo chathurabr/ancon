@@ -11,10 +11,11 @@ import org.testng.Assert;
  * Created by chathura on 11/07/2018.
  */
 public class CommonClass {
-    static WebDriver driver ;
-    static WebDriverWait wait;
+    public static String path= "\\src\\main\\java\\com\\ancon\\automation\\";
+    private  WebDriver driver ;
+    private  WebDriverWait wait;
 
-    static By lbl_pagename = By.xpath("//h1[contains(text(),'')]");
+    private static By lbl_pagename = By.xpath("//h1[contains(text(),'')]");
 
 
     public CommonClass(WebDriver driver) {
@@ -29,7 +30,7 @@ public class CommonClass {
         System.out.println(menuName+ "Header is available");
     }
 
-    public static String getPageName() {
+    String getPageName() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(lbl_pagename));
         return driver.findElement(lbl_pagename).getText();
     }

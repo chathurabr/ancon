@@ -12,13 +12,13 @@ import org.testng.Assert;
  */
 public class Login  {
 
-    WebDriver driver ;
-    WebDriverWait wait;
+    private WebDriver driver ;
+    private WebDriverWait wait;
 
-    By txt_useremail = By.xpath("//input[@name='email']");
-    By txt_password = By.xpath("//input[@name='password']");
-    By btn_Submit = By.xpath("//button[contains(text(),'Submit')]");
-    By lbl_dashboard = By.xpath("//h1[contains(text(),'Dashboard')]");
+    private By txt_useremail = By.xpath("//input[@name='email']");
+    private By txt_password = By.xpath("//input[@name='password']");
+    private By btn_Submit = By.xpath("//button[contains(text(),'Submit')]");
+    private By lbl_dashboard = By.xpath("//h1[contains(text(),'Dashboard')]");
 
 
     public Login(WebDriver driver) {
@@ -40,7 +40,7 @@ public class Login  {
         System.out.println("Successfully loged in to the Ancon");
     }
 
-    public String getUsername() {
+    private String getUsername() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(lbl_dashboard));
         return driver.findElement(lbl_dashboard).getText();
     }

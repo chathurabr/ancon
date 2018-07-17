@@ -1,9 +1,8 @@
 package com.ancon.automation.tests;
 
 import com.ancon.automation.pages.CommonClass;
-import com.ancon.automation.pages.Dashboard;
 import com.ancon.automation.pages.Login;
-import com.ancon.automation.utils.CommonScreenshot;
+import com.ancon.automation.utils.Screenshot;
 import com.ancon.automation.utils.DriverFactory;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
@@ -20,7 +19,6 @@ import java.util.Properties;
  */
 public class LoginTest {
     static WebDriver driver = null;
-    private Dashboard dashboard;
     private Login login;
     private CommonClass commonClass;
 
@@ -30,7 +28,6 @@ public class LoginTest {
     @BeforeClass
     public void SetUp() {
         driver = DriverFactory.getDriver();
-        dashboard = new Dashboard(driver);
         login = new Login(driver);
         commonClass= new CommonClass(driver);
 
@@ -38,7 +35,7 @@ public class LoginTest {
         Properties properties = new Properties();
         try {
             String filePath = System.getProperty("user.dir");
-            properties.load(new FileInputStream(filePath + "\\src\\main\\java\\com\\ancon\\automation\\utils\\Base.properties"));
+            properties.load(new FileInputStream(filePath + CommonClass.path+"utils\\Base.properties"));
             email= properties.getProperty("email");
             password =  properties.getProperty("password");
         } catch (IOException e) {
@@ -51,10 +48,10 @@ public class LoginTest {
         login.loginToAncon(email,password);
     }
 
-/*    @AfterMethod
+    @AfterMethod
     public void takeScreenShotOnFailure(ITestResult testResult) throws IOException {
-        driver = CommonScreenshot.takeSnapshot(testResult);
-    }*/
+        Screenshot.screenShot(testResult);
+    }
 
 }
 
