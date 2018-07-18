@@ -32,7 +32,6 @@ public class TenantsTest {
     private String tenantLastName;
     private String outletname;
     private String outletBusinessNumber;
-   // String path = "\\src\\main\\java\\com\\ancon\\automation\\";
 
     @BeforeClass
     public void SetUp() throws IOException {

@@ -42,6 +42,7 @@ public class DriverFactory {
             //create firefox instance
             System.setProperty("webdriver.gecko.driver", filePath +CommonClass.path+"webDriver\\geckodriver.exe");
             driver = new FirefoxDriver();
+            System.out.println("Firefox Browser Opened");
         }
 
         //Check if parameter passed as 'chrome'
@@ -52,6 +53,7 @@ public class DriverFactory {
             driver = new ChromeDriver();
             DesiredCapabilities chromeCapabilities = DesiredCapabilities.chrome();
             chromeCapabilities.setCapability(CapabilityType.ForSeleniumServer.ENSURING_CLEAN_SESSION, true);
+            System.out.println("Chrome Browser Opened");
         }
 
         else{

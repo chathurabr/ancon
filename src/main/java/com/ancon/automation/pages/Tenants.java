@@ -46,6 +46,10 @@ public class Tenants extends CommonClass {
     private By lbl_Outlets = By.xpath("//tbody[1]/tr[1]/td[5]");
     private By txt_outletName = By.xpath("//input[@name='outletName']");
     private By txt_otletBusinessNumber = By.xpath("//input[@name='outletBusinessNumber']");
+    private By txt_street = By.xpath("//input[@name='street']");
+    private By txt_zip = By.xpath("//input[@name='zip']");
+    private By txt_city = By.xpath("//input[@name='city']");
+    private By txt_telephone = By.xpath("//input[@name='telephone']");
     private By btn_BackFromOutlet = By.xpath("//button/i[@class='a_icon-arrow_back']");
 
     public Tenants(WebDriver driver) {
@@ -133,13 +137,21 @@ public class Tenants extends CommonClass {
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_CreateOutlet))).click();
         System.out.println("Create Outlet button clicked");
         Assert.assertEquals(getPageName(),"Create an Outlet");
+        //Outlet details
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_outletName))).sendKeys(outletName);
         System.out.println("Outlet Name :"+outletName);
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_otletBusinessNumber))).sendKeys(outletNumber);
         System.out.println("Outlet business number :"+outletNumber);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_street))).sendKeys("Street1");
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_zip))).sendKeys("Zip1");
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_city))).sendKeys("city1");
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_telephone))).sendKeys("078459628962");
+        System.out.println("Entered Outlet location - 'Street' 'Zip' 'City' 'Telephone'");
+        //save
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_save))).click();
         System.out.println("successfully Created an Outlet");
-        CommonClass.sleepTime(3000);
+        //Back to Tenants Summary page
+        sleepTime(3000);
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_BackFromOutlet));
         WebElement backButton = driver.findElement(btn_BackFromOutlet);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", backButton);

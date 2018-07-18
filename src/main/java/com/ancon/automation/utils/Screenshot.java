@@ -24,7 +24,7 @@ public class Screenshot extends DriverFactory {
                 // Copy files to specific location
                 // result.getName() will return name of test case so that screenshot name will be same as test case name
                 String filePath = System.getProperty("user.dir");
-                FileUtils.copyFile(src, new File(filePath + CommonClass.path+"\\src\\main\\java\\com\\ancon\\automation\\screenshots\\"+result.getName()+".png"));
+                FileUtils.copyFile(src, new File(filePath + CommonClass.path+"screenshots\\"+result.getName()+".png"));
                 System.out.println("Successfully captured a screenshot");
             }catch (Exception e){
                 System.out.println("Exception while taking screenshot "+e.getMessage());
