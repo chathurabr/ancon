@@ -1,6 +1,6 @@
 package com.ancon.automation.tests;
 
-import com.ancon.automation.pages.CommonClass;
+import com.ancon.automation.utils.CommonClass;
 import com.ancon.automation.pages.Login;
 import com.ancon.automation.pages.Tenants;
 import com.ancon.automation.utils.Screenshot;
@@ -62,7 +62,7 @@ public class TenantsTest {
         login.loginToAncon(email,password);
     }
 
-    @Test(description = "Create new tenant", priority = 1)
+    @Test(description = "Create new tenant", priority = 1,enabled = true)
     public void createTenant(){
         commonClass.selectSidebarMenu("Tenants");
         tenants.verifyPageElements();
@@ -79,15 +79,18 @@ public class TenantsTest {
 
     @Test(description = "Create new Outlet", priority = 3)
     public void createnewOutlet(){
-        tenants.createOutlet(outletname,outletBusinessNumber);
+        tenants.createOutlet(outletname,outletBusinessNumber,"steet1","zip2","city2","0784596321");
+        tenants.createOutletRoutineTme();
+        tenants.colorBox();
+        tenants.saveCreateOutlet();
     }
 
-    @Test(description = "Verify Created Outlet Details", priority = 4)
+    @Test(description = "Verify Created Outlet Details", priority = 4,enabled = true)
     public void verifyCreatedOutlet(){
         tenants.verifyOutlet(outletname);
     }
 
-    @AfterMethod(description = "Taking ScreenShot for Failed Tests")
+    @AfterMethod(description = "Taking ScreenShot for Failed Tests",enabled = true)
     public void takeScreenShotOnFailure(ITestResult testResult) {
         Screenshot.screenShot(testResult);
     }

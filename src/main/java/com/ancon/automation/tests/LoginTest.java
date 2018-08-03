@@ -1,6 +1,6 @@
 package com.ancon.automation.tests;
 
-import com.ancon.automation.pages.CommonClass;
+import com.ancon.automation.utils.CommonClass;
 import com.ancon.automation.pages.Login;
 import com.ancon.automation.utils.Screenshot;
 import com.ancon.automation.utils.DriverFactory;

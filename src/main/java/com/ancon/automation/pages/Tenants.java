@@ -1,7 +1,7 @@
 package com.ancon.automation.pages;
 
+import com.ancon.automation.utils.CommonClass;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -51,6 +51,14 @@ public class Tenants extends CommonClass {
     private By txt_city = By.xpath("//input[@name='city']");
     private By txt_telephone = By.xpath("//input[@name='telephone']");
     private By btn_BackFromOutlet = By.xpath("//button/i[@class='a_icon-arrow_back']");
+    private By dd_StartTime = By.cssSelector("span#react-select-2--value.Select-multi-value-wrapper div.Select-placeholder");
+    private By dd_CloseTime = By.xpath("//div[@class='Select-placeholder'][contains(text(),'20:00')]");
+    //color
+    private By cb_PrimaryColor = By.cssSelector("div.colorBlockLarge___2e89L");
+    private By cb_SecondaryColor = By.xpath("//*[contains(text(),'Secondary Color')]/following-sibling::div");
+
+
+
 
     public Tenants(WebDriver driver) {
         super(driver);
@@ -104,6 +112,7 @@ public class Tenants extends CommonClass {
     public void verifyCreatedTenant(String name){
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_CreateNew));
         String orderNumber = driver.findElement(txt_OrderNumber).getText();
+        srollIntoView(driver.findElement(txt_OrderNumber));
         Assert.assertEquals(orderNumber,"001");
         System.out.println("Sequence order number '001' is available");
         sleepTime(1000);
@@ -130,34 +139,65 @@ public class Tenants extends CommonClass {
         System.out.println("Disable button is available");
     }
 
-    public void createOutlet(String outletName,String outletNumber){
+    public void createOutlet(String outletName,String outletNumber,String street,String zip, String city, String telephone) {
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_View_1))).click();
         System.out.println("Clicked on View button");
-        Assert.assertEquals(getPageName(),"Tenant Details");
+        Assert.assertEquals(getPageName(), "Tenant Details");
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_CreateOutlet))).click();
         System.out.println("Create Outlet button clicked");
-        Assert.assertEquals(getPageName(),"Create an Outlet");
+        Assert.assertEquals(getPageName(), "Create an Outlet");
         //Outlet details
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_outletName))).sendKeys(outletName);
-        System.out.println("Outlet Name :"+outletName);
+        System.out.println("Outlet Name :" + outletName);
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_otletBusinessNumber))).sendKeys(outletNumber);
-        System.out.println("Outlet business number :"+outletNumber);
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_street))).sendKeys("Street1");
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_zip))).sendKeys("Zip1");
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_city))).sendKeys("city1");
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_telephone))).sendKeys("078459628962");
-        System.out.println("Entered Outlet location - 'Street' 'Zip' 'City' 'Telephone'");
-        //save
+        System.out.println("Outlet business number :" + outletNumber);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_street))).sendKeys(street);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_zip))).sendKeys(zip);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_city))).sendKeys(city);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_telephone))).sendKeys(telephone);
+        System.out.println("Entered Outlet location - 'Street:' " + street + " 'Zip' : " + zip + " 'City' : " + city + " 'Telephone' : " + telephone + "");
+    }
+
+    //Opening Hours
+    //Have an advanced routine ? Yes
+    public void createOutletRoutineTme() {
+        //set Open time
+        WebElement openTime = driver.findElement(dd_StartTime);
+        srollIntoView(openTime);
+        openTime.click();
+        sleepTime(1000);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//*[contains(text(),'03:00')]")))).click();
+        //set Close time
+        WebElement closeTime = driver.findElement(dd_CloseTime);
+        closeTime.click();
+        sleepTime(1000);
+        WebElement time = driver.findElement(By.xpath("//*[contains(text(),'07:00')]"));
+        srollIntoView(time);
+        wait.until(ExpectedConditions.elementToBeClickable(time)).click();
+        System.out.println("Entered advanced routine Open and Close Times (03:00 - 07:00)");
+    }
+
+    public void colorBox(){
+        WebElement PrimaryColor = driver.findElement(cb_PrimaryColor);
+        WebElement SecondaryColor = driver.findElement(cb_SecondaryColor);
+        String pcolor = PrimaryColor.getCssValue("background-color");
+        Assert.assertEquals(pcolor,"rgb(0, 0, 255)");
+        System.out.println("Verify Primary Color");
+        String scolor = SecondaryColor.getCssValue("background-color");
+        Assert.assertEquals(scolor,"rgb(111, 111, 111)");
+        System.out.println("Verify Secondary Color");
+    }
+
+    //save Created Outlet
+    public void saveCreateOutlet(){
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_save))).click();
         System.out.println("successfully Created an Outlet");
         //Back to Tenants Summary page
         sleepTime(3000);
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_BackFromOutlet));
         WebElement backButton = driver.findElement(btn_BackFromOutlet);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", backButton);
+        srollIntoView(backButton);
         wait.until(ExpectedConditions.elementToBeClickable(backButton)).click();
-/*        JavascriptExecutor executor = (JavascriptExecutor)driver;
-        executor.executeScript("arguments[0].click();", backButton);*/
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_CreateNew));
         Assert.assertEquals(getPageName(),"Tenants");
         System.out.println("Back to Tenants Summary page successfully ");
