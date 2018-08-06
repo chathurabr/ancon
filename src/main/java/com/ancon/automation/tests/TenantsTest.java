@@ -84,7 +84,7 @@ public class TenantsTest {
         //Set Opening Hours
 //        tenants.createOutletRoutineTme();
         // change colors
-        tenants.colorBox();
+    //    tenants.colorBox();
         tenants.saveCreateOutlet();
     }
 

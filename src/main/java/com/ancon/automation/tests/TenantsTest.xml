@@ -4,7 +4,6 @@
 
     <test name="Tenants Test">
         <classes>
-            <class name="com.ancon.automation.tests.LoginTest"/>
             <class name="com.ancon.automation.tests.TenantsTest"/>
         </classes>
     </test>
