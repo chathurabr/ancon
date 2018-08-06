@@ -228,9 +228,9 @@ public class Tenants extends CommonClass {
     public void verifyTenantErrorMessages(){
         Actions actions = new Actions(driver);
         WebElement btnSave = driver.findElement(btn_save);
-        wait.until(ExpectedConditions.elementToBeClickable(btnSave));
-        actions.doubleClick(btnSave).build().perform();
-        actions.doubleClick(btnSave).build().perform();
+        wait.until(ExpectedConditions.elementToBeClickable(btnSave)).click();
+     //   actions.doubleClick(btnSave).build().perform();
+      //  actions.doubleClick(btnSave).build().perform();
         System.out.println("Click on save, Tenant name is blank");
         String errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(lbl_Error_Name)).getText();
         Assert.assertEquals(errorMessage,"TENANT NAME : Required");

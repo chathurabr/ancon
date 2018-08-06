@@ -54,13 +54,8 @@ public class CommonClass {
         executor.executeScript("arguments[0].scrollIntoView(true);",element);
     }
 
-    public void waitForLoad(WebDriver driver) {
-        ExpectedCondition<Boolean> pageLoadCondition = new
-                ExpectedCondition<Boolean>() {
-                    public Boolean apply(WebDriver driver) {
-                        return ((JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete");
-                    }
-                };
+    public static void waitForLoad() {
+        ExpectedCondition<Boolean> pageLoadCondition = driver1 -> ((JavascriptExecutor) driver1).executeScript("return document.readyState").equals("complete");
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.until(pageLoadCondition);
     }
