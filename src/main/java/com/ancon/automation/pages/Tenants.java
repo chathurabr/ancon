@@ -20,7 +20,7 @@ public class Tenants extends CommonClass {
     private WebDriverWait wait;
 
     private By btn_CreateNew = By.xpath("//button[contains(text(),'Create New')]");
-    private By txt_name = By.xpath("//input[@name='name']");
+    private By txt_name = By.xpath("//input[@name='tenantName']");
     private By txt_businessNumber = By.xpath("//input[@name='businessNumber']");
     private By btn_logoUpload = By.xpath("//button[contains(text(),'Upload')]");
     //Create tenant
@@ -31,7 +31,7 @@ public class Tenants extends CommonClass {
     private By btn_Discard= By.xpath("//button[contains(text(),'Discard')]");
     private By btn_saveNtenant = By.xpath("//button[contains(text(),'Save & View Tenant')]");
     private By input_search = By.xpath("//input[@placeholder='Search Tenants or Outlets']");
-    private By txt_OrderNumber = By.xpath("//tbody[1]/tr[1]/td[1][@class='id-td id-content___ouR2G']");
+    private By txt_OrderNumber = By.xpath("//tbody[1]/tr[1]/td[1][@class='id-td id-content___3cuQ3'][contains(text(),'001')]");
 
     private By btn_View_1 = By.xpath("//table/tbody[1]/tr/td[7]/a[1]/button/span[contains(text(),'View')]");
     private By btn_Edit_1 = By.xpath("//table/tbody[1]/tr/td[7]/a[2]/button/span[contains(text(),'Edit')]");
@@ -49,12 +49,12 @@ public class Tenants extends CommonClass {
     private By txt_street = By.xpath("//input[@name='street']");
     private By txt_zip = By.xpath("//input[@name='zip']");
     private By txt_city = By.xpath("//input[@name='city']");
-    private By txt_telephone = By.xpath("//input[@name='telephone']");
+    private By txt_telephone = By.xpath("//input[@class='react-phone-number-input__input react-phone-number-input__phone']");
     private By btn_BackFromOutlet = By.xpath("//button/i[@class='a_icon-arrow_back']");
-    private By dd_StartTime = By.cssSelector("span#react-select-2--value.Select-multi-value-wrapper div.Select-placeholder");
+    private By dd_StartTime = By.cssSelector("//svg[@class='css-19bqh2r']");
     private By dd_CloseTime = By.xpath("//div[@class='Select-placeholder'][contains(text(),'20:00')]");
     //color
-    private By cb_PrimaryColor = By.cssSelector("div.colorBlockLarge___2e89L");
+    private By cb_PrimaryColor = By.cssSelector("div.colorBlockLarge___1aUen");
     private By cb_SecondaryColor = By.xpath("//*[contains(text(),'Secondary Color')]/following-sibling::div");
 
 
@@ -76,6 +76,7 @@ public class Tenants extends CommonClass {
     }
 
     public void createNewTenant(String hederName){
+        sleepTime(2000);
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_CreateNew))).click();
         Assert.assertEquals(getPageName(),hederName);
         System.out.println("Create a Tenant label is available");
@@ -105,14 +106,15 @@ public class Tenants extends CommonClass {
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_lastName))).sendKeys(lastName);
         System.out.println("TLast name :"+lastName);
         //click on save button
+        srollIntoView(driver.findElement(btn_save));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_save))).click();
         System.out.println("successfully Created a Tenant");
     }
 
     public void verifyCreatedTenant(String name){
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_CreateNew));
-        String orderNumber = driver.findElement(txt_OrderNumber).getText();
         srollIntoView(driver.findElement(txt_OrderNumber));
+        String orderNumber = driver.findElement(txt_OrderNumber).getText();
         Assert.assertEquals(orderNumber,"001");
         System.out.println("Sequence order number '001' is available");
         sleepTime(1000);
@@ -120,7 +122,7 @@ public class Tenants extends CommonClass {
         Assert.assertEquals(tname,name);
         System.out.println("Created tenat name verified : "+ name);
         //get date
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDateTime now = LocalDateTime.now();
         String tcdate = driver.findElement(By.xpath("//table/tbody[1]/tr/td[4]")).getText();
         Assert.assertEquals(tcdate,dtf.format(now));
@@ -154,6 +156,7 @@ public class Tenants extends CommonClass {
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_street))).sendKeys(street);
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_zip))).sendKeys(zip);
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_city))).sendKeys(city);
+        srollIntoView(driver.findElement(txt_telephone));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_telephone))).sendKeys(telephone);
         System.out.println("Entered Outlet location - 'Street:' " + street + " 'Zip' : " + zip + " 'City' : " + city + " 'Telephone' : " + telephone + "");
     }
@@ -181,11 +184,11 @@ public class Tenants extends CommonClass {
         WebElement PrimaryColor = driver.findElement(cb_PrimaryColor);
         WebElement SecondaryColor = driver.findElement(cb_SecondaryColor);
         String pcolor = PrimaryColor.getCssValue("background-color");
-        Assert.assertEquals(pcolor,"rgb(0, 0, 255)");
-        System.out.println("Verify Primary Color");
+        Assert.assertEquals(pcolor,"rgb(29, 61, 145)");
+        System.out.println("Verify Primary Color - rgb(29, 61, 145)");
         String scolor = SecondaryColor.getCssValue("background-color");
-        Assert.assertEquals(scolor,"rgb(111, 111, 111)");
-        System.out.println("Verify Secondary Color");
+        Assert.assertEquals(scolor,"rgb(249, 89, 25)");
+        System.out.println("Verify Secondary Color - rgb(249, 89, 25)");
     }
 
     //save Created Outlet
@@ -230,8 +233,8 @@ public class Tenants extends CommonClass {
         actions.doubleClick(btnSave).build().perform();
         System.out.println("Click on save, Tenant name is blank");
         String errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(lbl_Error_Name)).getText();
-        Assert.assertEquals(errorMessage,"NAME : Required");
-        System.out.println("Mandatory field validation message appeared - 'NAME : Required'");
+        Assert.assertEquals(errorMessage,"TENANT NAME : Required");
+        System.out.println("Mandatory field validation message appeared - 'TENANT NAME : Required'");
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_name))).sendKeys("test Name");
         actions.doubleClick(btnSave).build().perform();
         actions.doubleClick(btnSave).build().perform();

@@ -72,25 +72,28 @@ public class TenantsTest {
         tenants.verifyCreatedTenant(tenantname);
     }
 
-    @Test(description = "Verify Created tenant Details", priority = 2)
+    @Test(description = "Verify Created tenant Details", priority = 2,enabled = true)
     public void verifyCreatedTenant(){
         tenants.verifyCreatedTenant(tenantname);
     }
 
-    @Test(description = "Create new Outlet", priority = 3)
-    public void createnewOutlet(){
-        tenants.createOutlet(outletname,outletBusinessNumber,"steet1","zip2","city2","0784596321");
-        tenants.createOutletRoutineTme();
+    @Test(description = "Create new Outlet", priority = 3,enabled = true)
+    public void createnewOutlet() {
+        // enter Outlet Details
+        tenants.createOutlet(outletname, outletBusinessNumber, "steet1", "zip2", "city2", "0784596321");
+        //Set Opening Hours
+//        tenants.createOutletRoutineTme();
+        // change colors
         tenants.colorBox();
         tenants.saveCreateOutlet();
     }
 
-    @Test(description = "Verify Created Outlet Details", priority = 4,enabled = true)
+    @Test(description = "Verify Created Outlet Details", priority = 5,enabled = false)
     public void verifyCreatedOutlet(){
         tenants.verifyOutlet(outletname);
     }
 
-    @AfterMethod(description = "Taking ScreenShot for Failed Tests",enabled = true)
+    @AfterMethod(description = "Taking ScreenShot for Failed Tests",enabled = false)
     public void takeScreenShotOnFailure(ITestResult testResult) {
         Screenshot.screenShot(testResult);
     }
