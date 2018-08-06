@@ -218,7 +218,7 @@ public class Tenants extends CommonClass {
         Assert.assertEquals(numberOfOutlets,"1");
         System.out.println("Verified Number Of Outlets : "+numberOfOutlets);
         //get date
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDateTime now = LocalDateTime.now();
         String tcdate = driver.findElement(By.xpath("//table/tbody[1]/tr[2]/td[4]")).getText();
         Assert.assertEquals(tcdate,dtf.format(now));

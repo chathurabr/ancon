@@ -80,25 +80,25 @@ public class TenantsTest {
 
     @Test(description = "Create new Outlet", priority = 3,enabled = true)
     public void createnewOutlet() {
-        // enter Outlet Details
+        /*enter Outlet Details*/
         tenants.createOutlet(outletname, outletBusinessNumber, "steet1", "zip2", "city2", "0784596321");
-        //Set Opening Hours
+        /*Set Opening Hours*/
 //        tenants.createOutletRoutineTme();
-        // change colors
+        /* change colors*/
     //    tenants.colorBox();
         tenants.saveCreateOutlet();
     }
 
-    @Test(description = "Verify Created Outlet Details", priority = 5,enabled = false)
+    @Test(description = "Verify Created Outlet Details", priority = 5,enabled = true)
     public void verifyCreatedOutlet(){
         tenants.verifyOutlet(outletname);
     }
 
-    @AfterMethod(description = "Taking ScreenShot for Failed Tests",enabled = false)
+    @AfterMethod(description = "Taking ScreenShot for Failed Tests")
     public void takeScreenShotOnFailure(ITestResult testResult) {
         Screenshot.screenShot(testResult);
     }
-    @BeforeMethod(description = "watit for page load",enabled = false)
+    @BeforeMethod(description = "wait for page load")
     public void waitForPageLoad() {
         CommonClass.waitForLoad();
     }
