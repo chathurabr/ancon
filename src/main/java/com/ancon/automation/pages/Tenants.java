@@ -236,8 +236,7 @@ public class Tenants extends CommonClass {
         Assert.assertEquals(errorMessage,"TENANT NAME : Required");
         System.out.println("Mandatory field validation message appeared - 'TENANT NAME : Required'");
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_name))).sendKeys("test Name");
-        actions.doubleClick(btnSave).build().perform();
-        actions.doubleClick(btnSave).build().perform();
+        btnSave.click();
         System.out.println("Click on save, Tenant Admin email is blank");
         String errorMessage2 = wait.until(ExpectedConditions.visibilityOfElementLocated(lbl_Error_email)).getText();
         Assert.assertEquals(errorMessage2,"EMAIL : Required");
