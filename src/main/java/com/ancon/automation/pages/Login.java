@@ -11,9 +11,9 @@ import org.testng.Assert;
 /**
  * Created by chathura on 03/07/2018.
  */
-public class Login  {
+public class Login {
 
-    private WebDriver driver ;
+    private WebDriver driver;
     private WebDriverWait wait;
 
     private By txt_username = By.xpath("//input[@id='Username']");
