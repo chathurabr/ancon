@@ -22,7 +22,6 @@ public class Outlet extends CommonClass{
         private By txt_outletNeme = By.xpath("//table/tbody[1]/tr[2]/td[3]/div/span");
         private By btn_View_1 = By.xpath("//table/tbody[1]/tr/td[7]/a[1]/button/span[contains(text(),'View')]");
         private By btn_save = By.xpath("//button[contains(text(),'Save')]");
-        private By input_search = By.xpath("//input[@placeholder='Search Tenants or Outlets']");
         private By btn_CreateNew = By.xpath("//button[contains(text(),'Create New')]");
         private By btn_CreateOutlet = By.xpath("//button[contains(text(),'Create Outlet')]");
         // Create Outlet
