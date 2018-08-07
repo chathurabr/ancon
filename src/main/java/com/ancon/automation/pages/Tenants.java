@@ -36,26 +36,9 @@ public class Tenants extends CommonClass {
     private By btn_View_1 = By.xpath("//table/tbody[1]/tr/td[7]/a[1]/button/span[contains(text(),'View')]");
     private By btn_Edit_1 = By.xpath("//table/tbody[1]/tr/td[7]/a[2]/button/span[contains(text(),'Edit')]");
     private By btn_Disable_1 = By.xpath("//tbody[1]/tr/td[7]/button/span[contains(text(),'Disable')]");
-    private By btn_expand = By.xpath("//table/tbody[1]/tr[1]/td[2]/button/i[@class='a_icon-unfold']");
-    private By txt_outletNeme = By.xpath("//table/tbody[1]/tr[2]/td[3]/div/span");
     private By lbl_Error_Name = By.xpath("//form/div[1]/fieldset/div/div[1]/div[1]/label");
     private By lbl_Error_email = By.xpath("//form/div[2]/fieldset/div/div[1]/div[1]/label");
 
-    private By btn_CreateOutlet = By.xpath("//button[contains(text(),'Create Outlet')]");
-    // Create Outlet
-    private By lbl_Outlets = By.xpath("//tbody[1]/tr[1]/td[5]");
-    private By txt_outletName = By.xpath("//input[@name='outletName']");
-    private By txt_otletBusinessNumber = By.xpath("//input[@name='outletBusinessNumber']");
-    private By txt_street = By.xpath("//input[@name='street']");
-    private By txt_zip = By.xpath("//input[@name='zip']");
-    private By txt_city = By.xpath("//input[@name='city']");
-    private By txt_telephone = By.xpath("//input[@class='react-phone-number-input__input react-phone-number-input__phone']");
-    private By btn_BackFromOutlet = By.xpath("//button/i[@class='a_icon-arrow_back']");
-    private By dd_StartTime = By.cssSelector("//svg[@class='css-19bqh2r']");
-    private By dd_CloseTime = By.xpath("//div[@class='Select-placeholder'][contains(text(),'20:00')]");
-    //color
-    private By cb_PrimaryColor = By.cssSelector("div.colorBlockLarge___1aUen");
-    private By cb_SecondaryColor = By.xpath("//*[contains(text(),'Secondary Color')]/following-sibling::div");
 
 
 
