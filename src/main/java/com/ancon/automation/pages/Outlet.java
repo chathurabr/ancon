@@ -64,7 +64,7 @@ public class Outlet extends CommonClass{
             wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_street))).sendKeys(street);
             wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_zip))).sendKeys(zip);
             wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_city))).sendKeys(city);
-            srollIntoView(driver.findElement(txt_telephone));
+            scrollIntoView(driver.findElement(txt_telephone));
             wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_telephone))).sendKeys(telephone);
             System.out.println("Entered Outlet location - 'Street:' " + street + " 'Zip' : " + zip + " 'City' : " + city + " 'Telephone' : " + telephone + "");
         }
@@ -74,7 +74,7 @@ public class Outlet extends CommonClass{
         public void createOutletRoutineTme() {
             //set Open time
             WebElement openTime = driver.findElement(dd_StartTime);
-            srollIntoView(openTime);
+            scrollIntoView(openTime);
             openTime.click();
             sleepTime(1000);
             wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//*[contains(text(),'03:00')]")))).click();
@@ -83,7 +83,7 @@ public class Outlet extends CommonClass{
             closeTime.click();
             sleepTime(1000);
             WebElement time = driver.findElement(By.xpath("//*[contains(text(),'07:00')]"));
-            srollIntoView(time);
+            scrollIntoView(time);
             wait.until(ExpectedConditions.elementToBeClickable(time)).click();
             System.out.println("Entered advanced routine Open and Close Times (03:00 - 07:00)");
         }
@@ -107,7 +107,7 @@ public class Outlet extends CommonClass{
             sleepTime(3000);
             wait.until(ExpectedConditions.visibilityOfElementLocated(btn_BackFromOutlet));
             WebElement backButton = driver.findElement(btn_BackFromOutlet);
-            srollIntoView(backButton);
+            scrollIntoView(backButton);
             wait.until(ExpectedConditions.elementToBeClickable(backButton)).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(btn_CreateNew));
             Assert.assertEquals(getPageName(),"Tenants");
