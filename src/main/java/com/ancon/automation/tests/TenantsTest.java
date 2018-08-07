@@ -1,5 +1,6 @@
 package com.ancon.automation.tests;
 
+import com.ancon.automation.pages.Outlet;
 import com.ancon.automation.utils.CommonClass;
 import com.ancon.automation.pages.Login;
 import com.ancon.automation.pages.Tenants;
@@ -23,6 +24,7 @@ public class TenantsTest {
     private CommonClass commonClass;
     private Login login;
     private Tenants tenants;
+    private Outlet outlet;
 
     private String email;
     private String password;
@@ -40,6 +42,7 @@ public class TenantsTest {
         commonClass= new CommonClass(driver);
         login = new Login(driver);
         tenants = new Tenants(driver);
+        outlet = new Outlet(driver);
 
         // get data from property file
         Properties properties = new Properties();
@@ -58,6 +61,16 @@ public class TenantsTest {
         outletBusinessNumber =  properties.getProperty("outletBusinessNumber");
     }
 
+    @AfterMethod(description = "Taking ScreenShot for Failed Tests")
+    public void takeScreenShotOnFailure(ITestResult testResult) {
+        Screenshot.screenShot(testResult);
+    }
+
+    @BeforeMethod(description = "wait for page load")
+    public void waitForPageLoad() {
+        CommonClass.waitForLoad();
+    }
+
     @Test (description = "login to the system with valid  Email and Password")
     public void loginTosystem(){
         login.loginToAncon(email,password);
@@ -70,7 +83,6 @@ public class TenantsTest {
         tenants.createNewTenant("Create a Tenant");
         tenants.verifyTenantErrorMessages();
         tenants.tenantDetails(tenantname,tenantBusinessNumber,tenantEmail,tenantFirstName,tenantLastName);
-        tenants.verifyCreatedTenant(tenantname);
     }
 
     @Test(description = "Verify Created tenant Details", priority = 2,enabled = true)
@@ -81,27 +93,20 @@ public class TenantsTest {
     @Test(description = "Create new Outlet", priority = 3,enabled = true)
     public void createnewOutlet() {
         /*enter Outlet Details*/
-        tenants.createOutlet(outletname, outletBusinessNumber, "steet1", "zip2", "city2", "0784596321");
+        outlet.createOutlet(outletname, outletBusinessNumber, "steet1", "zip2", "city2", "0784596321");
         /*Set Opening Hours*/
 //        tenants.createOutletRoutineTme();
         /* change colors*/
     //    tenants.colorBox();
-        tenants.saveCreateOutlet();
+        outlet.saveCreateOutlet();
     }
 
     @Test(description = "Verify Created Outlet Details", priority = 5,enabled = true)
     public void verifyCreatedOutlet(){
-        tenants.verifyOutlet(outletname);
+        outlet.verifyOutlet(outletname);
     }
 
-    @AfterMethod(description = "Taking ScreenShot for Failed Tests")
-    public void takeScreenShotOnFailure(ITestResult testResult) {
-        Screenshot.screenShot(testResult);
-    }
-    @BeforeMethod(description = "wait for page load")
-    public void waitForPageLoad() {
-        CommonClass.waitForLoad();
-    }
+
 
 
 
