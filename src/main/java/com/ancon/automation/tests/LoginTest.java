@@ -6,9 +6,7 @@ import com.ancon.automation.utils.Screenshot;
 import com.ancon.automation.utils.DriverFactory;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -25,7 +23,7 @@ public class LoginTest {
     private String email;
     private String password;
 
-    @BeforeClass
+    @BeforeSuite
     public void SetUp() {
         driver = DriverFactory.getDriver();
         login = new Login(driver);
@@ -48,7 +46,7 @@ public class LoginTest {
         login.loginToAncon(email,password);
     }
 
-    @AfterMethod
+    @AfterSuite
     public void takeScreenShotOnFailure(ITestResult testResult) throws IOException {
         Screenshot.screenShot(testResult);
     }

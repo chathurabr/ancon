@@ -2,6 +2,7 @@ package com.ancon.automation.pages;
 
 import com.ancon.automation.utils.CommonClass;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -9,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import java.sql.Driver;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -16,7 +18,7 @@ import java.time.format.DateTimeFormatter;
  * Created by chathura on 11/07/2018.
  */
 public class Tenants extends CommonClass {
-    private WebDriver driver ;
+    private WebDriver driver;
     private WebDriverWait wait;
 
     private By btn_CreateNew = By.xpath("//button[contains(text(),'Create New')]");
@@ -28,7 +30,7 @@ public class Tenants extends CommonClass {
     private By txt_firstName = By.xpath("//input[@name='firstName']");
     private By txt_lastName = By.xpath("//input[@name='lastName']");
     private By btn_save = By.xpath("//button[contains(text(),'Save')]");
-    private By btn_Discard= By.xpath("//button[contains(text(),'Discard')]");
+    private By btn_Discard = By.xpath("//button[contains(text(),'Discard')]");
     private By btn_saveNtenant = By.xpath("//button[contains(text(),'Save & View Tenant')]");
     private By input_search = By.xpath("//input[@placeholder='Search Tenants or Outlets']");
     private By txt_OrderNumber = By.xpath("//tbody[1]/tr[1]/td[1][@class='id-td id-content___3cuQ3'][contains(text(),'001')]");
@@ -56,8 +58,14 @@ public class Tenants extends CommonClass {
     //color
     private By cb_PrimaryColor = By.cssSelector("div.colorBlockLarge___1aUen");
     private By cb_SecondaryColor = By.xpath("//*[contains(text(),'Secondary Color')]/following-sibling::div");
-
-
+    //search Tenant
+    private By search_field = By.xpath("//input[@placeholder='Search Tenants or Outlets']");
+    private By search_result_Table = By.xpath(("//table[@class='ancon-table table']"));
+    private By search_No_Results_Found = By.xpath("//h2[contains(text(),'No matching results found')]");
+    private By getSearch_result_Table_Rows = By.xpath("//table[@class='ancon-table table']//tbody");
+    private By search_Button = By.xpath("//div[@class='search-button']");
+    WebElement searchField;
+    WebElement searchButton;
 
 
     public Tenants(WebDriver driver) {
@@ -66,7 +74,7 @@ public class Tenants extends CommonClass {
         this.driver = driver;
     }
 
-    public void verifyPageElements(){
+    public void verifyPageElements() {
         WebElement searchArea = driver.findElement(input_search);
         Assert.assertTrue(searchArea.isDisplayed());
         System.out.println("Search bar is available");
@@ -75,22 +83,22 @@ public class Tenants extends CommonClass {
         System.out.println("Create New button is available");
     }
 
-    public void createNewTenant(String hederName){
+    public void createNewTenant(String hederName) {
         sleepTime(2000);
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_CreateNew))).click();
-        Assert.assertEquals(getPageName(),hederName);
+        Assert.assertEquals(getPageName(), hederName);
         System.out.println("Create a Tenant label is available");
     }
 
-    public void tenantDetails(String name, String businessNumber, String email, String firstName, String lastName){
+    public void tenantDetails(String name, String businessNumber, String email, String firstName, String lastName) {
         System.out.println("-Filling Tenant Details-");
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_name))).clear();
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_name))).sendKeys(name);
-        System.out.println("Tenant Name :"+name);
+        System.out.println("Tenant Name :" + name);
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_businessNumber))).sendKeys(businessNumber);
-        System.out.println("business number :"+businessNumber);
-     //   CommonClass.sleepTime(2000);
-     //   wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_logoUpload))).click();
+        System.out.println("business number :" + businessNumber);
+        //   CommonClass.sleepTime(2000);
+        //   wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_logoUpload))).click();
     /*    WebElement element = driver.findElement(btn_logoUpload);
         JavascriptExecutor executor = (JavascriptExecutor)driver;
         executor.executeScript("arguments[0].click()", element);
@@ -100,33 +108,33 @@ public class Tenants extends CommonClass {
 
         //Tenant admin details
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_email))).sendKeys(email);
-        System.out.println("Email : "+email);
+        System.out.println("Email : " + email);
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_firstName))).sendKeys(firstName);
-        System.out.println("First Name :"+firstName);
+        System.out.println("First Name :" + firstName);
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_lastName))).sendKeys(lastName);
-        System.out.println("TLast name :"+lastName);
+        System.out.println("TLast name :" + lastName);
         //click on save button
-        srollIntoView(driver.findElement(btn_save));
+        scrollIntoView(driver.findElement(btn_save));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_save))).click();
         System.out.println("successfully Created a Tenant");
     }
 
-    public void verifyCreatedTenant(String name){
+    public void verifyCreatedTenant(String name) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_CreateNew));
-        srollIntoView(driver.findElement(txt_OrderNumber));
+        scrollIntoView(driver.findElement(txt_OrderNumber));
         String orderNumber = driver.findElement(txt_OrderNumber).getText();
-        Assert.assertEquals(orderNumber,"001");
+        Assert.assertEquals(orderNumber, "001");
         System.out.println("Sequence order number '001' is available");
         sleepTime(1000);
         String tname = driver.findElement(By.xpath("//table/tbody[1]/tr[1]/td[3]/div/span")).getText();
-        Assert.assertEquals(tname,name);
-        System.out.println("Created tenat name verified : "+ name);
+        Assert.assertEquals(tname, name);
+        System.out.println("Created tenat name verified : " + name);
         //get date
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDateTime now = LocalDateTime.now();
         String tcdate = driver.findElement(By.xpath("//table/tbody[1]/tr/td[4]")).getText();
-        Assert.assertEquals(tcdate,dtf.format(now));
-        System.out.println("Tenant Created date verified : "+tcdate);
+        Assert.assertEquals(tcdate, dtf.format(now));
+        System.out.println("Tenant Created date verified : " + tcdate);
         // verify View button available
         WebElement btn_view = driver.findElement(btn_View_1);
         Assert.assertTrue(btn_view.isDisplayed());
@@ -141,7 +149,7 @@ public class Tenants extends CommonClass {
         System.out.println("Disable button is available");
     }
 
-    public void createOutlet(String outletName,String outletNumber,String street,String zip, String city, String telephone) {
+    public void createOutlet(String outletName, String outletNumber, String street, String zip, String city, String telephone) {
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_View_1))).click();
         System.out.println("Clicked on View button");
         Assert.assertEquals(getPageName(), "Tenant Details");
@@ -156,7 +164,7 @@ public class Tenants extends CommonClass {
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_street))).sendKeys(street);
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_zip))).sendKeys(zip);
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_city))).sendKeys(city);
-        srollIntoView(driver.findElement(txt_telephone));
+        scrollIntoView(driver.findElement(txt_telephone));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_telephone))).sendKeys(telephone);
         System.out.println("Entered Outlet location - 'Street:' " + street + " 'Zip' : " + zip + " 'City' : " + city + " 'Telephone' : " + telephone + "");
     }
@@ -166,7 +174,7 @@ public class Tenants extends CommonClass {
     public void createOutletRoutineTme() {
         //set Open time
         WebElement openTime = driver.findElement(dd_StartTime);
-        srollIntoView(openTime);
+        scrollIntoView(openTime);
         openTime.click();
         sleepTime(1000);
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//*[contains(text(),'03:00')]")))).click();
@@ -175,71 +183,100 @@ public class Tenants extends CommonClass {
         closeTime.click();
         sleepTime(1000);
         WebElement time = driver.findElement(By.xpath("//*[contains(text(),'07:00')]"));
-        srollIntoView(time);
+        scrollIntoView(time);
         wait.until(ExpectedConditions.elementToBeClickable(time)).click();
         System.out.println("Entered advanced routine Open and Close Times (03:00 - 07:00)");
     }
 
-    public void colorBox(){
+    public void colorBox() {
         WebElement PrimaryColor = driver.findElement(cb_PrimaryColor);
         WebElement SecondaryColor = driver.findElement(cb_SecondaryColor);
         String pcolor = PrimaryColor.getCssValue("background-color");
-        Assert.assertEquals(pcolor,"rgb(29, 61, 145)");
+        Assert.assertEquals(pcolor, "rgb(29, 61, 145)");
         System.out.println("Verify Primary Color - rgb(29, 61, 145)");
         String scolor = SecondaryColor.getCssValue("background-color");
-        Assert.assertEquals(scolor,"rgb(249, 89, 25)");
+        Assert.assertEquals(scolor, "rgb(249, 89, 25)");
         System.out.println("Verify Secondary Color - rgb(249, 89, 25)");
     }
 
     //save Created Outlet
-    public void saveCreateOutlet(){
+    public void saveCreateOutlet() {
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_save))).click();
         System.out.println("successfully Created an Outlet");
         //Back to Tenants Summary page
         sleepTime(3000);
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_BackFromOutlet));
         WebElement backButton = driver.findElement(btn_BackFromOutlet);
-        srollIntoView(backButton);
+        scrollIntoView(backButton);
         wait.until(ExpectedConditions.elementToBeClickable(backButton)).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_CreateNew));
-        Assert.assertEquals(getPageName(),"Tenants");
+        Assert.assertEquals(getPageName(), "Tenants");
         System.out.println("Back to Tenants Summary page successfully ");
     }
 
-    public void verifyOutlet(String OutletName){
+    public void verifyOutlet(String OutletName) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(txt_outletNeme));
         String Outletname = driver.findElement(txt_outletNeme).getText();
-        Assert.assertEquals(Outletname,OutletName);
-        System.out.println("Created Outlet name verified : "+ OutletName);
+        Assert.assertEquals(Outletname, OutletName);
+        System.out.println("Created Outlet name verified : " + OutletName);
         WebElement outlets = driver.findElement(lbl_Outlets);
         String numberOfOutlets = wait.until(ExpectedConditions.elementToBeClickable(outlets)).getText();
-        Assert.assertEquals(numberOfOutlets,"1");
-        System.out.println("Verified Number Of Outlets : "+numberOfOutlets);
+        Assert.assertEquals(numberOfOutlets, "1");
+        System.out.println("Verified Number Of Outlets : " + numberOfOutlets);
         //get date
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDateTime now = LocalDateTime.now();
         String tcdate = driver.findElement(By.xpath("//table/tbody[1]/tr[2]/td[4]")).getText();
-        Assert.assertEquals(tcdate,dtf.format(now));
-        System.out.println("Outlet Created date verified : "+tcdate);
+        Assert.assertEquals(tcdate, dtf.format(now));
+        System.out.println("Outlet Created date verified : " + tcdate);
     }
 
-    public void verifyTenantErrorMessages(){
+    public void verifyTenantErrorMessages() {
         Actions actions = new Actions(driver);
         WebElement btnSave = driver.findElement(btn_save);
         wait.until(ExpectedConditions.elementToBeClickable(btnSave)).click();
-     //   actions.doubleClick(btnSave).build().perform();
-      //  actions.doubleClick(btnSave).build().perform();
+        //   actions.doubleClick(btnSave).build().perform();
+        //  actions.doubleClick(btnSave).build().perform();
         System.out.println("Click on save, Tenant name is blank");
         String errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(lbl_Error_Name)).getText();
-        Assert.assertEquals(errorMessage,"TENANT NAME : Required");
+        Assert.assertEquals(errorMessage, "TENANT NAME : Required");
         System.out.println("Mandatory field validation message appeared - 'TENANT NAME : Required'");
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_name))).sendKeys("test Name");
         btnSave.click();
         System.out.println("Click on save, Tenant Admin email is blank");
         String errorMessage2 = wait.until(ExpectedConditions.visibilityOfElementLocated(lbl_Error_email)).getText();
-        Assert.assertEquals(errorMessage2,"EMAIL : Required");
+        Assert.assertEquals(errorMessage2, "EMAIL : Required");
         System.out.println("Mandatory field validation message appeared - 'EMAIL : Required'");
     }
+
+    public void searchNonExistingTenant(String tenantValue) {
+        searchField = driver.findElement(search_field);
+        searchButton = driver.findElement(search_Button);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(search_field))).click();
+        searchField.sendKeys(tenantValue);
+        searchButton.click();
+        Assert.assertTrue(driver.findElement(search_No_Results_Found).isDisplayed());
+        System.out.println("No Result Found message is displayed for Non Existing Tenants");
+    }
+
+    //Search Tenants
+    public void searchTenant(String tenantValue) {
+        searchField = driver.findElement(search_field);
+        searchButton = driver.findElement(search_Button);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(search_field))).click();
+        searchField.sendKeys(tenantValue);
+        searchButton.click();
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(getSearch_result_Table_Rows)));
+        int Row_count = driver.findElements(getSearch_result_Table_Rows).size();
+        for (int i = 1; i <= Row_count; i++) {
+            String rowXpath = "//table[@class='ancon-table table']//tbody[" + i + "]//tr[1]//td[3]/div/span";
+            String rowData = driver.findElement(By.xpath(rowXpath)).getText();
+            Assert.assertTrue(rowData.toLowerCase().contains(tenantValue));
+        }
+        System.out.println("Search Results correctly displayed");
+    }
+
+
 }

@@ -49,7 +49,7 @@ public class CommonClass {
     }
 
     //Scroll the page
-    public static void srollIntoView(WebElement element){
+    public static void scrollIntoView(WebElement element){
         JavascriptExecutor executor = (JavascriptExecutor)driver;
         executor.executeScript("arguments[0].scrollIntoView(true);",element);
     }

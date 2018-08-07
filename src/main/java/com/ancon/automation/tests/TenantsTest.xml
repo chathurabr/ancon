@@ -2,9 +2,21 @@
 
 <suite name="Suite1">
 
-    <test name="Tenants Test">
+ <!--   <test name="Login Test">
+        <classes>
+            <class name="com.ancon.automation.tests.LoginTest"/>
+        </classes>
+    </test>-->
+
+    <!--<test name="Tenants Test">
         <classes>
             <class name="com.ancon.automation.tests.TenantsTest"/>
+        </classes>
+    </test>-->
+
+    <test name="Tenants Test">
+        <classes>
+            <class name="com.ancon.automation.tests.SearchTest"/>
         </classes>
     </test>
 
