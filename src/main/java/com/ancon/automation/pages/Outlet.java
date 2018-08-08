@@ -134,5 +134,25 @@ public class Outlet extends CommonClass {
         System.out.println("Outlet Created date verified : " + tcdate);
     }
 
+    public void editCreatedOutlet(String outletName, String outletNumber, String street, String zip, String city, String telephone) {
+       /* wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_View_1))).click();
+        System.out.println("Clicked on View button");
+        Assert.assertEquals(getPageName(), "Tenant Details");
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_CreateOutlet))).click();
+        System.out.println("Create Outlet button clicked");
+        Assert.assertEquals(getPageName(), "Create an Outlet");
+        //Outlet details
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_outletName))).sendKeys(outletName);
+        System.out.println("Outlet Name :" + outletName);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_outletBusinessNumber))).sendKeys(outletNumber);
+        System.out.println("Outlet business number :" + outletNumber);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_street))).sendKeys(street);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_zip))).sendKeys(zip);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_city))).sendKeys(city);
+        scrollIntoView(driver.findElement(txt_telephone));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_telephone))).sendKeys(telephone);*/
+        System.out.println("Entered Outlet location - 'Street:' " + street + " 'Zip' : " + zip + " 'City' : " + city + " 'Telephone' : " + telephone + "");
+    }
+
 
 }

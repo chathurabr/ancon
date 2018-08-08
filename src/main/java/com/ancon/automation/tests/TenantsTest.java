@@ -6,13 +6,14 @@ import com.ancon.automation.pages.Login;
 import com.ancon.automation.pages.Tenants;
 import com.ancon.automation.utils.Screenshot;
 import com.ancon.automation.utils.DriverFactory;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -37,6 +38,19 @@ public class TenantsTest {
     private String outletBusinessNumber;
     private String tenantEdit = "Up";
 
+    private ExtentReports extent;
+    private ExtentTest logger;
+
+    @BeforeTest
+    public void startReport() {
+        extent = new ExtentReports(System.getProperty("user.dir") + CommonClass.path + "/test-output/STMExtentReport.html", true);
+        extent
+                .addSystemInfo("Host Name", "Ancon")
+                .addSystemInfo("Environment", "Ancon Automation Testing")
+                .addSystemInfo("User Name", "Chathura");
+        extent.loadConfig(new File(System.getProperty("user.dir") + CommonClass.path + "utils\\extent-config.xml"));
+    }
+
     @BeforeClass
     public void SetUp() throws IOException {
         WebDriver driver = DriverFactory.getDriver();
@@ -60,11 +74,34 @@ public class TenantsTest {
         //Outlet Details
         outletName = properties.getProperty("outletname");
         outletBusinessNumber = properties.getProperty("outletBusinessNumber");
+
+        logger = extent.startTest("Ancon test");
     }
 
     @BeforeMethod(description = "wait for page load")
     public void waitForPageLoad() {
         CommonClass.waitForLoad();
+    }
+
+    @AfterMethod(description = "Taking ScreenShot for Failed Tests and Create Extent Report")
+    public void getResult(ITestResult result) {
+        Screenshot.screenShot(result); // take ScreenShot On Failure
+        /*Result file*/
+        if (result.getStatus() == ITestResult.FAILURE) {
+           // logger.log(LogStatus.FAIL, "Test Case Failed is " + result.getName());
+            logger.log(LogStatus.FAIL, "Test Case Failed is - " + result.getName() +"  - error : " +result.getThrowable());
+        } else if (result.getStatus() == ITestResult.SKIP) {
+            logger.log(LogStatus.SKIP, "Test Case Skipped is - " + result.getName());
+        } else if (result.getStatus() == ITestResult.SUCCESS) {
+            logger.log(LogStatus.PASS, "Test Case Passed - " + result.getName());
+        }
+        extent.endTest(logger);
+    }
+
+    @AfterTest
+    public void endReport() {
+        extent.flush();
+        extent.close();
     }
 
     @Test(description = "login to the system with valid  Email and Password")
@@ -111,12 +148,14 @@ public class TenantsTest {
     public void editCreatedTenant() {
         tenants.editTenant("Edit a Tenant");
         tenants.tenantDetails(tenantEdit + tenantname, tenantEdit + tenantBusinessNumber);
-        //  tenants.editTenatAdnim(tenantEdit+tenantEmail,tenantEdit+tenantFirstName,tenantEdit+tenantLastName);
-        //   tenants.verifyTenantDetails(tenantEdit+tenantname);
+        tenants.editTenatAdnim(tenantEdit+tenantEmail,tenantEdit+tenantFirstName,tenantEdit+tenantLastName);
+        tenants.verifyTenantDetails(tenantEdit+tenantname);
     }
 
-    @AfterMethod(description = "Taking ScreenShot for Failed Tests")
-    public void takeScreenShotOnFailure(ITestResult testResult) {
-        Screenshot.screenShot(testResult);
+    @Test(description = "Edit Created Outlet details", priority = 7, enabled = true)
+    public void editCreatedOutlet() {
+
     }
+
+
 }

@@ -29,8 +29,8 @@ public class LoginTest {
     private String email;
     private String password;
 
-    ExtentReports extent;
-    ExtentTest logger;
+    private ExtentReports extent;
+    private ExtentTest logger;
 
     @BeforeTest
     public void startReport() {
@@ -78,12 +78,13 @@ public class LoginTest {
         Screenshot.screenShot(result); // take ScreenShot On Failure
         /*Result file*/
         if (result.getStatus() == ITestResult.FAILURE) {
-            logger.log(LogStatus.FAIL, "Test Case Failed is " + result.getName());
-            logger.log(LogStatus.FAIL, "Test Case Failed is " + result.getThrowable());
+            // logger.log(LogStatus.FAIL, "Test Case Failed is " + result.getName());
+            logger.log(LogStatus.FAIL, "Test Case Failed is " + result.getName() +"  - error : " +result.getThrowable());
         } else if (result.getStatus() == ITestResult.SKIP) {
             logger.log(LogStatus.SKIP, "Test Case Skipped is " + result.getName());
-        } else
+        } else if (result.getStatus() == ITestResult.SUCCESS) {
             logger.log(LogStatus.PASS, "Test Case Passed - " + result.getName());
+        }
         extent.endTest(logger);
 
     }
