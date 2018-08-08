@@ -4,12 +4,16 @@ import com.ancon.automation.utils.CommonClass;
 import com.ancon.automation.pages.Login;
 import com.ancon.automation.utils.Screenshot;
 import com.ancon.automation.utils.DriverFactory;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.SkipException;
+import org.testng.annotations.*;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -24,6 +28,19 @@ public class LoginTest {
 
     private String email;
     private String password;
+
+    ExtentReports extent;
+    ExtentTest logger;
+
+    @BeforeTest
+    public void startReport(){
+        extent = new ExtentReports (System.getProperty("user.dir") + CommonClass.path+"/test-output/STMExtentReport.html", true);
+        extent
+                .addSystemInfo("Host Name", "Ancon")
+                .addSystemInfo("Environment", "Ancon Automation Testing")
+                .addSystemInfo("User Name", "Chathura");
+        extent.loadConfig(new File(System.getProperty("user.dir")+ CommonClass.path+"utils\\extent-config.xml"));
+    }
 
     @BeforeClass
     public void SetUp() {
@@ -41,16 +58,40 @@ public class LoginTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        logger = extent.startTest("Ancon test");
     }
 
-    @Test (description = "User login with entering Email Password", priority = 0)
+    @BeforeMethod(description = "wait for page load")
+    public void waitForPageLoad() {
+        CommonClass.waitForLoad();
+    }
+
+
+    @Test (description = "Login to the system")
     public void loginTosystem(){
         login.loginToAncon(email,password);
     }
 
-    @AfterMethod
-    public void takeScreenShotOnFailure(ITestResult testResult) throws IOException {
-        Screenshot.screenShot(testResult);
+
+    @AfterMethod (description = "Taking ScreenShot for Failed Tests and Create Extent Report")
+    public void getResult(ITestResult result){
+        Screenshot.screenShot(result); // take ScreenShot On Failure
+        /*Result file*/
+        if(result.getStatus() == ITestResult.FAILURE){
+            logger.log(LogStatus.FAIL, "Test Case Failed is "+result.getName());
+            logger.log(LogStatus.FAIL, "Test Case Failed is "+result.getThrowable());
+        }else if(result.getStatus() == ITestResult.SKIP){
+            logger.log(LogStatus.SKIP, "Test Case Skipped is "+result.getName());
+        }else
+            logger.log(LogStatus.PASS, "Test Case Passed - "+result.getName());
+        extent.endTest(logger);
+
+    }
+
+    @AfterTest
+    public void endReport(){
+        extent.flush();
+        extent.close();
     }
 
 }

@@ -20,7 +20,7 @@ public class Outlet extends CommonClass{
 
         private By btn_expand = By.xpath("//table/tbody[1]/tr[1]/td[2]/button/i[@class='a_icon-unfold']");
         private By txt_outletNeme = By.xpath("//table/tbody[1]/tr[2]/td[3]/div/span");
-        private By btn_View_1 = By.xpath("//table/tbody[1]/tr/td[7]/a[1]/button/span[contains(text(),'View')]");
+        private By btn_View_1 = By.xpath("(//SPAN[text()='View'])[1]");
         private By btn_save = By.xpath("//button[contains(text(),'Save')]");
         private By btn_CreateNew = By.xpath("//button[contains(text(),'Create New')]");
         private By btn_CreateOutlet = By.xpath("//button[contains(text(),'Create Outlet')]");
@@ -33,11 +33,11 @@ public class Outlet extends CommonClass{
         private By txt_city = By.xpath("//input[@name='city']");
         private By txt_telephone = By.xpath("//input[@class='react-phone-number-input__input react-phone-number-input__phone']");
         private By btn_BackFromOutlet = By.xpath("//button/i[@class='a_icon-arrow_back']");
-        private By dd_StartTime = By.cssSelector("//svg[@class='css-19bqh2r']");
-        private By dd_CloseTime = By.xpath("//div[@class='Select-placeholder'][contains(text(),'20:00')]");
+        private By dd_StartTime = By.xpath("(//DIV[@class='css-1rtrksz'])[1]");
+        private By dd_CloseTime = By.xpath("(//DIV[@class='css-1rtrksz'])[2]");
         //color
-        private By cb_PrimaryColor = By.cssSelector("div.colorBlockLarge___1aUen");
-        private By cb_SecondaryColor = By.xpath("//*[contains(text(),'Secondary Color')]/following-sibling::div");
+        private By cb_PrimaryColor = By.xpath("(//DIV[@class='colorBlockLarge___1aUen'])[1]");
+        private By cb_SecondaryColor = By.xpath("(//DIV[@class='colorBlockLarge___1aUen'])[2]");
 
 
 
@@ -91,12 +91,13 @@ public class Outlet extends CommonClass{
         public void colorBox(){
             WebElement PrimaryColor = driver.findElement(cb_PrimaryColor);
             WebElement SecondaryColor = driver.findElement(cb_SecondaryColor);
+            srollIntoView(PrimaryColor);
             String pcolor = PrimaryColor.getCssValue("background-color");
-            Assert.assertEquals(pcolor,"rgb(29, 61, 145)");
-            System.out.println("Verify Primary Color - rgb(29, 61, 145)");
+            Assert.assertEquals(pcolor,"rgba(29, 61, 145, 1)");
+            System.out.println("Verify Primary Color - rgba(29, 61, 145, 1)");
             String scolor = SecondaryColor.getCssValue("background-color");
-            Assert.assertEquals(scolor,"rgb(249, 89, 25)");
-            System.out.println("Verify Secondary Color - rgb(249, 89, 25)");
+            Assert.assertEquals(scolor,"rgba(249, 89, 25, 1)");
+            System.out.println("Verify Secondary Color - rgba(249, 89, 25, 1)");
         }
 
         //save Created Outlet
@@ -116,6 +117,7 @@ public class Outlet extends CommonClass{
 
         public void verifyOutlet(String OutletName){
             wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+            srollIntoView(driver.findElement(btn_expand));
             wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(txt_outletNeme));
             String Outletname = driver.findElement(txt_outletNeme).getText();

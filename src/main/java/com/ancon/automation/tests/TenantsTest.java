@@ -35,6 +35,7 @@ public class TenantsTest {
     private String tenantLastName;
     private String outletname;
     private String outletBusinessNumber;
+    private String tenantEdit = "edit";
 
     @BeforeClass
     public void SetUp() throws IOException {
@@ -76,28 +77,33 @@ public class TenantsTest {
         login.loginToAncon(email,password);
     }
 
-    @Test(description = "Create new tenant", priority = 1,enabled = true)
-    public void createTenant(){
+    @Test(description = "Go to tenant Page", priority = 1,enabled = true)
+    public void tenantsTab() {
         commonClass.selectSidebarMenu("Tenants");
+    }
+
+    @Test(description = "Create new tenant", priority = 2,enabled = true)
+    public void createTenant(){
         tenants.verifyPageElements();
         tenants.createNewTenant("Create a Tenant");
         tenants.verifyTenantErrorMessages();
-        tenants.tenantDetails(tenantname,tenantBusinessNumber,tenantEmail,tenantFirstName,tenantLastName);
+        tenants.tenantDetails(tenantname,tenantBusinessNumber);
+        tenants.tenantAdminDetails(tenantEmail,tenantFirstName,tenantLastName);
     }
 
-    @Test(description = "Verify Created tenant Details", priority = 2,enabled = true)
+    @Test(description = "Verify Created tenant Details in summary page", priority = 3,enabled = true)
     public void verifyCreatedTenant(){
-        tenants.verifyCreatedTenant(tenantname);
+        tenants.verifyTenantDetails(tenantname);
     }
 
-    @Test(description = "Create new Outlet", priority = 3,enabled = true)
+    @Test(description = "Create new Outlet", priority = 4,enabled = true)
     public void createnewOutlet() {
         /*enter Outlet Details*/
         outlet.createOutlet(outletname, outletBusinessNumber, "steet1", "zip2", "city2", "0784596321");
         /*Set Opening Hours*/
-//        tenants.createOutletRoutineTme();
+        outlet.createOutletRoutineTme();
         /* change colors*/
-    //    tenants.colorBox();
+        outlet.colorBox();
         outlet.saveCreateOutlet();
     }
 
@@ -105,6 +111,17 @@ public class TenantsTest {
     public void verifyCreatedOutlet(){
         outlet.verifyOutlet(outletname);
     }
+
+    @Test(description = "Edit Created Tenant details", priority = 6,enabled = true)
+    public void editCreatedTenant(){
+        tenants.editTenant("Edit a Tenant");
+        tenants.tenantDetails(tenantEdit+tenantname,tenantEdit+tenantBusinessNumber);
+      //  tenants.editTenatAdnim(tenantEdit+tenantEmail,tenantEdit+tenantFirstName,tenantEdit+tenantLastName);
+     //   tenants.verifyTenantDetails(tenantEdit+tenantname);
+    }
+
+
+
 
 
 
