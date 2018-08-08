@@ -134,5 +134,4 @@ public class Outlet extends CommonClass {
         System.out.println("Outlet Created date verified : " + tcdate);
     }
 
-
 }
