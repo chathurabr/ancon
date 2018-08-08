@@ -1,5 +1,4 @@
 package com.ancon.automation.utils;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -8,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+
 
 /**
  * Created by chathura on 11/07/2018.
@@ -29,8 +29,9 @@ public class CommonClass {
     public void selectSidebarMenu(String menuName){
         WebElement menu = driver.findElement(By.xpath("//a[contains(text(),'"+menuName+"')]"));
         wait.until(ExpectedConditions.elementToBeClickable(menu)).click();
+        System.out.println("Select menu - "+ menuName);
         Assert.assertEquals(getPageName(),menuName);
-        System.out.println(menuName+ "Header is available");
+        System.out.println(menuName+ " Header is available");
     }
 
     // get page name from header
@@ -59,4 +60,5 @@ public class CommonClass {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         wait.until(pageLoadCondition);
     }
+
 }
