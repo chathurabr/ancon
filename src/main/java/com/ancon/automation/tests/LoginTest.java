@@ -33,28 +33,28 @@ public class LoginTest {
     ExtentTest logger;
 
     @BeforeTest
-    public void startReport(){
-        extent = new ExtentReports (System.getProperty("user.dir") + CommonClass.path+"/test-output/STMExtentReport.html", true);
+    public void startReport() {
+        extent = new ExtentReports(System.getProperty("user.dir") + CommonClass.path + "/test-output/STMExtentReport.html", true);
         extent
                 .addSystemInfo("Host Name", "Ancon")
                 .addSystemInfo("Environment", "Ancon Automation Testing")
                 .addSystemInfo("User Name", "Chathura");
-        extent.loadConfig(new File(System.getProperty("user.dir")+ CommonClass.path+"utils\\extent-config.xml"));
+        extent.loadConfig(new File(System.getProperty("user.dir") + CommonClass.path + "utils\\extent-config.xml"));
     }
 
     @BeforeClass
     public void SetUp() {
         driver = DriverFactory.getDriver();
         login = new Login(driver);
-        commonClass= new CommonClass(driver);
+        commonClass = new CommonClass(driver);
 
         // get data from property file
         Properties properties = new Properties();
         try {
             String filePath = System.getProperty("user.dir");
-            properties.load(new FileInputStream(filePath + CommonClass.path+"utils\\Base.properties"));
-            email= properties.getProperty("email");
-            password =  properties.getProperty("password");
+            properties.load(new FileInputStream(filePath + CommonClass.path + "utils\\Base.properties"));
+            email = properties.getProperty("email");
+            password = properties.getProperty("password");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -67,29 +67,29 @@ public class LoginTest {
     }
 
 
-    @Test (description = "Login to the system")
-    public void loginTosystem(){
-        login.loginToAncon(email,password);
+    @Test(description = "Login to the system")
+    public void loginTosystem() {
+        login.loginToAncon(email, password);
     }
 
 
-    @AfterMethod (description = "Taking ScreenShot for Failed Tests and Create Extent Report")
-    public void getResult(ITestResult result){
+    @AfterMethod(description = "Taking ScreenShot for Failed Tests and Create Extent Report")
+    public void getResult(ITestResult result) {
         Screenshot.screenShot(result); // take ScreenShot On Failure
         /*Result file*/
-        if(result.getStatus() == ITestResult.FAILURE){
-            logger.log(LogStatus.FAIL, "Test Case Failed is "+result.getName());
-            logger.log(LogStatus.FAIL, "Test Case Failed is "+result.getThrowable());
-        }else if(result.getStatus() == ITestResult.SKIP){
-            logger.log(LogStatus.SKIP, "Test Case Skipped is "+result.getName());
-        }else
-            logger.log(LogStatus.PASS, "Test Case Passed - "+result.getName());
+        if (result.getStatus() == ITestResult.FAILURE) {
+            logger.log(LogStatus.FAIL, "Test Case Failed is " + result.getName());
+            logger.log(LogStatus.FAIL, "Test Case Failed is " + result.getThrowable());
+        } else if (result.getStatus() == ITestResult.SKIP) {
+            logger.log(LogStatus.SKIP, "Test Case Skipped is " + result.getName());
+        } else
+            logger.log(LogStatus.PASS, "Test Case Passed - " + result.getName());
         extent.endTest(logger);
 
     }
 
     @AfterTest
-    public void endReport(){
+    public void endReport() {
         extent.flush();
         extent.close();
     }

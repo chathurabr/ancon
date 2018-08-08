@@ -4,7 +4,11 @@ import com.ancon.automation.pages.Login;
 import com.ancon.automation.pages.Tenants;
 import com.ancon.automation.utils.CommonClass;
 import com.ancon.automation.utils.DriverFactory;
+import com.ancon.automation.utils.Screenshot;
 import org.openqa.selenium.WebDriver;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
@@ -33,6 +37,11 @@ public class SearchTest {
         properties.load(new FileInputStream(filePath + CommonClass.path + "utils\\Base.properties"));
         email = properties.getProperty("email");
         password = properties.getProperty("password");
+    }
+
+    @BeforeMethod(description = "wait for page load")
+    public void waitForPageLoad() {
+        CommonClass.waitForLoad();
     }
 
     @Test(description = "login to the system with valid  Email and Password")
@@ -79,6 +88,11 @@ public class SearchTest {
     public void SearchMultipleTerms() {
         commonClass.selectSidebarMenu("Tenants");
         tenants.searchTenant("tenant test");
+    }
+
+    @AfterMethod(description = "Taking ScreenShot for Failed Tests")
+    public void takeScreenShotOnFailure(ITestResult testResult) {
+        Screenshot.screenShot(testResult);
     }
 
 }

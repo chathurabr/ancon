@@ -33,14 +33,14 @@ public class TenantsTest {
     private String tenantEmail;
     private String tenantFirstName;
     private String tenantLastName;
-    private String outletname;
+    private String outletName;
     private String outletBusinessNumber;
-    private String tenantEdit = "edit";
+    private String tenantEdit = "Up";
 
     @BeforeClass
     public void SetUp() throws IOException {
         WebDriver driver = DriverFactory.getDriver();
-        commonClass= new CommonClass(driver);
+        commonClass = new CommonClass(driver);
         login = new Login(driver);
         tenants = new Tenants(driver);
         outlet = new Outlet(driver);
@@ -48,23 +48,18 @@ public class TenantsTest {
         // get data from property file
         Properties properties = new Properties();
         String filePath = System.getProperty("user.dir");
-        properties.load(new FileInputStream( filePath + CommonClass.path+"\\utils\\Base.properties"));
-        email= properties.getProperty("email");
-        password =  properties.getProperty("password");
+        properties.load(new FileInputStream(filePath + CommonClass.path + "\\utils\\Base.properties"));
+        email = properties.getProperty("email");
+        password = properties.getProperty("password");
         //Tenant Details
-        tenantname= properties.getProperty("tenantname");
-        tenantBusinessNumber =  properties.getProperty("tenantBusinessNumber");
-        tenantEmail= properties.getProperty("tenantEmail");
-        tenantFirstName =  properties.getProperty("tenantFirstName");
-        tenantLastName= properties.getProperty("tenantLastName");
+        tenantname = properties.getProperty("tenantname");
+        tenantBusinessNumber = properties.getProperty("tenantBusinessNumber");
+        tenantEmail = properties.getProperty("tenantEmail");
+        tenantFirstName = properties.getProperty("tenantFirstName");
+        tenantLastName = properties.getProperty("tenantLastName");
         //Outlet Details
-        outletname= properties.getProperty("outletname");
-        outletBusinessNumber =  properties.getProperty("outletBusinessNumber");
-    }
-
-    @AfterMethod(description = "Taking ScreenShot for Failed Tests")
-    public void takeScreenShotOnFailure(ITestResult testResult) {
-        Screenshot.screenShot(testResult);
+        outletName = properties.getProperty("outletname");
+        outletBusinessNumber = properties.getProperty("outletBusinessNumber");
     }
 
     @BeforeMethod(description = "wait for page load")
@@ -72,34 +67,34 @@ public class TenantsTest {
         CommonClass.waitForLoad();
     }
 
-    @Test (description = "login to the system with valid  Email and Password")
-    public void loginTosystem(){
-        login.loginToAncon(email,password);
+    @Test(description = "login to the system with valid  Email and Password")
+    public void loginTosystem() {
+        login.loginToAncon(email, password);
     }
 
-    @Test(description = "Go to tenant Page", priority = 1,enabled = true)
+    @Test(description = "Go to tenant Page", priority = 1, enabled = true)
     public void tenantsTab() {
         commonClass.selectSidebarMenu("Tenants");
     }
 
-    @Test(description = "Create new tenant", priority = 2,enabled = true)
-    public void createTenant(){
+    @Test(description = "Create new tenant", priority = 2, enabled = true)
+    public void createTenant() {
         tenants.verifyPageElements();
         tenants.createNewTenant("Create a Tenant");
         tenants.verifyTenantErrorMessages();
-        tenants.tenantDetails(tenantname,tenantBusinessNumber);
-        tenants.tenantAdminDetails(tenantEmail,tenantFirstName,tenantLastName);
+        tenants.tenantDetails(tenantname, tenantBusinessNumber);
+        tenants.tenantAdminDetails(tenantEmail, tenantFirstName, tenantLastName);
     }
 
-    @Test(description = "Verify Created tenant Details in summary page", priority = 3,enabled = true)
-    public void verifyCreatedTenant(){
+    @Test(description = "Verify Created tenant Details in summary page", priority = 3, enabled = true)
+    public void verifyCreatedTenant() {
         tenants.verifyTenantDetails(tenantname);
     }
 
-    @Test(description = "Create new Outlet", priority = 4,enabled = true)
+    @Test(description = "Create new Outlet", priority = 4, enabled = true)
     public void createnewOutlet() {
         /*enter Outlet Details*/
-        outlet.createOutlet(outletname, outletBusinessNumber, "steet1", "zip2", "city2", "0784596321");
+        outlet.createOutlet(outletName, outletBusinessNumber, "steet1", "zip2", "city2", "0784596321");
         /*Set Opening Hours*/
         outlet.createOutletRoutineTme();
         /* change colors*/
@@ -107,24 +102,21 @@ public class TenantsTest {
         outlet.saveCreateOutlet();
     }
 
-    @Test(description = "Verify Created Outlet Details", priority = 5,enabled = true)
-    public void verifyCreatedOutlet(){
-        outlet.verifyOutlet(outletname);
+    @Test(description = "Verify Created Outlet Details", priority = 5, enabled = true)
+    public void verifyCreatedOutlet() {
+        outlet.verifyOutlet(outletName);
     }
 
-    @Test(description = "Edit Created Tenant details", priority = 6,enabled = true)
-    public void editCreatedTenant(){
+    @Test(description = "Edit Created Tenant details", priority = 6, enabled = true)
+    public void editCreatedTenant() {
         tenants.editTenant("Edit a Tenant");
-        tenants.tenantDetails(tenantEdit+tenantname,tenantEdit+tenantBusinessNumber);
-      //  tenants.editTenatAdnim(tenantEdit+tenantEmail,tenantEdit+tenantFirstName,tenantEdit+tenantLastName);
-     //   tenants.verifyTenantDetails(tenantEdit+tenantname);
+        tenants.tenantDetails(tenantEdit + tenantname, tenantEdit + tenantBusinessNumber);
+        //  tenants.editTenatAdnim(tenantEdit+tenantEmail,tenantEdit+tenantFirstName,tenantEdit+tenantLastName);
+        //   tenants.verifyTenantDetails(tenantEdit+tenantname);
     }
 
-
-
-
-
-
-
-
+    @AfterMethod(description = "Taking ScreenShot for Failed Tests")
+    public void takeScreenShotOnFailure(ITestResult testResult) {
+        Screenshot.screenShot(testResult);
+    }
 }
