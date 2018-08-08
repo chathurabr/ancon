@@ -81,7 +81,7 @@ public class SearchTest {
     @Test(description = "search using a search term which results a single tenant", priority = 6, enabled = true)
     public void SearchOnlySingleTenant() {
         commonClass.selectSidebarMenu("Tenants");
-        tenants.searchTenant("one");
+        tenants.searchTenant("two");
     }
 
     @Test(description = "search using multiple search terms", priority = 7, enabled = true)
