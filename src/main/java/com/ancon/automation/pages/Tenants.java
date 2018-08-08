@@ -2,6 +2,7 @@ package com.ancon.automation.pages;
 
 import com.ancon.automation.utils.CommonClass;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -44,6 +45,14 @@ public class Tenants extends CommonClass {
     private By lbl_Error_email = By.xpath("//form/div[2]/fieldset/div/div[1]/div[1]/label");
     private By btn_ChangeAdmin = By.xpath("//button[text()='Change Admin']");
 
+    //search Tenant
+    private By search_field = By.xpath("//input[@placeholder='Search Tenants or Outlets']");
+    private By search_result_Table = By.xpath(("//table[@class='ancon-table table']"));
+    private By search_No_Results_Found = By.xpath("//h2[contains(text(),'No matching results found')]");
+    private By getSearch_result_Table_Rows = By.xpath("//table[@class='ancon-table table']//tbody");
+    private By search_Button = By.xpath("//div[@class='search-button']");
+    WebElement searchField;
+    WebElement searchButton;
 
     public Tenants(WebDriver driver) {
         super(driver);
@@ -78,11 +87,11 @@ public class Tenants extends CommonClass {
         System.out.println("-Filling Tenant Details-");
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_name))).clear();
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_name))).sendKeys(name);
-        System.out.println("Tenant Name :" + name);
+        System.out.println("Tenant Name :"+name);
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_businessNumber))).sendKeys(businessNumber);
-        System.out.println("business number :" + businessNumber);
-        //   CommonClass.sleepTime(2000);
-        //   wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_logoUpload))).click();
+        System.out.println("business number :"+businessNumber);
+     //   CommonClass.sleepTime(2000);
+     //   wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_logoUpload))).click();
     /*    WebElement element = driver.findElement(btn_logoUpload);
         JavascriptExecutor executor = (JavascriptExecutor)driver;
         executor.executeScript("arguments[0].click()", element);
@@ -100,14 +109,14 @@ public class Tenants extends CommonClass {
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_lastName))).sendKeys(lastName);
         System.out.println("TLast name :"+lastName);
         //click on save button
-        srollIntoView(driver.findElement(btn_save));
+        scrollIntoView(driver.findElement(btn_save));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_save))).click();
         System.out.println("successfully Created a Tenant");
     }
 
     public void verifyTenantDetails(String name){
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_CreateNew));
-        srollIntoView(driver.findElement(txt_OrderNumber));
+        scrollIntoView(driver.findElement(txt_OrderNumber));
         String orderNumber = driver.findElement(txt_OrderNumber).getText();
         Assert.assertEquals(orderNumber,"001");
         System.out.println("Sequence order number '001' is available");
@@ -154,7 +163,7 @@ public class Tenants extends CommonClass {
     }
     public void editTenatAdnim(String email, String firstName, String lastName){
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_ChangeAdmin));
-        srollIntoView(driver.findElement(btn_ChangeAdmin));
+        scrollIntoView(driver.findElement(btn_ChangeAdmin));
         System.out.println(3000);
         driver.findElement(btn_ChangeAdmin).click();
         //Edit Tenant admin details
@@ -166,8 +175,35 @@ public class Tenants extends CommonClass {
         System.out.println("TLast name :"+lastName);
         //click on save button
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Add))).click();
-        srollIntoView(driver.findElement(btn_save));
+        scrollIntoView(driver.findElement(btn_save));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_save))).click();
         System.out.println("successfully Edit the Tenant");
+    }
+
+    public void searchNonExistingTenant(String tenantValue) {
+        searchField = driver.findElement(search_field);
+        searchButton = driver.findElement(search_Button);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(search_field))).click();
+        searchField.sendKeys(tenantValue);
+        searchButton.click();
+        Assert.assertTrue(driver.findElement(search_No_Results_Found).isDisplayed());
+        System.out.println("No Result Found message is displayed for Non Existing Tenants");
+    }
+
+    //Search Tenants
+    public void searchTenant(String tenantValue) {
+        searchField = driver.findElement(search_field);
+        searchButton = driver.findElement(search_Button);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(search_field))).click();
+        searchField.sendKeys(tenantValue);
+        searchButton.click();
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(getSearch_result_Table_Rows)));
+        int Row_count = driver.findElements(getSearch_result_Table_Rows).size();
+        for (int i = 1; i <= Row_count; i++) {
+            String rowXpath = "//table[@class='ancon-table table']//tbody[" + i + "]//tr[1]//td[3]/div/span";
+            String rowData = driver.findElement(By.xpath(rowXpath)).getText();
+            Assert.assertTrue(rowData.toLowerCase().contains(tenantValue));
+        }
+        System.out.println("Search Results correctly displayed");
     }
 }
