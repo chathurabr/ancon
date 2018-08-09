@@ -36,7 +36,7 @@ public class Tenants extends CommonClass {
     private By btn_Discard = By.xpath("//button[contains(text(),'Discard')]");
     private By btn_saveNtenant = By.xpath("//button[contains(text(),'Save & View Tenant')]");
     private By input_search = By.xpath("//input[@placeholder='Search Tenants or Outlets']");
-    private By txt_OrderNumber = By.xpath("//TD[@class='id-td id-content___3cuQ3'][text()='001']");
+    private By txt_OrderNumber = By.xpath("//td[@class='id-td id-content___3cuQ3'][text()='001']");
 
     private By btn_View_1 = By.xpath("//table/tbody[1]/tr/td[7]/a[1]/button/span[contains(text(),'View')]");
     private By btn_Edit_1 = By.xpath("(//SPAN[text()='Edit'])[1]");
@@ -82,14 +82,17 @@ public class Tenants extends CommonClass {
         System.out.println("Tenant Name :" + name);
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_businessNumber))).sendKeys(businessNumber);
         System.out.println("business number :" + businessNumber);
-        //   CommonClass.sleepTime(2000);
-        //   wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_logoUpload))).click();
-    /*    WebElement element = driver.findElement(btn_logoUpload);
+    }
+
+    /*upload the image*/
+    public void logoUpload(){
+           wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_logoUpload))).click();
+    /*   WebElement element = driver.findElement(btn_logoUpload);
         JavascriptExecutor executor = (JavascriptExecutor)driver;
         executor.executeScript("arguments[0].click()", element);
         System.out.println("button clicked");*/
-        String currentDir = System.getProperty("user.dir");
-        driver.findElement(btn_logoUpload).sendKeys("C:\\Users\\chathurar\\Desktop\\New folder\\alignmet.jpg");
+    //    String currentDir = System.getProperty("user.dir");
+    //    driver.findElement(btn_logoUpload).sendKeys("C:\\Users\\chathurar\\Desktop\\New folder\\alignmet.jpg");
     }
 
     public void tenantAdminDetails(String email, String firstName, String lastName) {
@@ -106,16 +109,17 @@ public class Tenants extends CommonClass {
         System.out.println("successfully Created a Tenant");
     }
 
-    public void verifyTenantDetails(String name) {
+/*    public void verifyTenantDetails(String name) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_CreateNew));
-        scrollIntoView(driver.findElement(txt_OrderNumber));
+        scrollIntoView(driver.findElement(By.xpath("//DIV[@role='button'][text()='Name']")));
+        sleepTime(2000);
         String orderNumber = driver.findElement(txt_OrderNumber).getText();
         Assert.assertEquals(orderNumber, "001");
         System.out.println("Sequence order number '001' is available");
-        sleepTime(1000);
-        String tname = driver.findElement(By.xpath("//table/tbody[1]/tr[1]/td[3]/div/span")).getText();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table/tbody[1]/tr/td[3]/div/span")));
+        String tname = driver.findElement(By.xpath("//table/tbody[1]/tr/td[3]/div/span")).getText();
         Assert.assertEquals(tname, name);
-        System.out.println("Created tenat name verified : " + name);
+        System.out.println("Tenant name verified : " + name);
         //get date
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDateTime now = LocalDateTime.now();
@@ -125,23 +129,18 @@ public class Tenants extends CommonClass {
         // verify View button available
         WebElement btn_view = driver.findElement(btn_View_1);
         Assert.assertTrue(btn_view.isDisplayed());
-        System.out.println("View button is available");
         //verify edit button available
         WebElement btn_edit = driver.findElement(btn_Edit_1);
         Assert.assertTrue(btn_edit.isDisplayed());
-        System.out.println("Edit button is available");
         //verify Disable button available
         WebElement btn_desable = driver.findElement(btn_Disable_1);
         Assert.assertTrue(btn_desable.isDisplayed());
-        System.out.println("Disable button is available");
-    }
+        System.out.println("View,Edit and Disable buttons are available");
+    }*/
 
     public void verifyTenantErrorMessages() {
-        Actions actions = new Actions(driver);
         WebElement btnSave = driver.findElement(btn_save);
         wait.until(ExpectedConditions.elementToBeClickable(btnSave)).click();
-        //   actions.doubleClick(btnSave).build().perform();
-        //  actions.doubleClick(btnSave).build().perform();
         System.out.println("Click on save, Tenant name is blank");
         String errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(lbl_Error_Name)).getText();
         Assert.assertEquals(errorMessage, "TENANT NAME : Required");
@@ -157,7 +156,6 @@ public class Tenants extends CommonClass {
     public void editTenatAdnim(String email, String firstName, String lastName) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_ChangeAdmin));
         scrollIntoView(driver.findElement(btn_ChangeAdmin));
-        System.out.println(3000);
         driver.findElement(btn_ChangeAdmin).click();
         //Edit Tenant admin details
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_newEmail))).sendKeys(email);

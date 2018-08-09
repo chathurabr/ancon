@@ -16,6 +16,7 @@ import org.testng.annotations.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.Properties;
 
 /**
@@ -29,8 +30,8 @@ public class LoginTest {
     private String email;
     private String password;
 
-    ExtentReports extent;
-    ExtentTest logger;
+    private ExtentReports extent;
+    private ExtentTest logger;
 
     @BeforeTest
     public void startReport() {
@@ -58,11 +59,12 @@ public class LoginTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        logger = extent.startTest("Ancon test");
+
     }
 
-    @BeforeMethod(description = "wait for page load")
-    public void waitForPageLoad() {
+    @BeforeMethod(description = "wait for page load and start logger test report")
+    public void waitForPageLoad(Method method) {
+        logger = extent.startTest(method.getName()); // start logger test report
         CommonClass.waitForLoad();
     }
 
@@ -78,12 +80,13 @@ public class LoginTest {
         Screenshot.screenShot(result); // take ScreenShot On Failure
         /*Result file*/
         if (result.getStatus() == ITestResult.FAILURE) {
-            logger.log(LogStatus.FAIL, "Test Case Failed is " + result.getName());
-            logger.log(LogStatus.FAIL, "Test Case Failed is " + result.getThrowable());
+            // logger.log(LogStatus.FAIL, "Test Case Failed is " + result.getName());
+            logger.log(LogStatus.FAIL, "Test Case Failed is " + result.getName() +"  - error : " +result.getThrowable());
         } else if (result.getStatus() == ITestResult.SKIP) {
             logger.log(LogStatus.SKIP, "Test Case Skipped is " + result.getName());
-        } else
+        } else if (result.getStatus() == ITestResult.SUCCESS) {
             logger.log(LogStatus.PASS, "Test Case Passed - " + result.getName());
+        }
         extent.endTest(logger);
 
     }

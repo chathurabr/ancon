@@ -6,12 +6,17 @@ import com.ancon.automation.pages.Tenants;
 import com.ancon.automation.utils.CommonClass;
 import com.ancon.automation.utils.DriverFactory;
 import com.ancon.automation.utils.Screenshot;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.Properties;
 
 public class SearchTest {
@@ -24,7 +29,20 @@ public class SearchTest {
     private String email;
     private String password;
 
-    @BeforeClass
+    private ExtentReports extent;
+    private ExtentTest logger;
+
+    @BeforeTest
+    public void startReport() {
+        extent = new ExtentReports(System.getProperty("user.dir") + CommonClass.path + "/test-output/STMExtentReport.html", true);
+        extent
+                .addSystemInfo("Host Name", "Ancon")
+                .addSystemInfo("Environment", "Ancon Automation Testing")
+                .addSystemInfo("User Name", "Chathura");
+        extent.loadConfig(new File(System.getProperty("user.dir") + CommonClass.path + "utils\\extent-config.xml"));
+    }
+
+    @BeforeSuite
     public void SetUp() throws IOException {
         driver = DriverFactory.getDriver();
         login = new Login(driver);
@@ -39,9 +57,31 @@ public class SearchTest {
         password = properties.getProperty("password");
     }
 
-    @BeforeMethod(description = "wait for page load")
-    public void waitForPageLoad() {
+    @BeforeMethod(description = "wait for page load and start logger test report ")
+    public void waitForPageLoad(Method method) {
+        logger = extent.startTest(method.getName()); // start logger test report
         CommonClass.waitForLoad();
+    }
+
+    @AfterMethod(description = "Taking ScreenShot for Failed Tests and Create Extent Report")
+    public void getResult(ITestResult result) {
+        Screenshot.screenShot(result); // take ScreenShot On Failure
+        /*Result file*/
+        if (result.getStatus() == ITestResult.FAILURE) {
+            // logger.log(LogStatus.FAIL, "Test Case Failed is " + result.getName());
+            logger.log(LogStatus.FAIL, "Test Case Failed is - " + result.getName() +"  - error : " +result.getThrowable());
+        } else if (result.getStatus() == ITestResult.SKIP) {
+            logger.log(LogStatus.SKIP, "Test Case Skipped is - " + result.getName());
+        } else if (result.getStatus() == ITestResult.SUCCESS) {
+            logger.log(LogStatus.PASS, "Test Case Passed - " + result.getName());
+        }
+        extent.endTest(logger);
+    }
+
+    @AfterTest
+    public void endReport() {
+        extent.flush();
+        extent.close();
     }
 
     @Test(description = "login to the system with valid  Email and Password")
@@ -96,14 +136,5 @@ public class SearchTest {
         tenantSummary.searchOutlet("automation ");
     }
 
-    @AfterMethod(description = "Taking ScreenShot for Failed Tests")
-    public void takeScreenShotOnFailure(ITestResult testResult) {
-        Screenshot.screenShot(testResult);
-    }
-
-    @AfterClass
-    public void endReport() {
-        driver.close();
-    }
 
 }

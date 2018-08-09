@@ -2,6 +2,7 @@ package com.ancon.automation.pages;
 
 import com.ancon.automation.utils.CommonClass;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -36,6 +37,7 @@ public class Outlet extends CommonClass {
     private By btn_BackFromOutlet = By.xpath("//button/i[@class='a_icon-arrow_back']");
     private By dd_StartTime = By.xpath("(//DIV[@class='css-1rtrksz'])[1]");
     private By dd_CloseTime = By.xpath("(//DIV[@class='css-1rtrksz'])[2]");
+    private By btn_Edit = By.xpath("(//SPAN[text()='Edit'][text()='Edit'])[2]");
     //color
     private By cb_PrimaryColor = By.xpath("(//DIV[@class='colorBlockLarge___1aUen'])[1]");
     private By cb_SecondaryColor = By.xpath("(//DIV[@class='colorBlockLarge___1aUen'])[2]");
@@ -114,11 +116,12 @@ public class Outlet extends CommonClass {
         System.out.println("Back to Tenants Summary page successfully ");
     }
 
-    public void verifyOutlet(String OutletName) {
+/*    public void verifyOutlet(String OutletName) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
         scrollIntoView(driver.findElement(btn_expand));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(txt_outletNeme));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//SPAN[text()='"+OutletName+"']")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table/tbody[1]/tr[2]/td[7]")));
         String Outletname = driver.findElement(txt_outletNeme).getText();
         Assert.assertEquals(Outletname, OutletName);
         System.out.println("Created Outlet name verified : " + OutletName);
@@ -132,6 +135,34 @@ public class Outlet extends CommonClass {
         String tcdate = driver.findElement(By.xpath("//table/tbody[1]/tr[2]/td[4]")).getText();
         Assert.assertEquals(tcdate, dtf.format(now));
         System.out.println("Outlet Created date verified : " + tcdate);
+    }*/
+
+    public void editCreatedOutlet(String outletName, String outletNumber, String street, String zip, String city, String telephone) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+        scrollIntoView(driver.findElement(btn_expand));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//SPAN[text()='"+outletName+"']")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table/tbody[1]/tr[2]/td[7]")));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Edit))).click();
+        System.out.println("Edit Outlet button clicked");
+        Assert.assertEquals(getPageName(), "Edit an Outlet");
+        //Outlet details
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_outletName))).clear();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_outletName))).sendKeys("etited"+outletName);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_outletBusinessNumber))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_outletBusinessNumber))).sendKeys(outletNumber);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_street))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_street))).sendKeys(street);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_zip))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_zip))).sendKeys(zip);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_city))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_city))).sendKeys(city);
+        scrollIntoView(driver.findElement(txt_telephone));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_telephone))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_telephone))).sendKeys(telephone);
+        System.out.println("Successfully edit the Outlet details");
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_save))).click();
     }
+
 
 }
