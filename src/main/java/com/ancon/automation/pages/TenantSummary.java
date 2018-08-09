@@ -17,7 +17,6 @@ public class TenantSummary extends CommonClass {
     //search Tenant
     private By search_field = By.xpath("//div[@class='container___2Ufnl']/input");
     private By search_Results_Page_Title = By.xpath("//h1[contains(text(),'Search Tenants or Outlets')]");
-    private By search_result_Table = By.xpath(("//table[@class='ancon-table table']"));
     private By search_No_Results_Found = By.xpath("//h2[contains(text(),'No matching results found')]");
     private By getSearch_result_Table_Rows = By.xpath("//table[@class='ancon-table table']//tbody");
     private By search_Button = By.xpath("//div[@class='search-button']");
@@ -75,13 +74,12 @@ public class TenantSummary extends CommonClass {
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(search_Results_Page_Title)));
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(getSearch_result_Table_Rows)));
         int Row_count = driver.findElements(getSearch_result_Table_Rows).size();
-               for (int j = 1; j <= Row_count; j++) {
+        for (int j = 1; j <= Row_count; j++) {
             String outletRowXpath = "//div[@class='table-responsive']//tbody[" + j + "]//tr[2]//td[3]//div[1]/span";
             if (driver.findElements(By.xpath(outletRowXpath)).size() != 0) {
                 String outletRowData = driver.findElement(By.xpath(outletRowXpath)).getText();
                 Assert.assertTrue(outletRowData.toLowerCase().contains(outletValue));
-            }
-            else {
+            } else {
                 System.out.println("No outlets found");
             }
         }

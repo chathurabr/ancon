@@ -55,7 +55,6 @@ public class SearchTest {
         properties.load(new FileInputStream(filePath + CommonClass.path + "utils\\Base.properties"));
         email = properties.getProperty("email");
         password = properties.getProperty("password");
-
     }
 
     @BeforeMethod(description = "wait for page load and start logger test report ")

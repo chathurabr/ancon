@@ -78,8 +78,6 @@ public class TenantsTest {
         //Outlet Details
         outletName = properties.getProperty("outletname");
         outletBusinessNumber = properties.getProperty("outletBusinessNumber");
-
-      //  logger = extent.startTest("Ancon test");
     }
 
     @BeforeMethod(description = "wait for page load and start logger test report ")
@@ -170,6 +168,4 @@ public class TenantsTest {
     public void verifyEditedOutlet() {
         tenantSummary.verifyOutlet("etited"+outletName);
     }
-
-
 }
