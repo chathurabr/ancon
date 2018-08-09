@@ -118,13 +118,14 @@ public class Tenants extends CommonClass {
         System.out.println("successfully Created a Tenant");
     }
 
-    public void verifyTenantDetails(String name) {
+/*    public void verifyTenantDetails(String name) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_CreateNew));
         scrollIntoView(driver.findElement(By.xpath("//DIV[@role='button'][text()='Name']")));
-        sleepTime(500);
+        sleepTime(2000);
         String orderNumber = driver.findElement(txt_OrderNumber).getText();
         Assert.assertEquals(orderNumber, "001");
         System.out.println("Sequence order number '001' is available");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table/tbody[1]/tr/td[3]/div/span")));
         String tname = driver.findElement(By.xpath("//table/tbody[1]/tr/td[3]/div/span")).getText();
         Assert.assertEquals(tname, name);
         System.out.println("Tenant name verified : " + name);
@@ -144,7 +145,7 @@ public class Tenants extends CommonClass {
         WebElement btn_desable = driver.findElement(btn_Disable_1);
         Assert.assertTrue(btn_desable.isDisplayed());
         System.out.println("View,Edit and Disable buttons are available");
-    }
+    }*/
 
     public void verifyTenantErrorMessages() {
         WebElement btnSave = driver.findElement(btn_save);

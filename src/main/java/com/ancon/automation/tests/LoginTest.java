@@ -16,6 +16,7 @@ import org.testng.annotations.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.Properties;
 
 /**
@@ -58,11 +59,12 @@ public class LoginTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        logger = extent.startTest("Ancon test");
+
     }
 
-    @BeforeMethod(description = "wait for page load")
-    public void waitForPageLoad() {
+    @BeforeMethod(description = "wait for page load and start logger test report")
+    public void waitForPageLoad(Method method) {
+        logger = extent.startTest(method.getName()); // start logger test report
         CommonClass.waitForLoad();
     }
 

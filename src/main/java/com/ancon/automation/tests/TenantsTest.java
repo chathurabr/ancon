@@ -1,6 +1,7 @@
 package com.ancon.automation.tests;
 
 import com.ancon.automation.pages.Outlet;
+import com.ancon.automation.pages.TenantSummary;
 import com.ancon.automation.utils.CommonClass;
 import com.ancon.automation.pages.Login;
 import com.ancon.automation.pages.Tenants;
@@ -16,6 +17,7 @@ import org.testng.annotations.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.Properties;
 
 /**
@@ -26,6 +28,7 @@ public class TenantsTest {
     private Login login;
     private Tenants tenants;
     private Outlet outlet;
+    private TenantSummary tenantSummary;
 
     private String email;
     private String password;
@@ -58,6 +61,7 @@ public class TenantsTest {
         login = new Login(driver);
         tenants = new Tenants(driver);
         outlet = new Outlet(driver);
+        tenantSummary = new TenantSummary(driver);
 
         // get data from property file
         Properties properties = new Properties();
@@ -75,11 +79,12 @@ public class TenantsTest {
         outletName = properties.getProperty("outletname");
         outletBusinessNumber = properties.getProperty("outletBusinessNumber");
 
-        logger = extent.startTest("Ancon test");
+      //  logger = extent.startTest("Ancon test");
     }
 
-    @BeforeMethod(description = "wait for page load")
-    public void waitForPageLoad() {
+    @BeforeMethod(description = "wait for page load and start logger test report ")
+    public void waitForPageLoad(Method method) {
+        logger = extent.startTest(method.getName()); // start logger test report
         CommonClass.waitForLoad();
     }
 
@@ -125,7 +130,7 @@ public class TenantsTest {
 
     @Test(description = "Verify Created tenant Details in summary page", priority = 3, enabled = true)
     public void verifyCreatedTenant() {
-        tenants.verifyTenantDetails(tenantname);
+        tenantSummary.verifyTenantDetails(tenantname);
     }
 
     @Test(description = "Create new Outlet", priority = 4, enabled = true)
@@ -141,7 +146,7 @@ public class TenantsTest {
 
     @Test(description = "Verify Created Outlet Details", priority = 5, enabled = true)
     public void verifyCreatedOutlet() {
-        outlet.verifyOutlet(outletName);
+        tenantSummary.verifyOutlet(outletName);
     }
 
     @Test(description = "Edit Created Tenant details", priority = 6, enabled = true)
@@ -149,12 +154,21 @@ public class TenantsTest {
         tenants.editTenant("Edit a Tenant");
         tenants.tenantDetails(tenantEdit + tenantname, tenantEdit + tenantBusinessNumber);
         tenants.editTenatAdnim(tenantEdit+tenantEmail,tenantEdit+tenantFirstName,tenantEdit+tenantLastName);
-        tenants.verifyTenantDetails(tenantEdit+tenantname);
     }
 
-    @Test(description = "Edit Created Outlet details", priority = 7, enabled = true)
-    public void editCreatedOutlet() {
+    @Test(description = "Verify Created tenant Details in summary page", priority = 7, enabled = true)
+    public void verifyEditedTenant() {
+        tenantSummary.verifyTenantDetails(tenantEdit+tenantname);
+    }
 
+    @Test(description = "Edit Created Outlet details", priority = 8, enabled = true)
+    public void editCreatedOutlet() {
+        outlet.editCreatedOutlet(outletName, "55"+outletBusinessNumber, "steet11", "zip22", "city22", "+94784596321");
+    }
+
+    @Test(description = "Verify Created Outlet Details", priority = 9, enabled = true)
+    public void verifyEditedOutlet() {
+        tenantSummary.verifyOutlet("etited"+outletName);
     }
 
 
