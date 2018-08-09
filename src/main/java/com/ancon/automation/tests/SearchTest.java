@@ -136,9 +136,5 @@ public class SearchTest {
         tenantSummary.searchOutlet("test");
     }
 
-    @AfterMethod(description = "Taking ScreenShot for Failed Tests")
-    public void takeScreenShotOnFailure(ITestResult testResult) {
-        Screenshot.screenShot(testResult);
-    }
 
 }
