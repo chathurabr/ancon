@@ -1,2 +1,5 @@
 .idea
 Test Results - Run_Ancon.html
+/src/main/java/com/ancon/automation/screenshots/
+src/main/java/com/ancon/automation/screenshots/SearchTenantUsingLetters.png
+target/generated-sources/

@@ -46,7 +46,8 @@ public class Tenants extends CommonClass {
     private By btn_ChangeAdmin = By.xpath("//button[text()='Change Admin']");
 
     //search Tenant
-    private By search_field = By.xpath("//input[@placeholder='Search Tenants or Outlets']");
+    private By search_field = By.xpath("//div[@class='container___2Ufnl']/input");
+    private By search_Results_Page_Title = By.xpath("//h1[contains(text(),'Search Tenants or Outlets')]");
     private By search_result_Table = By.xpath(("//table[@class='ancon-table table']"));
     private By search_No_Results_Found = By.xpath("//h2[contains(text(),'No matching results found')]");
     private By getSearch_result_Table_Rows = By.xpath("//table[@class='ancon-table table']//tbody");
@@ -176,32 +177,5 @@ public class Tenants extends CommonClass {
         scrollIntoView(driver.findElement(btn_save));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_save))).click();
         System.out.println("successfully Edit the Tenant");
-    }
-
-    public void searchNonExistingTenant(String tenantValue) {
-        searchField = driver.findElement(search_field);
-        searchButton = driver.findElement(search_Button);
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(search_field))).click();
-        searchField.sendKeys(tenantValue);
-        searchButton.click();
-        Assert.assertTrue(driver.findElement(search_No_Results_Found).isDisplayed());
-        System.out.println("No Result Found message is displayed for Non Existing Tenants");
-    }
-
-    //Search Tenants
-    public void searchTenant(String tenantValue) {
-        searchField = driver.findElement(search_field);
-        searchButton = driver.findElement(search_Button);
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(search_field))).click();
-        searchField.sendKeys(tenantValue);
-        searchButton.click();
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(getSearch_result_Table_Rows)));
-        int Row_count = driver.findElements(getSearch_result_Table_Rows).size();
-        for (int i = 1; i <= Row_count; i++) {
-            String rowXpath = "//table[@class='ancon-table table']//tbody[" + i + "]//tr[1]//td[3]/div/span";
-            String rowData = driver.findElement(By.xpath(rowXpath)).getText();
-            Assert.assertTrue(rowData.toLowerCase().contains(tenantValue));
-        }
-        System.out.println("Search Results correctly displayed");
     }
 }

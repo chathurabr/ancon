@@ -1,6 +1,7 @@
 package com.ancon.automation.tests;
 
 import com.ancon.automation.pages.Login;
+import com.ancon.automation.pages.TenantSummary;
 import com.ancon.automation.pages.Tenants;
 import com.ancon.automation.utils.CommonClass;
 import com.ancon.automation.utils.DriverFactory;
@@ -20,6 +21,7 @@ public class SearchTest {
     static WebDriver driver = null;
     private Login login;
     private Tenants tenants;
+    private TenantSummary tenantSummary;
     private CommonClass commonClass;
 
     private String email;
@@ -30,6 +32,7 @@ public class SearchTest {
         driver = DriverFactory.getDriver();
         login = new Login(driver);
         tenants = new Tenants(driver);
+        tenantSummary = new TenantSummary(driver);
         commonClass = new CommonClass(driver);
         // get data from property file
         Properties properties = new Properties();
@@ -57,37 +60,43 @@ public class SearchTest {
 
     @Test(description = "search with a non-existing search term", priority = 2, enabled = true)
     public void SearchNonExistingTenant() {
-        tenants.searchNonExistingTenant("invalid");
+        tenantSummary.searchNonExistingTenant("invalid");
     }
 
     @Test(description = "search using an existing complete search term", priority = 3, enabled = true)
     public void SearchTenantComplete() {
         commonClass.selectSidebarMenu("Tenants");
-        tenants.searchTenant("testname1234");
+        tenantSummary.searchTenant("testname1234");
     }
 
     @Test(description = "search using a partial search term ", priority = 4, enabled = true)
     public void SearchTenantPartial() {
         commonClass.selectSidebarMenu("Tenants");
-        tenants.searchTenant("name");
+        tenantSummary.searchTenant("name");
     }
 
     @Test(description = "search using letters as search terms", priority = 5, enabled = true)
     public void SearchTenantUsingLetters() {
         commonClass.selectSidebarMenu("Tenants");
-        tenants.searchTenant("ab");
+        tenantSummary.searchTenant("ab");
     }
 
     @Test(description = "search using a search term which results a single tenant", priority = 6, enabled = true)
     public void SearchOnlySingleTenant() {
         commonClass.selectSidebarMenu("Tenants");
-        tenants.searchTenant("one");
+        tenantSummary.searchTenant("two");
     }
 
     @Test(description = "search using multiple search terms", priority = 7, enabled = true)
     public void SearchMultipleTerms() {
         commonClass.selectSidebarMenu("Tenants");
-        tenants.searchTenant("tenant test");
+        tenantSummary.searchTenant("tenant test");
+    }
+
+    @Test(description = "search Outlets ", priority = 8, enabled = true)
+    public void SearchOutlet() {
+        commonClass.selectSidebarMenu("Tenants");
+        tenantSummary.searchOutlet("test");
     }
 
     @AfterMethod(description = "Taking ScreenShot for Failed Tests")
