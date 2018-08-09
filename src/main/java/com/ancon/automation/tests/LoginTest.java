@@ -88,10 +88,11 @@ public class LoginTest {
 
     }
 
-    @AfterTest
+    @AfterClass
     public void endReport() {
         extent.flush();
         extent.close();
+        driver.close();
     }
 
 }

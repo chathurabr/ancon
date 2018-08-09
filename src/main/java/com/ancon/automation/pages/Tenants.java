@@ -45,15 +45,6 @@ public class Tenants extends CommonClass {
     private By lbl_Error_email = By.xpath("//form/div[2]/fieldset/div/div[1]/div[1]/label");
     private By btn_ChangeAdmin = By.xpath("//button[text()='Change Admin']");
 
-    //search Tenant
-    private By search_field = By.xpath("//div[@class='container___2Ufnl']/input");
-    private By search_Results_Page_Title = By.xpath("//h1[contains(text(),'Search Tenants or Outlets')]");
-    private By search_result_Table = By.xpath(("//table[@class='ancon-table table']"));
-    private By search_No_Results_Found = By.xpath("//h2[contains(text(),'No matching results found')]");
-    private By getSearch_result_Table_Rows = By.xpath("//table[@class='ancon-table table']//tbody");
-    private By search_Button = By.xpath("//div[@class='search-button']");
-    WebElement searchField;
-    WebElement searchButton;
 
     public Tenants(WebDriver driver) {
         super(driver);
