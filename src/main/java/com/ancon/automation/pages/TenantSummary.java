@@ -2,6 +2,7 @@ package com.ancon.automation.pages;
 
 import com.ancon.automation.utils.CommonClass;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -11,25 +12,43 @@ import org.testng.Assert;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static javax.swing.text.html.CSS.getAttribute;
+
 public class TenantSummary extends CommonClass {
     private WebDriver driver;
     private WebDriverWait wait;
     //search Tenant
     private By search_field = By.xpath("//div[@class='container___2Ufnl']/input");
+    private By search_Field_Placeholder = By.xpath("//input[@placeholder='Search Tenants or Outlets']");
     private By search_Results_Page_Title = By.xpath("//h1[contains(text(),'Search Tenants or Outlets')]");
     private By search_No_Results_Found = By.xpath("//h2[contains(text(),'No matching results found')]");
     private By getSearch_result_Table_Rows = By.xpath("//table/tbody");
     private By getSearch_Outlet_result_Table_Rows = By.xpath("//div[@class='table-responsive']//tbody//tr[2]");
     private By getSearch_result_Table_Rows2 = By.xpath("//table[@class='ancon-table table']//tbody[1]//tr[1]//td[7]");
     private By search_Button = By.xpath("//div[@class='search-button']");
-    private By btn_expand = By.xpath("//table/tbody[1]/tr[1]/td[2]/button/i[@class='a_icon-unfold']");
+
     private By txt_outletNeme = By.xpath("//table/tbody[1]/tr[2]/td[3]/div/span");
     private By lbl_Outlets = By.xpath("//tbody[1]/tr[1]/td[5]");
     private By btn_CreateNew = By.xpath("//button[contains(text(),'Create New')]");
     private By txt_OrderNumber = By.xpath("//td[@class='id-td id-content___3cuQ3'][text()='001']");
+
+
+    //Tenant_home_button
     private By btn_View_1 = By.xpath("//table/tbody[1]/tr/td[7]/a[1]/button/span[contains(text(),'View')]");
-    private By btn_Edit_1 = By.xpath("(//SPAN[text()='Edit'])[1]");
+    private By btn_View_2 = By.xpath("//table/tbody[1]/tr[@class'inner']/td[7]/a[1]/button/span[contains(text(),'View')]");
+    private By btn_Edit_1 = By.xpath("//table/tbody[1]/tr/td[7]/a[2]/button/span[contains(text(),'Edit')]");
+    private By btn_Edit_2 = By.xpath("//table/tbody[1]/tr[@class'inner']/td[7]/a[2]/button/span[contains(text(),'Edit')]");
     private By btn_Disable_1 = By.xpath("//tbody[1]/tr/td[7]/button/span[contains(text(),'Disable')]");
+    private By btn_Disable_2 = By.xpath("//tbody//tr[2]//td[7]/button");
+    private By btn_Enable_1 = By.xpath("//tbody[@class='disabled']/tr/td[7]/button/span[contains(text(),'Enable')]");
+    private By btn_Enable_2 = By.xpath("//tr[@class='inner']/td[7]/button/span[contains(text(),'Enable')]");
+    private By btn_Delete_1 = By.xpath("//tbody[1]/tr/td[7]/button[2]/span[contains(text(),'Delete')]");
+    private By btn_Delete_2 = By.xpath("//tr[@class='inner']/td[7]/button[2]/span[contains(text(),'Delete')]");
+    private By btn_expand = By.xpath("//table/tbody[1]/tr[1]/td[2]/button/i[@class='a_icon-unfold']");
+    //Disable popup
+    private By btn_Cancel_1 = By.xpath("//div[@class='modal-content']/div[3]/button[contains(text(),'Cancel')]");
+    private By btn_Disableanyway_1 = By.xpath("//div[@class='modal-content']/div[3]/button[contains(text(),'Disable Anyway')]");
+
 
     WebElement searchField;
     WebElement searchButton;
@@ -50,6 +69,20 @@ public class TenantSummary extends CommonClass {
         searchButton.click();
     }
 
+    public void searchFunctionWithEnterKey(String searchTerm) {
+        searchField = driver.findElement(search_field);
+        searchButton = driver.findElement(search_Button);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(search_field))).click();
+        searchField.sendKeys(searchTerm);
+        searchField.sendKeys(Keys.ENTER);
+    }
+
+    public void verifyPlaceholderText() {
+        String searchFieldText = driver.findElement(search_field).getAttribute("placeholder");
+        Assert.assertEquals(searchFieldText, "Search Tenants or Outlets");
+        System.out.println("Correct Placeholder text is displayed");
+    }
+
     public void searchNonExistingTenant(String tenantValue) {
         searchFunction(tenantValue);
         Assert.assertTrue(driver.findElement(search_No_Results_Found).isDisplayed());
@@ -65,7 +98,7 @@ public class TenantSummary extends CommonClass {
             String rowData = driver.findElement(By.xpath(rowXpath)).getText();
             System.out.println("Row Data:  " + rowData.toLowerCase());
             System.out.println("Tenant Value:  " + tenantValue);
-            Assert.assertTrue(rowData.toLowerCase().contains(tenantValue));
+            Assert.assertTrue(rowData.toLowerCase().contains(tenantValue.toLowerCase()));
         }
         System.out.println("Search Results correctly displayed");
     }
@@ -84,16 +117,110 @@ public class TenantSummary extends CommonClass {
         System.out.println("Search Results correctly displayed");
     }
 
-    // Verify outlet details in summary page
-    public void verifyOutlet(String OutletName) {
+    public String getTenantName() {
+        WebElement TenantLastnameElement = driver.findElement(By.xpath("//table/tbody[1]/tr[1]/td[3]/div/span"));
+        return TenantLastnameElement.getText();
+    }
+
+    public String getOutletname() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
         scrollIntoView(driver.findElement(btn_expand));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//SPAN[text()='"+OutletName+"']")));
+        WebElement outletNameElement = driver.findElement(By.xpath("//table/tbody[1]/tr[2]/td[3]/div/span"));
+        return outletNameElement.getText();
+    }
+
+    public String getHeadername() {
+        WebElement HeadernameElement = driver.findElement(By.xpath("//div[@class='modal-content']/div[1]/h5"));
+        return HeadernameElement.getText();
+    }
+
+    public void disableTenantCancel() {
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Disable_1))).click();
+        if (getHeadername().toLowerCase().contains(getTenantName().toLowerCase())) {
+            wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Cancel_1))).click();
+            System.out.println("Cancel popup Successfully");
+        } else {
+
+            System.out.println("Popup is not valid");
+        }
+
+    }
+
+    public void disableTenantAnyway() {
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Disable_1))).click();
+        if (getHeadername().toLowerCase().contains(getTenantName().toLowerCase())) {
+
+            wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Disableanyway_1))).click();
+            System.out.println("Disable Tenant Successfully");
+        } else {
+
+            System.out.println("Popup is not valid");
+        }
+    }
+
+    public void verifyButtonChangeTenant() {
+        //verify Tenant Disable button available
+        WebElement btn_enable = driver.findElement(btn_Enable_1);
+        Assert.assertTrue(btn_enable.isDisplayed());
+        System.out.println("Enable button is available");
+        //verify Tenant enable button available
+        WebElement btn_delete = driver.findElement(btn_Delete_1);
+        Assert.assertTrue(btn_delete.isDisplayed());
+        System.out.println("Delete button is available");
+    }
+
+    public void disableOutletcancel() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+        scrollIntoView(driver.findElement(btn_expand));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Disable_2))).click();
+        if (getHeadername().toLowerCase().contains(getOutletname().toLowerCase())) {
+            wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Cancel_1))).click();
+            System.out.println("Cancel popup Successfully");
+        } else {
+
+            System.out.println("Popup is not valid");
+        }
+
+    }
+
+    public void disableOutletanyway() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+        scrollIntoView(driver.findElement(btn_expand));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Disable_2))).click();
+        if (getHeadername().toLowerCase().contains(getOutletname().toLowerCase())) {
+            wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Disableanyway_1))).click();
+            System.out.println("Disable Outlet Successfully");
+        } else {
+
+            System.out.println("Popup is not valid");
+        }
+    }
+
+    public void verifyButtonChangeOutlet() {
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
+        //verify Outlate enable button available
+        WebElement btn_enable_1 = driver.findElement(btn_Enable_2);
+        Assert.assertTrue(btn_enable_1.isDisplayed());
+        System.out.println("Enable button is available");
+        //verify Outlet enable button available
+        WebElement btn_delete_1 = driver.findElement(btn_Delete_2);
+        Assert.assertTrue(btn_delete_1.isDisplayed());
+        System.out.println("Delete button is available");
+    }
+
+    // Verify outlet details in summary page
+    public void verifyOutlet(String OutletName1) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+        scrollIntoView(driver.findElement(btn_expand));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//SPAN[text()='" + OutletName1 + "']")));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table/tbody[1]/tr[2]/td[7]")));
         String Outletname = driver.findElement(txt_outletNeme).getText();
-        Assert.assertEquals(Outletname, OutletName);
-        System.out.println("Created Outlet name verified : " + OutletName);
+        Assert.assertEquals(Outletname, OutletName1);
+        System.out.println("Created Outlet name verified : " + OutletName1);
         WebElement outlets = driver.findElement(lbl_Outlets);
         String numberOfOutlets = wait.until(ExpectedConditions.elementToBeClickable(outlets)).getText();
         Assert.assertEquals(numberOfOutlets, "1");
@@ -135,6 +262,4 @@ public class TenantSummary extends CommonClass {
         Assert.assertTrue(btn_desable.isDisplayed());
         System.out.println("View,Edit and Disable buttons are available");
     }
-
-
 }

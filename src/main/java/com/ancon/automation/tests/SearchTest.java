@@ -42,7 +42,7 @@ public class SearchTest {
         extent.loadConfig(new File(System.getProperty("user.dir") + CommonClass.path + "utils\\extent-config.xml"));
     }
 
-    @BeforeSuite
+    @BeforeClass
     public void SetUp() throws IOException {
         driver = DriverFactory.getDriver();
         login = new Login(driver);
@@ -68,8 +68,7 @@ public class SearchTest {
         Screenshot.screenShot(result); // take ScreenShot On Failure
         /*Result file*/
         if (result.getStatus() == ITestResult.FAILURE) {
-            // logger.log(LogStatus.FAIL, "Test Case Failed is " + result.getName());
-            logger.log(LogStatus.FAIL, "Test Case Failed is - " + result.getName() +"  - error : " +result.getThrowable());
+            logger.log(LogStatus.FAIL, "Test Case Failed is - " + result.getName() + "  - error : " + result.getThrowable());
         } else if (result.getStatus() == ITestResult.SKIP) {
             logger.log(LogStatus.SKIP, "Test Case Skipped is - " + result.getName());
         } else if (result.getStatus() == ITestResult.SUCCESS) {
@@ -78,62 +77,74 @@ public class SearchTest {
         extent.endTest(logger);
     }
 
-    @AfterTest
-    public void endReport() {
-        extent.flush();
-        extent.close();
-    }
-
     @Test(description = "login to the system with valid  Email and Password")
     public void loginTosystem() {
         login.loginToAncon(email, password);
     }
 
     @Test(description = "Navigate to tenant page", priority = 1, enabled = true)
-    public void NavigateToTenant() {
+    public void navigateToTenant() {
         commonClass.selectSidebarMenu("Tenants");
         tenants.verifyPageElements();
     }
 
-    @Test(description = "search with a non-existing search term", priority = 2, enabled = true)
-    public void SearchNonExistingTenant() {
+    @Test(description = "Verify the placeholder text in search", priority = 2, enabled = true)
+    public void verifySearchPlaceholderText() {
+        tenantSummary.verifyPlaceholderText();
+    }
+
+    @Test(description = "search with a non-existing search term", priority = 3, enabled = true)
+    public void searchNonExistingTenant() {
         tenantSummary.searchNonExistingTenant("invalid");
     }
 
-    @Test(description = "search using an existing complete search term", priority = 3, enabled = true)
-    public void SearchTenantComplete() {
+    @Test(description = "search using an existing complete search term", priority = 4, enabled = true)
+    public void searchTenantComplete() {
         commonClass.selectSidebarMenu("Tenants");
         tenantSummary.searchTenant("testname1234");
     }
 
-    @Test(description = "search using a partial search term ", priority = 4, enabled = true)
-    public void SearchTenantPartial() {
+    @Test(description = "search using a partial search term ", priority = 5, enabled = true)
+    public void searchTenantPartial() {
         commonClass.selectSidebarMenu("Tenants");
         tenantSummary.searchTenant("name");
     }
 
-    @Test(description = "search using letters as search terms", priority = 5, enabled = true)
-    public void SearchTenantUsingLetters() {
+    @Test(description = "search using letters as search terms", priority = 6, enabled = true)
+    public void searchTenantUsingLetters() {
         commonClass.selectSidebarMenu("Tenants");
         tenantSummary.searchTenant("ab");
     }
 
-    @Test(description = "search using a search term which results a single tenant", priority = 6, enabled = true)
-    public void SearchOnlySingleTenant() {
+    @Test(description = "search using a search term which results a single tenant", priority = 7, enabled = true)
+    public void searchOnlySingleTenant() {
         commonClass.selectSidebarMenu("Tenants");
-        tenantSummary.searchTenant("two");
+        tenantSummary.searchTenant("automation single");
     }
 
-    @Test(description = "search using multiple search terms", priority = 7, enabled = true)
-    public void SearchMultipleTerms() {
+    @Test(description = "search using multiple search terms", priority = 8, enabled = true)
+    public void searchMultipleTerms() {
         commonClass.selectSidebarMenu("Tenants");
         tenantSummary.searchTenant("tenant test");
     }
 
-    @Test(description = "search Outlets ", priority = 8, enabled = true)
-    public void SearchOutlet() {
+    @Test(description = "search Outlets ", priority = 9, enabled = true)
+    public void searchOutlet() {
         commonClass.selectSidebarMenu("Tenants");
-        tenantSummary.searchOutlet("automation ");
+        tenantSummary.searchOutlet("automation outlet");
+    }
+
+    @Test(description = "search using enter key ", priority = 10, enabled = true)
+    public void searchUsingEnterKey() {
+        commonClass.selectSidebarMenu("Tenants");
+        tenantSummary.searchFunctionWithEnterKey("testname1234");
+    }
+
+    @AfterTest
+    public void endReport() {
+        extent.flush();
+        extent.close();
+        driver.quit();
     }
 
 

@@ -24,11 +24,16 @@ import java.util.Properties;
  * Created by chathura on 11/07/2018.
  */
 public class TenantsTest {
+    static WebDriver driver = null;
     private CommonClass commonClass;
     private Login login;
     private Tenants tenants;
     private Outlet outlet;
+<<<<<<< Updated upstream
     private TenantSummary tenantSummary;
+=======
+    private TenantSummary tenantsummary;
+>>>>>>> Stashed changes
 
     private String email;
     private String password;
@@ -56,10 +61,11 @@ public class TenantsTest {
 
     @BeforeClass
     public void SetUp() throws IOException {
-        WebDriver driver = DriverFactory.getDriver();
+        driver = DriverFactory.getDriver();
         commonClass = new CommonClass(driver);
         login = new Login(driver);
         tenants = new Tenants(driver);
+        tenantsummary = new TenantSummary(driver);
         outlet = new Outlet(driver);
         tenantSummary = new TenantSummary(driver);
 
@@ -91,8 +97,8 @@ public class TenantsTest {
         Screenshot.screenShot(result); // take ScreenShot On Failure
         /*Result file*/
         if (result.getStatus() == ITestResult.FAILURE) {
-           // logger.log(LogStatus.FAIL, "Test Case Failed is " + result.getName());
-            logger.log(LogStatus.FAIL, "Test Case Failed is - " + result.getName() +"  - error : " +result.getThrowable());
+            // logger.log(LogStatus.FAIL, "Test Case Failed is " + result.getName());
+            logger.log(LogStatus.FAIL, "Test Case Failed is - " + result.getName() + "  - error : " + result.getThrowable());
         } else if (result.getStatus() == ITestResult.SKIP) {
             logger.log(LogStatus.SKIP, "Test Case Skipped is - " + result.getName());
         } else if (result.getStatus() == ITestResult.SUCCESS) {
@@ -105,6 +111,7 @@ public class TenantsTest {
     public void endReport() {
         extent.flush();
         extent.close();
+        driver.close();
     }
 
     @Test(description = "login to the system with valid  Email and Password")
@@ -152,21 +159,53 @@ public class TenantsTest {
     public void editCreatedTenant() {
         tenants.editTenant("Edit a Tenant");
         tenants.tenantDetails(tenantEdit + tenantname, tenantEdit + tenantBusinessNumber);
-        tenants.editTenatAdnim(tenantEdit+tenantEmail,tenantEdit+tenantFirstName,tenantEdit+tenantLastName);
+        tenants.editTenatAdnim(tenantEdit + tenantEmail, tenantEdit + tenantFirstName, tenantEdit + tenantLastName);
     }
 
+<<<<<<< Updated upstream
     @Test(description = "Verify Created tenant Details in summary page", priority = 7, enabled = true)
     public void verifyEditedTenant() {
-        tenantSummary.verifyTenantDetails(tenantEdit+tenantname);
+        tenantSummary.verifyTenantDetails(tenantEdit + tenantname);
     }
 
     @Test(description = "Edit Created Outlet details", priority = 8, enabled = true)
     public void editCreatedOutlet() {
-        outlet.editCreatedOutlet(outletName, "55"+outletBusinessNumber, "steet11", "zip22", "city22", "+94784596321");
+        outlet.editCreatedOutlet(outletName, "55" + outletBusinessNumber, "steet11", "zip22", "city22", "+94784596321");
+=======
+    @Test(description = "Disable Cancel Tenant", priority = 7,enabled = true)
+    public void disabledTenantCancel(){
+        tenantsummary. disableTenantCancel();
+    }
+
+    @Test(description = "Disable anyway Tenant", priority = 8,enabled = true)
+    public void disabledTenantAnyway(){
+        tenantsummary. disableTenantAnyway();
+        tenantsummary. verifyButtonChangeTenant();
+    }
+
+    @Test(description = "Disable anyway Outlet", priority = 9,enabled = true)
+    public void disabledOutletCancel(){
+        tenantsummary. disableOutletcancel();
+    }
+
+    @Test(description = "Disable anyway Outlet", priority = 10,enabled = true)
+    public void disabledOutletAnyway(){
+        tenantsummary. disableOutletanyway();
+        tenantsummary. verifyButtonChangeOutlet();
+    }
+    @AfterMethod(description = "Taking ScreenShot for Failed Tests")
+    public void takeScreenShotOnFailure(ITestResult testResult) {
+        Screenshot.screenShot(testResult);
+    }
+
+    @AfterClass
+    public void endReport() {
+     //   driver.close();
+>>>>>>> Stashed changes
     }
 
     @Test(description = "Verify Created Outlet Details", priority = 9, enabled = true)
     public void verifyEditedOutlet() {
-        tenantSummary.verifyOutlet("etited"+outletName);
+        tenantSummary.verifyOutlet("etited" + outletName);
     }
 }
