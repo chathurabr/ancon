@@ -94,11 +94,14 @@ public class Outlet extends CommonClass {
         WebElement SecondaryColor = driver.findElement(cb_SecondaryColor);
         scrollIntoView(PrimaryColor);
         String pcolor = PrimaryColor.getCssValue("background-color");
-        Assert.assertEquals(pcolor, "rgba(29, 61, 145, 1)");
-        System.out.println("Verify Primary Color - rgba(29, 61, 145, 1)");
+       // Assert.assertEquals(pcolor, "rgba(29, 61, 145, 1)");
+        Assert.assertTrue(pcolor.contains("(29, 61, 145"));
+        System.out.println("Verify default Primary Color)");
         String scolor = SecondaryColor.getCssValue("background-color");
-        Assert.assertEquals(scolor, "rgba(249, 89, 25, 1)");
-        System.out.println("Verify Secondary Color - rgba(249, 89, 25, 1)");
+       // Assert.assertEquals(scolor, "rgba(249, 89, 25, 1)");
+        Assert.assertTrue(scolor.contains("(249, 89, 25"));
+        System.out.println("Verify default Secondary Color");
+
     }
 
     //save Created Outlet
@@ -115,27 +118,6 @@ public class Outlet extends CommonClass {
         Assert.assertEquals(getPageName(), "Tenants");
         System.out.println("Back to Tenants Summary page successfully ");
     }
-
-/*    public void verifyOutlet(String OutletName) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
-        scrollIntoView(driver.findElement(btn_expand));
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//SPAN[text()='"+OutletName+"']")));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table/tbody[1]/tr[2]/td[7]")));
-        String Outletname = driver.findElement(txt_outletNeme).getText();
-        Assert.assertEquals(Outletname, OutletName);
-        System.out.println("Created Outlet name verified : " + OutletName);
-        WebElement outlets = driver.findElement(lbl_Outlets);
-        String numberOfOutlets = wait.until(ExpectedConditions.elementToBeClickable(outlets)).getText();
-        Assert.assertEquals(numberOfOutlets, "1");
-        System.out.println("Verified Number Of Outlets : " + numberOfOutlets);
-        //get date
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDateTime now = LocalDateTime.now();
-        String tcdate = driver.findElement(By.xpath("//table/tbody[1]/tr[2]/td[4]")).getText();
-        Assert.assertEquals(tcdate, dtf.format(now));
-        System.out.println("Outlet Created date verified : " + tcdate);
-    }*/
 
     public void editCreatedOutlet(String outletName, String outletNumber, String street, String zip, String city, String telephone) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
@@ -159,6 +141,7 @@ public class Outlet extends CommonClass {
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_city))).sendKeys(city);
         scrollIntoView(driver.findElement(txt_telephone));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_telephone))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_telephone))).clear();
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_telephone))).sendKeys(telephone);
         System.out.println("Successfully edit the Outlet details");
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_save))).click();
