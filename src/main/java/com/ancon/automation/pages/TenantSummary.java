@@ -2,6 +2,7 @@ package com.ancon.automation.pages;
 
 import com.ancon.automation.utils.CommonClass;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -11,11 +12,14 @@ import org.testng.Assert;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static javax.swing.text.html.CSS.getAttribute;
+
 public class TenantSummary extends CommonClass {
     private WebDriver driver;
     private WebDriverWait wait;
     //search Tenant
     private By search_field = By.xpath("//div[@class='container___2Ufnl']/input");
+    private By search_Field_Placeholder = By.xpath("//input[@placeholder='Search Tenants or Outlets']");
     private By search_Results_Page_Title = By.xpath("//h1[contains(text(),'Search Tenants or Outlets')]");
     private By search_No_Results_Found = By.xpath("//h2[contains(text(),'No matching results found')]");
     private By getSearch_result_Table_Rows = By.xpath("//table/tbody");
@@ -50,6 +54,20 @@ public class TenantSummary extends CommonClass {
         searchButton.click();
     }
 
+    public void searchFunctionWithEnterKey(String searchTerm) {
+        searchField = driver.findElement(search_field);
+        searchButton = driver.findElement(search_Button);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(search_field))).click();
+        searchField.sendKeys(searchTerm);
+        searchField.sendKeys(Keys.ENTER);
+    }
+
+    public void verifyPlaceholderText() {
+        String searchFieldText = driver.findElement(search_field).getAttribute("placeholder");
+        Assert.assertEquals(searchFieldText, "Search Tenants or Outlets");
+        System.out.println("Correct Placeholder text is displayed");
+    }
+
     public void searchNonExistingTenant(String tenantValue) {
         searchFunction(tenantValue);
         Assert.assertTrue(driver.findElement(search_No_Results_Found).isDisplayed());
@@ -65,7 +83,7 @@ public class TenantSummary extends CommonClass {
             String rowData = driver.findElement(By.xpath(rowXpath)).getText();
             System.out.println("Row Data:  " + rowData.toLowerCase());
             System.out.println("Tenant Value:  " + tenantValue);
-            Assert.assertTrue(rowData.toLowerCase().contains(tenantValue));
+            Assert.assertTrue(rowData.toLowerCase().contains(tenantValue.toLowerCase()));
         }
         System.out.println("Search Results correctly displayed");
     }
@@ -89,7 +107,7 @@ public class TenantSummary extends CommonClass {
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
         scrollIntoView(driver.findElement(btn_expand));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//SPAN[text()='"+OutletName+"']")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//SPAN[text()='" + OutletName + "']")));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table/tbody[1]/tr[2]/td[7]")));
         String Outletname = driver.findElement(txt_outletNeme).getText();
         Assert.assertEquals(Outletname, OutletName);

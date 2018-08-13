@@ -85,14 +85,14 @@ public class Tenants extends CommonClass {
     }
 
     /*upload the image*/
-    public void logoUpload(){
-           wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_logoUpload))).click();
+    public void logoUpload() {
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_logoUpload))).click();
     /*   WebElement element = driver.findElement(btn_logoUpload);
         JavascriptExecutor executor = (JavascriptExecutor)driver;
         executor.executeScript("arguments[0].click()", element);
         System.out.println("button clicked");*/
-    //    String currentDir = System.getProperty("user.dir");
-    //    driver.findElement(btn_logoUpload).sendKeys("C:\\Users\\chathurar\\Desktop\\New folder\\alignmet.jpg");
+        //    String currentDir = System.getProperty("user.dir");
+        //    driver.findElement(btn_logoUpload).sendKeys("C:\\Users\\chathurar\\Desktop\\New folder\\alignmet.jpg");
     }
 
     public void tenantAdminDetails(String email, String firstName, String lastName) {

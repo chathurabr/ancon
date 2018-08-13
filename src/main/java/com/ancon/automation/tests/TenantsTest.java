@@ -24,6 +24,7 @@ import java.util.Properties;
  * Created by chathura on 11/07/2018.
  */
 public class TenantsTest {
+    static WebDriver driver = null;
     private CommonClass commonClass;
     private Login login;
     private Tenants tenants;
@@ -56,7 +57,7 @@ public class TenantsTest {
 
     @BeforeClass
     public void SetUp() throws IOException {
-        WebDriver driver = DriverFactory.getDriver();
+        driver = DriverFactory.getDriver();
         commonClass = new CommonClass(driver);
         login = new Login(driver);
         tenants = new Tenants(driver);
@@ -91,8 +92,8 @@ public class TenantsTest {
         Screenshot.screenShot(result); // take ScreenShot On Failure
         /*Result file*/
         if (result.getStatus() == ITestResult.FAILURE) {
-           // logger.log(LogStatus.FAIL, "Test Case Failed is " + result.getName());
-            logger.log(LogStatus.FAIL, "Test Case Failed is - " + result.getName() +"  - error : " +result.getThrowable());
+            // logger.log(LogStatus.FAIL, "Test Case Failed is " + result.getName());
+            logger.log(LogStatus.FAIL, "Test Case Failed is - " + result.getName() + "  - error : " + result.getThrowable());
         } else if (result.getStatus() == ITestResult.SKIP) {
             logger.log(LogStatus.SKIP, "Test Case Skipped is - " + result.getName());
         } else if (result.getStatus() == ITestResult.SUCCESS) {
@@ -105,6 +106,7 @@ public class TenantsTest {
     public void endReport() {
         extent.flush();
         extent.close();
+        driver.close();
     }
 
     @Test(description = "login to the system with valid  Email and Password")
@@ -151,21 +153,21 @@ public class TenantsTest {
     public void editCreatedTenant() {
         tenants.editTenant("Edit a Tenant");
         tenants.tenantDetails(tenantEdit + tenantname, tenantEdit + tenantBusinessNumber);
-        tenants.editTenatAdnim(tenantEdit+tenantEmail,tenantEdit+tenantFirstName,tenantEdit+tenantLastName);
+        tenants.editTenatAdnim(tenantEdit + tenantEmail, tenantEdit + tenantFirstName, tenantEdit + tenantLastName);
     }
 
     @Test(description = "Verify Created tenant Details in summary page", priority = 7, enabled = true)
     public void verifyEditedTenant() {
-        tenantSummary.verifyTenantDetails(tenantEdit+tenantname);
+        tenantSummary.verifyTenantDetails(tenantEdit + tenantname);
     }
 
     @Test(description = "Edit Created Outlet details", priority = 8, enabled = true)
     public void editCreatedOutlet() {
-        outlet.editCreatedOutlet(outletName, "55"+outletBusinessNumber, "steet11", "zip22", "city22", "+94784596321");
+        outlet.editCreatedOutlet(outletName, "55" + outletBusinessNumber, "steet11", "zip22", "city22", "+94784596321");
     }
 
     @Test(description = "Verify Created Outlet Details", priority = 9, enabled = true)
     public void verifyEditedOutlet() {
-        tenantSummary.verifyOutlet("etited"+outletName);
+        tenantSummary.verifyOutlet("etited" + outletName);
     }
 }
