@@ -133,7 +133,7 @@ public class SearchTest {
     @Test(description = "search Outlets ", priority = 8, enabled = true)
     public void SearchOutlet() {
         commonClass.selectSidebarMenu("Tenants");
-        tenantSummary.searchOutlet("test");
+        tenantSummary.searchOutlet("automation ");
     }
 
 
