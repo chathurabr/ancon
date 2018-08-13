@@ -29,11 +29,9 @@ public class TenantsTest {
     private Login login;
     private Tenants tenants;
     private Outlet outlet;
-<<<<<<< Updated upstream
+
     private TenantSummary tenantSummary;
-=======
-    private TenantSummary tenantsummary;
->>>>>>> Stashed changes
+
 
     private String email;
     private String password;
@@ -65,9 +63,8 @@ public class TenantsTest {
         commonClass = new CommonClass(driver);
         login = new Login(driver);
         tenants = new Tenants(driver);
-        tenantsummary = new TenantSummary(driver);
-        outlet = new Outlet(driver);
         tenantSummary = new TenantSummary(driver);
+        outlet = new Outlet(driver);
 
         // get data from property file
         Properties properties = new Properties();
@@ -97,7 +94,6 @@ public class TenantsTest {
         Screenshot.screenShot(result); // take ScreenShot On Failure
         /*Result file*/
         if (result.getStatus() == ITestResult.FAILURE) {
-            // logger.log(LogStatus.FAIL, "Test Case Failed is " + result.getName());
             logger.log(LogStatus.FAIL, "Test Case Failed is - " + result.getName() + "  - error : " + result.getThrowable());
         } else if (result.getStatus() == ITestResult.SKIP) {
             logger.log(LogStatus.SKIP, "Test Case Skipped is - " + result.getName());
@@ -111,7 +107,7 @@ public class TenantsTest {
     public void endReport() {
         extent.flush();
         extent.close();
-        driver.close();
+    //    driver.close();
     }
 
     @Test(description = "login to the system with valid  Email and Password")
@@ -146,7 +142,7 @@ public class TenantsTest {
         outlet.createOutletRoutineTme();
         /* change colors*/
         outlet.colorBox();
-        outlet.changeColor("#ab1191","171, 17, 145","#1919c2","25, 25, 194");
+      //  outlet.changeColor("#ab1191","171, 17, 145","#1919c2","25, 25, 194");
         outlet.saveCreateOutlet();
     }
 
@@ -162,7 +158,7 @@ public class TenantsTest {
         tenants.editTenatAdnim(tenantEdit + tenantEmail, tenantEdit + tenantFirstName, tenantEdit + tenantLastName);
     }
 
-<<<<<<< Updated upstream
+
     @Test(description = "Verify Created tenant Details in summary page", priority = 7, enabled = true)
     public void verifyEditedTenant() {
         tenantSummary.verifyTenantDetails(tenantEdit + tenantname);
@@ -171,41 +167,35 @@ public class TenantsTest {
     @Test(description = "Edit Created Outlet details", priority = 8, enabled = true)
     public void editCreatedOutlet() {
         outlet.editCreatedOutlet(outletName, "55" + outletBusinessNumber, "steet11", "zip22", "city22", "+94784596321");
-=======
-    @Test(description = "Disable Cancel Tenant", priority = 7,enabled = true)
-    public void disabledTenantCancel(){
-        tenantsummary. disableTenantCancel();
-    }
-
-    @Test(description = "Disable anyway Tenant", priority = 8,enabled = true)
-    public void disabledTenantAnyway(){
-        tenantsummary. disableTenantAnyway();
-        tenantsummary. verifyButtonChangeTenant();
-    }
-
-    @Test(description = "Disable anyway Outlet", priority = 9,enabled = true)
-    public void disabledOutletCancel(){
-        tenantsummary. disableOutletcancel();
-    }
-
-    @Test(description = "Disable anyway Outlet", priority = 10,enabled = true)
-    public void disabledOutletAnyway(){
-        tenantsummary. disableOutletanyway();
-        tenantsummary. verifyButtonChangeOutlet();
-    }
-    @AfterMethod(description = "Taking ScreenShot for Failed Tests")
-    public void takeScreenShotOnFailure(ITestResult testResult) {
-        Screenshot.screenShot(testResult);
-    }
-
-    @AfterClass
-    public void endReport() {
-     //   driver.close();
->>>>>>> Stashed changes
     }
 
     @Test(description = "Verify Created Outlet Details", priority = 9, enabled = true)
     public void verifyEditedOutlet() {
         tenantSummary.verifyOutlet("etited" + outletName);
     }
+
+    // Nipuna
+
+    @Test(description = "Disable Cancel Tenant", priority = 10,enabled = true)
+    public void disabledTenantCancel(){
+        tenantSummary. disableTenantCancel();
+    }
+
+    @Test(description = "Disable anyway Tenant", priority = 11,enabled = true)
+    public void disabledTenantAnyway(){
+        tenantSummary. disableTenantAnyway();
+        tenantSummary. verifyButtonChangeTenant();
+    }
+
+    @Test(description = "Disable anyway Outlet", priority = 12,enabled = true)
+    public void disabledOutletCancel(){
+        tenantSummary. disableOutletcancel();
+    }
+
+    @Test(description = "Disable anyway Outlet", priority = 13,enabled = false)
+    public void disabledOutletAnyway(){
+        tenantSummary. disableOutletanyway();
+        tenantSummary. verifyButtonChangeOutlet();
+    }
+
 }

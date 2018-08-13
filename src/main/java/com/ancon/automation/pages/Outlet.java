@@ -175,10 +175,10 @@ public class Outlet extends CommonClass {
         String preview_button_color_discard = driver.findElement(By.xpath("//html/body/div[2]/div/div[1]/div/div/div[2]/div[2]/div/div/div[1]/div[2]/div/button[text()='Discard']")).getCssValue("color");
         String preview_button_color_save = driver.findElement(By.xpath("//html/body/div[2]/div/div[1]/div/div/div[2]/div[2]/div/div/div[1]/div[2]/div/button[text()='Save']")).getCssValue("background-color");
 
-     //   System.out.println("preview_button_color_back:" + preview_button_color_back);
-     //   System.out.println("preview_button_color_discard:" + preview_button_color_discard);
-     //   System.out.println("preview_button_color_save:" + preview_button_color_save);
-     //   System.out.println("rgb_P_color"+rgb_P_color);
+        System.out.println("preview_button_color_back:" + preview_button_color_back);
+        System.out.println("preview_button_color_discard:" + preview_button_color_discard);
+        System.out.println("preview_button_color_save:" + preview_button_color_save);
+        System.out.println("rgb_P_color"+rgb_P_color);
 
         Assert.assertTrue(preview_button_color_discard.contains(rgb_P_color));
         Assert.assertTrue(preview_button_color_back.contains(rgb_P_color));

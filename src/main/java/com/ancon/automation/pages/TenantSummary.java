@@ -171,9 +171,10 @@ public class TenantSummary extends CommonClass {
     }
 
     public void disableOutletcancel() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
-        scrollIntoView(driver.findElement(btn_expand));
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
+        //wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+        scrollIntoView(driver.findElement(By.xpath("//html/body/div/div/div/div/div[2]/div/div/div/div/div[1]/h1")));
+
+       // wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Disable_2))).click();
         if (getHeadername().toLowerCase().contains(getOutletname().toLowerCase())) {
             wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Cancel_1))).click();
