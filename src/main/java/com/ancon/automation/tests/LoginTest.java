@@ -35,7 +35,7 @@ public class LoginTest {
 
     @BeforeTest
     public void startReport() {
-        extent = new ExtentReports(System.getProperty("user.dir") + CommonClass.path + "/test-output/STMExtentReport.html", true);
+        extent = new ExtentReports(System.getProperty("user.dir") + CommonClass.path + "/reports/Ancon_Automation.html", true);
         extent
                 .addSystemInfo("Host Name", "Ancon")
                 .addSystemInfo("Environment", "Ancon Automation Testing")
