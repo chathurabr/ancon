@@ -12,8 +12,6 @@ import org.testng.Assert;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static javax.swing.text.html.CSS.getAttribute;
-
 public class TenantSummary extends CommonClass {
     private WebDriver driver;
     private WebDriverWait wait;
@@ -46,7 +44,7 @@ public class TenantSummary extends CommonClass {
     private By btn_Delete_2 = By.xpath("//tr[@class='inner']/td[7]/button[2]/span[contains(text(),'Delete')]");
     private By btn_expand = By.xpath("//table/tbody[1]/tr[1]/td[2]/button/i[@class='a_icon-unfold']");
     //Disable popup
-    private By btn_Cancel_1 = By.xpath("//div[@class='modal-content']/div[3]/button[contains(text(),'Cancel')]");
+    private By btn_Cancel_1 = By.xpath("//button[contains(text(),'Cancel')]");
     private By btn_Disableanyway_1 = By.xpath("//div[@class='modal-content']/div[3]/button[contains(text(),'Disable Anyway')]");
 
 
@@ -170,39 +168,22 @@ public class TenantSummary extends CommonClass {
         System.out.println("Delete button is available");
     }
 
-    public void disableOutletcancel() {
-        //wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+    public void disableOutletCancel() {
         scrollIntoView(driver.findElement(By.xpath("//html/body/div/div/div/div/div[2]/div/div/div/div/div[1]/h1")));
-
-       // wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Disable_2))).click();
-        if (getHeadername().toLowerCase().contains(getOutletname().toLowerCase())) {
-            wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Cancel_1))).click();
-            System.out.println("Cancel popup Successfully");
-        } else {
-
-            System.out.println("Popup is not valid");
-        }
-
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Cancel_1))).click();
+        System.out.println("Cancel popup Successfully");
     }
 
     public void disableOutletanyway() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
         scrollIntoView(driver.findElement(btn_expand));
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Disable_2))).click();
-        if (getHeadername().toLowerCase().contains(getOutletname().toLowerCase())) {
-            wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Disableanyway_1))).click();
-            System.out.println("Disable Outlet Successfully");
-        } else {
-
-            System.out.println("Popup is not valid");
-        }
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Disableanyway_1))).click();
+        System.out.println("Disable Outlet Successfully");
     }
 
     public void verifyButtonChangeOutlet() {
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
-        //verify Outlate enable button available
         WebElement btn_enable_1 = driver.findElement(btn_Enable_2);
         Assert.assertTrue(btn_enable_1.isDisplayed());
         System.out.println("Enable button is available");

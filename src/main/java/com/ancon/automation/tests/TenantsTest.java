@@ -189,10 +189,10 @@ public class TenantsTest {
 
     @Test(description = "Disable anyway Outlet", priority = 12,enabled = true)
     public void disabledOutletCancel(){
-        tenantSummary. disableOutletcancel();
+        tenantSummary.disableOutletCancel();
     }
 
-    @Test(description = "Disable anyway Outlet", priority = 13,enabled = false)
+    @Test(description = "Disable anyway Outlet", priority = 13,enabled = true)
     public void disabledOutletAnyway(){
         tenantSummary. disableOutletanyway();
         tenantSummary. verifyButtonChangeOutlet();
