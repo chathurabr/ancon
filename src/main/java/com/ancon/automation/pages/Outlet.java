@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -41,6 +42,11 @@ public class Outlet extends CommonClass {
     //color
     private By cb_PrimaryColor = By.xpath("(//DIV[@class='colorBlockLarge___1aUen'])[1]");
     private By cb_SecondaryColor = By.xpath("(//DIV[@class='colorBlockLarge___1aUen'])[2]");
+    private By btn_changeColor = By.xpath("//BUTTON[@type='button'][text()='Change Colors']");
+    private By lbl_heder_color = By.xpath("//H5[@class='modal-title'][text()='Change Outlet Colors']");
+    private By txt_prmaryColor = By.xpath("(//INPUT[@tabindex='0'])[8]");
+    private By txt_secondColor = By.xpath("(//INPUT[@tabindex='0'])[9]");
+
 
 
     public Outlet(WebDriver driver) {
@@ -77,12 +83,14 @@ public class Outlet extends CommonClass {
         WebElement openTime = driver.findElement(dd_StartTime);
         scrollIntoView(openTime);
         openTime.click();
-        sleepTime(1000);
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//*[contains(text(),'03:00')]")))).click();
+        sleepTime(500);
+        WebElement otime = driver.findElement(By.xpath("//*[contains(text(),'07:00')]"));
+        scrollIntoView(otime);
+        wait.until(ExpectedConditions.elementToBeClickable(otime)).click();
         //set Close time
         WebElement closeTime = driver.findElement(dd_CloseTime);
         closeTime.click();
-        sleepTime(1000);
+        sleepTime(500);
         WebElement time = driver.findElement(By.xpath("//*[contains(text(),'07:00')]"));
         scrollIntoView(time);
         wait.until(ExpectedConditions.elementToBeClickable(time)).click();
@@ -96,12 +104,89 @@ public class Outlet extends CommonClass {
         String pcolor = PrimaryColor.getCssValue("background-color");
        // Assert.assertEquals(pcolor, "rgba(29, 61, 145, 1)");
         Assert.assertTrue(pcolor.contains("(29, 61, 145"));
-        System.out.println("Verify default Primary Color)");
+        System.out.println("Verify default Primary Color");
         String scolor = SecondaryColor.getCssValue("background-color");
        // Assert.assertEquals(scolor, "rgba(249, 89, 25, 1)");
         Assert.assertTrue(scolor.contains("(249, 89, 25"));
         System.out.println("Verify default Secondary Color");
 
+    }
+
+    //Get selected Primary Color
+    public String getSelectedPrimaryColor(){
+        return driver.findElement(By.xpath("(//BUTTON[@tabindex='-1'])[11]")).getCssValue("background-color");
+    }
+    //Get selected Secondary Color
+    public String getSelectedSecondaryColor(){
+        return driver.findElement(By.xpath("(//BUTTON[@tabindex='-1'])[13]")).getCssValue("background-color");
+    }
+
+    public Color hex2Rgb(String colorStr) {
+        return new Color(
+                Integer.valueOf( colorStr.substring( 1, 3 ), 16 ),
+                Integer.valueOf( colorStr.substring( 3, 5 ), 16 ),
+                Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
+    }
+
+    public void changeColor(String hex_P_color, String rgb_P_color, String hex_S_color, String rgb_S_color){
+        WebElement btn_Change_Color = driver.findElement(btn_changeColor);
+        scrollIntoView(btn_Change_Color);
+        wait.until(ExpectedConditions.elementToBeClickable(btn_Change_Color)).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(lbl_heder_color));
+        System.out.println("Change Outlet Colors - popup opened");
+
+        /*Verify default color*/
+        Assert.assertTrue(getSelectedPrimaryColor().contains("29, 61, 145"));
+        Assert.assertTrue(getSelectedSecondaryColor().contains("249, 89, 25"));
+        System.out.println("Verify default Primary and Secondary Color");
+
+        /*Verify Error messages*/
+        WebElement primary_Change_Color = driver.findElement(txt_prmaryColor);
+        WebElement secondary_Change_Color = driver.findElement(txt_secondColor);
+        wait.until(ExpectedConditions.elementToBeClickable(primary_Change_Color)).sendKeys("test");
+        wait.until(ExpectedConditions.elementToBeClickable(secondary_Change_Color)).sendKeys("test");
+        String getErrorMessageP = driver.findElement(By.xpath("(//LABEL[@class='control-label error-label'][text()='INVALID COLOR'])[1]")).getText();
+        String getErrorMessageS = driver.findElement(By.xpath("(//LABEL[@class='control-label error-label'][text()='INVALID COLOR'])[2]")).getText();
+        Assert.assertTrue(getSelectedPrimaryColor().contains("247, 247, 250"));
+        Assert.assertTrue(getSelectedSecondaryColor().contains("247, 247, 250"));
+        Assert.assertEquals(getErrorMessageP,"INVALID COLOR");
+        Assert.assertEquals(getErrorMessageS,"INVALID COLOR");
+        System.out.println("'INVALID COLOR' Error message is appearing for PRIMARY and SECONDARY COLOR");
+
+        /*Verify Selected Color*/
+        //send hex values to the text field
+        wait.until(ExpectedConditions.elementToBeClickable(primary_Change_Color)).clear();
+        primary_Change_Color.sendKeys(hex_P_color);
+        wait.until(ExpectedConditions.elementToBeClickable(secondary_Change_Color)).clear();
+        secondary_Change_Color.sendKeys(hex_S_color);
+        // verify rgb values
+       // System.out.println("getSelectedPrimaryColor(): "+getSelectedPrimaryColor());
+       // System.out.println("rgb_P_color: "+rgb_P_color);
+        Assert.assertTrue(getSelectedPrimaryColor().contains(rgb_P_color));
+        Assert.assertTrue(getSelectedSecondaryColor().contains(rgb_S_color));
+        //verify preview
+        //Used as main background color
+        String preview_S_color = driver.findElement(By.xpath("//html/body/div[2]/div/div[1]/div/div/div[2]/div[2]/div/div/div[1]/div[1]")).getCssValue("background-color");
+        Assert.assertTrue(preview_S_color.contains(rgb_S_color));
+        System.out.println("SECONDARY COLOR (Used as main background color) - Verified");
+
+        //Used for buttons and links
+        String preview_button_color_back = driver.findElement(By.xpath("//html/body/div[2]/div/div[1]/div/div/div[2]/div[2]/div/div/div[1]/div[2]/button")).getCssValue("color");
+        String preview_button_color_discard = driver.findElement(By.xpath("//html/body/div[2]/div/div[1]/div/div/div[2]/div[2]/div/div/div[1]/div[2]/div/button[text()='Discard']")).getCssValue("color");
+        String preview_button_color_save = driver.findElement(By.xpath("//html/body/div[2]/div/div[1]/div/div/div[2]/div[2]/div/div/div[1]/div[2]/div/button[text()='Save']")).getCssValue("background-color");
+
+     //   System.out.println("preview_button_color_back:" + preview_button_color_back);
+     //   System.out.println("preview_button_color_discard:" + preview_button_color_discard);
+     //   System.out.println("preview_button_color_save:" + preview_button_color_save);
+     //   System.out.println("rgb_P_color"+rgb_P_color);
+
+        Assert.assertTrue(preview_button_color_discard.contains(rgb_P_color));
+        Assert.assertTrue(preview_button_color_back.contains(rgb_P_color));
+        Assert.assertTrue(preview_button_color_save.contains(rgb_P_color));
+        System.out.println("Primary Color (Used for buttons and links) - Verified selected colors");
+        //save color box
+        driver.findElement(By.xpath("//html/body/div[2]/div/div[1]/div/div/div[3]/button[2]")).click();
+        System.out.println("Successfully changed the colors");
     }
 
     //save Created Outlet

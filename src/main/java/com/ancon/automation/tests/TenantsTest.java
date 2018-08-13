@@ -139,6 +139,7 @@ public class TenantsTest {
         outlet.createOutletRoutineTme();
         /* change colors*/
         outlet.colorBox();
+        outlet.changeColor("#ab1191","171, 17, 145","#1919c2","25, 25, 194");
         outlet.saveCreateOutlet();
     }
 
