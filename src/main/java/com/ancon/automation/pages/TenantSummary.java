@@ -216,7 +216,7 @@ public class TenantSummary extends CommonClass {
     }
 
     // Verify Tenant details in summary page
-    public void verifyTenantDetails(String name,String numOfOutlet) {
+    public void verifyTenantDetails(String name,String numberOutlets) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_CreateNew));
         scrollIntoView(driver.findElement(By.xpath("//DIV[@role='button'][text()='Name']")));
         sleepTime(2000);
@@ -236,7 +236,7 @@ public class TenantSummary extends CommonClass {
         //number of outlets
         WebElement outlets = driver.findElement(lbl_Outlets);
         String numberOfOutlets = wait.until(ExpectedConditions.elementToBeClickable(outlets)).getText();
-        Assert.assertEquals(numberOfOutlets, numOfOutlet);
+        Assert.assertEquals(numberOfOutlets,numberOutlets);
         // verify View button available
         WebElement btn_view = driver.findElement(btn_View_1);
         Assert.assertTrue(btn_view.isDisplayed());
