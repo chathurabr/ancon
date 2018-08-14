@@ -107,7 +107,7 @@ public class TenantsTest {
     public void endReport() {
         extent.flush();
         extent.close();
-    //    driver.close();
+        //    driver.close();
     }
 
     @Test(description = "login to the system with valid  Email and Password")
@@ -137,12 +137,12 @@ public class TenantsTest {
     @Test(description = "Create new Outlet", priority = 4, enabled = true)
     public void createnewOutlet() {
         /*enter Outlet Details*/
-        outlet.createOutlet(outletName, outletBusinessNumber, "steet1", "zip2", "city2", "0784596321");
+        outlet.createOutlet(outletName, outletBusinessNumber, "street1", "zip2", "city2", "0784596321");
         /*Set Opening Hours*/
         outlet.createOutletRoutineTme();
         /* change colors*/
         outlet.colorBox();
-      //  outlet.changeColor("#ab1191","171, 17, 145","#1919c2","25, 25, 194");
+        //  outlet.changeColor("#ab1191","171, 17, 145","#1919c2","25, 25, 194");
         outlet.saveCreateOutlet();
     }
 
@@ -166,36 +166,34 @@ public class TenantsTest {
 
     @Test(description = "Edit Created Outlet details", priority = 8, enabled = true)
     public void editCreatedOutlet() {
-        outlet.editCreatedOutlet(outletName, "55" + outletBusinessNumber, "steet11", "zip22", "city22", "+94784596321");
+        outlet.editCreatedOutlet(outletName, "55" + outletBusinessNumber, "street11", "zip22", "city22", "+94784596321");
     }
 
     @Test(description = "Verify Created Outlet Details", priority = 9, enabled = true)
     public void verifyEditedOutlet() {
-        tenantSummary.verifyOutlet("etited" + outletName);
+        tenantSummary.verifyOutlet("edited" + outletName);
     }
 
-    // Nipuna
-
-    @Test(description = "Disable Cancel Tenant", priority = 10,enabled = true)
-    public void disabledTenantCancel(){
-        tenantSummary. disableTenantCancel();
+    @Test(description = "Disable Cancel Tenant", priority = 10, enabled = true)
+    public void disabledTenantCancel() {
+        tenantSummary.disableTenantCancel();
     }
 
-    @Test(description = "Disable anyway Tenant", priority = 11,enabled = true)
-    public void disabledTenantAnyway(){
-        tenantSummary. disableTenantAnyway();
-        tenantSummary. verifyButtonChangeTenant();
+    @Test(description = "Disable anyway Tenant", priority = 11, enabled = true)
+    public void disabledTenantAnyway() {
+        tenantSummary.disableTenantAnyway();
+        tenantSummary.verifyButtonChangeTenant();
     }
 
-    @Test(description = "Disable anyway Outlet", priority = 12,enabled = true)
-    public void disabledOutletCancel(){
-        tenantSummary. disableOutletcancel();
+    @Test(description = "Disable anyway Outlet", priority = 12, enabled = true)
+    public void disabledOutletCancel() {
+        tenantSummary.disableOutletCancel();
     }
 
-    @Test(description = "Disable anyway Outlet", priority = 13,enabled = false)
-    public void disabledOutletAnyway(){
-        tenantSummary. disableOutletanyway();
-        tenantSummary. verifyButtonChangeOutlet();
+    @Test(description = "Disable anyway Outlet", priority = 13, enabled = true)
+    public void disabledOutletAnyway() {
+        tenantSummary.disableOutletanyway();
+        tenantSummary.verifyButtonChangeOutlet();
     }
 
 }

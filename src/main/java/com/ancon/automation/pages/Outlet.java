@@ -215,7 +215,7 @@ public class Outlet extends CommonClass {
         Assert.assertEquals(getPageName(), "Edit an Outlet");
         //Outlet details
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_outletName))).clear();
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_outletName))).sendKeys("etited"+outletName);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_outletName))).sendKeys("edited"+outletName);
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_outletBusinessNumber))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_outletBusinessNumber))).sendKeys(outletNumber);
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_street))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));

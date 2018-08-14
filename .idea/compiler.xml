@@ -10,5 +10,8 @@
         <module name="Ancon" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Ancon" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
