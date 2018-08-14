@@ -2,13 +2,12 @@ package com.ancon.automation.pages;
 
 import com.ancon.automation.utils.CommonClass;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.awt.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * Created by chathura on 07/08/2018.
@@ -36,6 +35,11 @@ public class Outlet extends CommonClass {
     private By dd_StartTime = By.xpath("(//DIV[@class='css-1rtrksz'])[1]");
     private By dd_CloseTime = By.xpath("(//DIV[@class='css-1rtrksz'])[2]");
     private By btn_Edit = By.xpath("(//SPAN[text()='Edit'][text()='Edit'])[2]");
+    private By advanced_Routine_Button = By.xpath("//div[contains(@class,'col-md-6')]//button[contains(@type,'button')][contains(text(),'Yes')]");
+    private By time_Selection_Table = By.xpath("//table[contains(@class,'table-drag-select')]");
+    private By source1 = By.xpath("//tbody//tr[2]//td[10]");
+    private By destination1 = By.xpath("//tbody//tr[2]//td[14]");
+
     //color
     private By cb_PrimaryColor = By.xpath("(//DIV[@class='colorBlockLarge___1aUen'])[1]");
     private By cb_SecondaryColor = By.xpath("(//DIV[@class='colorBlockLarge___1aUen'])[2]");
@@ -262,5 +266,34 @@ public class Outlet extends CommonClass {
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_save))).click();
     }
 
+    public void selectAdvancedRoutine() {
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(advanced_Routine_Button))).click();
+    }
+
+    public void selectSingleOpeningTime(String outletName) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+        scrollIntoView(driver.findElement(btn_expand));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//td[@class='btn-td']//a[2]//button[1]")))).click();
+        Assert.assertEquals(getPageName(), "Edit an Outlet");
+        scrollIntoView(driver.findElement(advanced_Routine_Button));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(advanced_Routine_Button))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(time_Selection_Table));
+        WebElement element1 = driver.findElement(source1);
+        WebElement target1 = driver.findElement(destination1);
+        (new Actions(driver)).dragAndDrop(element1, target1).perform();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_save))).click();
+    /*    wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+        scrollIntoView(driver.findElement(btn_expand));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table/tbody[1]/tr[2]/td[7]")));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//td[@class='btn-td']//a[1]//button[1]")))).click();
+        System.out.println("View Outlet button clicked");
+        Assert.assertEquals(getPageName(), "Outlet Details");
+        WebElement timeView = driver.findElement(By.xpath("//div[contains(@class,'tag___1sqlq')]/span"));
+        scrollIntoView(timeView);
+        String openingTime = timeView.getText();
+        Assert.assertEquals(openingTime,"Everyday Opens at 12:00 - 16:00 hours");*/
+
+    }
 
 }
