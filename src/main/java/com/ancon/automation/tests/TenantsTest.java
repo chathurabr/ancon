@@ -107,7 +107,7 @@ public class TenantsTest {
     public void endReport() {
         extent.flush();
         extent.close();
-        driver.close();
+      //  driver.close();
     }
 
     @Test(description = "login to the system with valid  Email and Password")
@@ -131,7 +131,7 @@ public class TenantsTest {
 
     @Test(description = "Verify Created tenant Details in summary page", priority = 3, enabled = true)
     public void verifyCreatedTenant() {
-        tenantSummary.verifyTenantDetails(tenantname);
+        tenantSummary.verifyTenantDetails(tenantname,"0");
     }
 
     @Test(description = "Create new Outlet", priority = 4, enabled = true)
@@ -141,8 +141,9 @@ public class TenantsTest {
         /*Set Opening Hours*/
         outlet.createOutletRoutineTme();
         /* change colors*/
-        outlet.colorBox();
-        outlet.changeColor("#ab1191","171, 17, 145","#1919c2","25, 25, 194");
+        outlet.colorBox("29, 61, 145","249, 89, 25");
+        outlet.changeColor("#008000","0, 128, 0","#008","0, 0, 136");
+        outlet.colorBox("0, 128, 0","0, 0, 136");
         outlet.saveCreateOutlet();
     }
 
@@ -161,7 +162,7 @@ public class TenantsTest {
 
     @Test(description = "Verify Created tenant Details in summary page", priority = 7, enabled = true)
     public void verifyEditedTenant() {
-        tenantSummary.verifyTenantDetails(tenantEdit + tenantname);
+        tenantSummary.verifyTenantDetails(tenantEdit + tenantname,"1");
     }
 
     @Test(description = "Edit Created Outlet details", priority = 8, enabled = true)
