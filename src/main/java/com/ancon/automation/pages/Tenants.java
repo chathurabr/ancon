@@ -126,7 +126,7 @@ public class Tenants extends CommonClass {
         System.out.println("Mandatory field validation message appeared - 'EMAIL : Required'");
     }
 
-    public void editTenatAdnim(String email, String firstName, String lastName) {
+    public void editTenantAdmin(String email, String firstName, String lastName) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_ChangeAdmin));
         scrollIntoView(driver.findElement(btn_ChangeAdmin));
         driver.findElement(btn_ChangeAdmin).click();

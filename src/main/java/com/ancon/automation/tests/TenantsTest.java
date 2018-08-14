@@ -107,7 +107,7 @@ public class TenantsTest {
     public void endReport() {
         extent.flush();
         extent.close();
-        //    driver.close();
+        driver.close();
     }
 
     @Test(description = "login to the system with valid  Email and Password")
@@ -139,7 +139,7 @@ public class TenantsTest {
         /*enter Outlet Details*/
         outlet.createOutlet(outletName, outletBusinessNumber, "street1", "zip2", "city2", "0784596321");
         /*Set Opening Hours*/
-        outlet.createOutletRoutineTme();
+        outlet.createOutletRoutineTime();
         /* change colors*/
         outlet.colorBox();
         //  outlet.changeColor("#ab1191","171, 17, 145","#1919c2","25, 25, 194");
@@ -155,7 +155,7 @@ public class TenantsTest {
     public void editCreatedTenant() {
         tenants.editTenant("Edit a Tenant");
         tenants.tenantDetails(tenantEdit + tenantname, tenantEdit + tenantBusinessNumber);
-        tenants.editTenatAdnim(tenantEdit + tenantEmail, tenantEdit + tenantFirstName, tenantEdit + tenantLastName);
+        tenants.editTenantAdmin(tenantEdit + tenantEmail, tenantEdit + tenantFirstName, tenantEdit + tenantLastName);
     }
 
 
@@ -195,5 +195,12 @@ public class TenantsTest {
         tenantSummary.disableOutletanyway();
         tenantSummary.verifyButtonChangeOutlet();
     }
+
+    @Test(description = "Set a custom opening time for outlet", priority = 13, enabled = true)
+    public void setCustomOutletTime() {
+
+
+    }
+
 
 }

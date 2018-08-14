@@ -10,8 +10,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.awt.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * Created by chathura on 07/08/2018.
@@ -22,31 +20,29 @@ public class Outlet extends CommonClass {
     private WebDriverWait wait;
 
     private By btn_expand = By.xpath("//table/tbody[1]/tr[1]/td[2]/button/i[@class='a_icon-unfold']");
-    private By txt_outletNeme = By.xpath("//table/tbody[1]/tr[2]/td[3]/div/span");
     private By btn_View_1 = By.xpath("(//SPAN[text()='View'])[1]");
     private By btn_save = By.xpath("//button[contains(text(),'Save')]");
     private By btn_CreateNew = By.xpath("//button[contains(text(),'Create New')]");
     private By btn_CreateOutlet = By.xpath("//button[contains(text(),'Create Outlet')]");
     // Create Outlet
     private By lbl_Outlets = By.xpath("//tbody[1]/tr[1]/td[5]");
-    private By txt_outletName = By.xpath("//input[@name='outletName']");
-    private By txt_outletBusinessNumber = By.xpath("//input[@name='outletBusinessNumber']");
-    private By txt_street = By.xpath("//input[@name='street']");
-    private By txt_zip = By.xpath("//input[@name='zip']");
-    private By txt_city = By.xpath("//input[@name='city']");
-    private By txt_telephone = By.xpath("//input[@class='react-phone-number-input__input react-phone-number-input__phone']");
+    private By txt_OutletName = By.xpath("//input[@name='outletName']");
+    private By txt_OutletBusinessNumber = By.xpath("//input[@name='outletBusinessNumber']");
+    private By txt_Street = By.xpath("//input[@name='street']");
+    private By txt_Zip = By.xpath("//input[@name='zip']");
+    private By txt_City = By.xpath("//input[@name='city']");
+    private By txt_Telephone = By.xpath("//input[@class='react-phone-number-input__input react-phone-number-input__phone']");
     private By btn_BackFromOutlet = By.xpath("//button/i[@class='a_icon-arrow_back']");
     private By dd_StartTime = By.xpath("(//DIV[@class='css-1rtrksz'])[1]");
     private By dd_CloseTime = By.xpath("(//DIV[@class='css-1rtrksz'])[2]");
     private By btn_Edit = By.xpath("(//SPAN[text()='Edit'][text()='Edit'])[2]");
     //color
-    private By cb_PrimaryColor = By.xpath("(//DIV[@class='colorBlockLarge___1aUen'])[1]");
-    private By cb_SecondaryColor = By.xpath("(//DIV[@class='colorBlockLarge___1aUen'])[2]");
-    private By btn_changeColor = By.xpath("//BUTTON[@type='button'][text()='Change Colors']");
-    private By lbl_heder_color = By.xpath("//H5[@class='modal-title'][text()='Change Outlet Colors']");
-    private By txt_prmaryColor = By.xpath("(//INPUT[@tabindex='0'])[8]");
-    private By txt_secondColor = By.xpath("(//INPUT[@tabindex='0'])[9]");
-
+    private By cb_Primary_Color = By.xpath("(//DIV[@class='colorBlockLarge___1aUen'])[1]");
+    private By cb_Secondary_Color = By.xpath("(//DIV[@class='colorBlockLarge___1aUen'])[2]");
+    private By btn_Change_Color = By.xpath("//BUTTON[@type='button'][text()='Change Colors']");
+    private By lbl_Header_color = By.xpath("//H5[@class='modal-title'][text()='Change Outlet Colors']");
+    private By txt_Primary_Color = By.xpath("(//INPUT[@tabindex='0'])[8]");
+    private By txt_Second_Color = By.xpath("(//INPUT[@tabindex='0'])[9]");
 
 
     public Outlet(WebDriver driver) {
@@ -54,7 +50,6 @@ public class Outlet extends CommonClass {
         this.wait = new WebDriverWait(driver, 30);
         this.driver = driver;
     }
-
 
     public void createOutlet(String outletName, String outletNumber, String street, String zip, String city, String telephone) {
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_View_1))).click();
@@ -64,21 +59,21 @@ public class Outlet extends CommonClass {
         System.out.println("Create Outlet button clicked");
         Assert.assertEquals(getPageName(), "Create an Outlet");
         //Outlet details
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_outletName))).sendKeys(outletName);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_OutletName))).sendKeys(outletName);
         System.out.println("Outlet Name :" + outletName);
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_outletBusinessNumber))).sendKeys(outletNumber);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_OutletBusinessNumber))).sendKeys(outletNumber);
         System.out.println("Outlet business number :" + outletNumber);
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_street))).sendKeys(street);
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_zip))).sendKeys(zip);
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_city))).sendKeys(city);
-        scrollIntoView(driver.findElement(txt_telephone));
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_telephone))).sendKeys(telephone);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_Street))).sendKeys(street);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_Zip))).sendKeys(zip);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_City))).sendKeys(city);
+        scrollIntoView(driver.findElement(txt_Telephone));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_Telephone))).sendKeys(telephone);
         System.out.println("Entered Outlet location - 'Street:' " + street + " 'Zip' : " + zip + " 'City' : " + city + " 'Telephone' : " + telephone + "");
     }
 
     //Opening Hours
     //Have an advanced routine ? Yes
-    public void createOutletRoutineTme() {
+    public void createOutletRoutineTime() {
         //set Open time
         WebElement openTime = driver.findElement(dd_StartTime);
         scrollIntoView(openTime);
@@ -98,8 +93,8 @@ public class Outlet extends CommonClass {
     }
 
     public void colorBox() {
-        WebElement PrimaryColor = driver.findElement(cb_PrimaryColor);
-        WebElement SecondaryColor = driver.findElement(cb_SecondaryColor);
+        WebElement PrimaryColor = driver.findElement(cb_Primary_Color);
+        WebElement SecondaryColor = driver.findElement(cb_Secondary_Color);
         scrollIntoView(PrimaryColor);
         String pcolor = PrimaryColor.getCssValue("background-color");
        // Assert.assertEquals(pcolor, "rgba(29, 61, 145, 1)");
@@ -129,10 +124,10 @@ public class Outlet extends CommonClass {
     }
 
     public void changeColor(String hex_P_color, String rgb_P_color, String hex_S_color, String rgb_S_color){
-        WebElement btn_Change_Color = driver.findElement(btn_changeColor);
+        WebElement btn_Change_Color = driver.findElement(this.btn_Change_Color);
         scrollIntoView(btn_Change_Color);
         wait.until(ExpectedConditions.elementToBeClickable(btn_Change_Color)).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(lbl_heder_color));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(lbl_Header_color));
         System.out.println("Change Outlet Colors - popup opened");
 
         /*Verify default color*/
@@ -141,8 +136,8 @@ public class Outlet extends CommonClass {
         System.out.println("Verify default Primary and Secondary Color");
 
         /*Verify Error messages*/
-        WebElement primary_Change_Color = driver.findElement(txt_prmaryColor);
-        WebElement secondary_Change_Color = driver.findElement(txt_secondColor);
+        WebElement primary_Change_Color = driver.findElement(txt_Primary_Color);
+        WebElement secondary_Change_Color = driver.findElement(txt_Second_Color);
         wait.until(ExpectedConditions.elementToBeClickable(primary_Change_Color)).sendKeys("test");
         wait.until(ExpectedConditions.elementToBeClickable(secondary_Change_Color)).sendKeys("test");
         String getErrorMessageP = driver.findElement(By.xpath("(//LABEL[@class='control-label error-label'][text()='INVALID COLOR'])[1]")).getText();
@@ -160,8 +155,6 @@ public class Outlet extends CommonClass {
         wait.until(ExpectedConditions.elementToBeClickable(secondary_Change_Color)).clear();
         secondary_Change_Color.sendKeys(hex_S_color);
         // verify rgb values
-       // System.out.println("getSelectedPrimaryColor(): "+getSelectedPrimaryColor());
-       // System.out.println("rgb_P_color: "+rgb_P_color);
         Assert.assertTrue(getSelectedPrimaryColor().contains(rgb_P_color));
         Assert.assertTrue(getSelectedSecondaryColor().contains(rgb_S_color));
         //verify preview
@@ -214,20 +207,20 @@ public class Outlet extends CommonClass {
         System.out.println("Edit Outlet button clicked");
         Assert.assertEquals(getPageName(), "Edit an Outlet");
         //Outlet details
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_outletName))).clear();
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_outletName))).sendKeys("edited"+outletName);
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_outletBusinessNumber))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_outletBusinessNumber))).sendKeys(outletNumber);
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_street))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_street))).sendKeys(street);
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_zip))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_zip))).sendKeys(zip);
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_city))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_city))).sendKeys(city);
-        scrollIntoView(driver.findElement(txt_telephone));
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_telephone))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_telephone))).clear();
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_telephone))).sendKeys(telephone);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_OutletName))).clear();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_OutletName))).sendKeys("edited"+outletName);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_OutletBusinessNumber))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_OutletBusinessNumber))).sendKeys(outletNumber);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_Street))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_Street))).sendKeys(street);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_Zip))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_Zip))).sendKeys(zip);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_City))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_City))).sendKeys(city);
+        scrollIntoView(driver.findElement(txt_Telephone));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_Telephone))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_Telephone))).clear();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_Telephone))).sendKeys(telephone);
         System.out.println("Successfully edit the Outlet details");
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_save))).click();
     }
