@@ -1,13 +1,10 @@
 package com.ancon.automation.pages;
 
 import com.ancon.automation.utils.CommonClass;
-import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.openqa.selenium.support.Color;
 
 import java.awt.*;
 
@@ -18,9 +15,6 @@ public class Outlet extends CommonClass {
 
     private WebDriver driver;
     private WebDriverWait wait;
-
-    private ExtentReports extent;
-    private ExtentTest logger;
 
     private By btn_expand = By.xpath("//table/tbody[1]/tr[1]/td[2]/button/i[@class='a_icon-unfold']");
     private By txt_outletNeme = By.xpath("//table/tbody[1]/tr[2]/td[3]/div/span");

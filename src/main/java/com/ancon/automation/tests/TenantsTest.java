@@ -139,7 +139,7 @@ public class TenantsTest {
         /*enter Outlet Details*/
         outlet.createOutlet(outletName, outletBusinessNumber, "street1", "zip2", "city2", "0784596321");
         /*Set Opening Hours*/
-        outlet.createOutletRoutineTme();
+        outlet.createOutletRoutineTime();
         /* change colors*/
         outlet.colorBox("29, 61, 145","249, 89, 25");
         outlet.changeColor("#008000","0, 128, 0","#008","0, 0, 136");
@@ -156,7 +156,7 @@ public class TenantsTest {
     public void editCreatedTenant() {
         tenants.editTenant("Edit a Tenant");
         tenants.tenantDetails(tenantEdit + tenantname, tenantEdit + tenantBusinessNumber);
-        tenants.editTenatAdnim(tenantEdit + tenantEmail, tenantEdit + tenantFirstName, tenantEdit + tenantLastName);
+        tenants.editTenantAdmin(tenantEdit + tenantEmail, tenantEdit + tenantFirstName, tenantEdit + tenantLastName);
     }
 
 
@@ -196,5 +196,12 @@ public class TenantsTest {
         tenantSummary.disableOutletanyway();
         tenantSummary.verifyButtonChangeOutlet();
     }
+
+    @Test(description = "Set a custom opening time for outlet", priority = 13, enabled = true)
+    public void setCustomOutletTime() {
+
+
+    }
+
 
 }
