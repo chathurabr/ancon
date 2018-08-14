@@ -95,7 +95,7 @@ public class LoginTest {
     public void endReport() {
         extent.flush();
         extent.close();
-        driver.close();
+        driver.quit();
     }
 
 }
