@@ -46,6 +46,8 @@ public class Outlet extends CommonClass {
     private By lbl_heder_color = By.xpath("//H5[@class='modal-title'][text()='Change Outlet Colors']");
     private By txt_prmaryColor = By.xpath("(//INPUT[@tabindex='0'])[8]");
     private By txt_secondColor = By.xpath("(//INPUT[@tabindex='0'])[9]");
+    // routing time
+    private By btn_time_yes = By.xpath("(//BUTTON[@type='button'][text()='Yes'][text()='Yes'])[2]");
 
 
 
@@ -77,7 +79,7 @@ public class Outlet extends CommonClass {
     }
 
     //Opening Hours
-    //Have an advanced routine ? Yes
+    //Have an advanced routine ? No
     public void createOutletRoutineTme() {
         //set Open time
         WebElement openTime = driver.findElement(dd_StartTime);
