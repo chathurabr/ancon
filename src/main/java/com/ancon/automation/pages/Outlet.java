@@ -106,6 +106,29 @@ public class Outlet extends CommonClass {
 
     }
 
+    //Opening Hours
+    //Have an advanced routine ? yes
+    public void advancedRoutineTimes() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_time_yes));
+        scrollIntoView(driver.findElement(btn_time_yes));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_time_yes))).click();
+    }
+
+    public void clickOntimebox(int open , int close){
+        for (int i = open; i <= close; i++) {
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//SPAN)["+i+"]")));
+            scrollIntoView(driver.findElement(By.xpath("(//SPAN)["+i+"]")));
+            driver.findElement(By.xpath("(//SPAN)["+i+"]")).click();
+
+      /*      outlet.clickOntimebox(31,44);  // Tue 30 - 53
+            outlet.clickOntimebox(55,74);  // Wed 54 - 77
+            outlet.clickOntimebox(78,95);  // Thu 78 - 101
+            outlet.clickOntimebox(109,121);  // Fri 102 - 125
+            outlet.clickOntimebox(129,148);  // Sat 126 - 149
+            outlet.clickOntimebox(156,167);  // Sun 150 - 173*/
+        }
+    }
+
     public void colorBox(String pColor, String sColor) {
         WebElement PrimaryColor = driver.findElement(cb_PrimaryColor);
         WebElement SecondaryColor = driver.findElement(cb_SecondaryColor);

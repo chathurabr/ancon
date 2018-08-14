@@ -144,6 +144,10 @@ public class TenantsTest {
         outlet.colorBox("29, 61, 145","249, 89, 25");
         outlet.changeColor("#008000","0, 128, 0","#008","0, 0, 136");
         outlet.colorBox("0, 128, 0","0, 0, 136");
+        /* set advanced Routine Times*/
+        outlet.advancedRoutineTimes();
+        outlet.clickOntimebox(7,20);  // mon 6 - 29
+        /*save*/
         outlet.saveCreateOutlet();
     }
 
