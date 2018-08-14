@@ -7,6 +7,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.awt.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by chathura on 07/08/2018.
@@ -47,7 +49,6 @@ public class Outlet extends CommonClass {
 
 
 
-
     public Outlet(WebDriver driver) {
         super(driver);
         this.wait = new WebDriverWait(driver, 30);
@@ -77,7 +78,7 @@ public class Outlet extends CommonClass {
 
     //Opening Hours
     //Have an advanced routine ? No
-    public void createOutletRoutineTme() {
+    public void nonAdvancedRoutineTime() {
         //set Open time
         WebElement openTime = driver.findElement(dd_StartTime);
         scrollIntoView(openTime);

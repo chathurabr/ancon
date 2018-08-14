@@ -139,7 +139,7 @@ public class TenantsTest {
         /*enter Outlet Details*/
         outlet.createOutlet(outletName, outletBusinessNumber, "street1", "zip2", "city2", "0784596321");
         /*Set Opening Hours*/
-        outlet.createOutletRoutineTime();
+        outlet.nonAdvancedRoutineTime();
         /* change colors*/
         outlet.colorBox("29, 61, 145","249, 89, 25");
         outlet.changeColor("#008000","0, 128, 0","#008","0, 0, 136");
