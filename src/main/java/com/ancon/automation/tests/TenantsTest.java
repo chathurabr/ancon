@@ -131,7 +131,7 @@ public class TenantsTest {
 
     @Test(description = "Verify Created tenant Details in summary page", priority = 3, enabled = true)
     public void verifyCreatedTenant() {
-        tenantSummary.verifyTenantDetails(tenantName);
+        tenantSummary.verifyTenantDetails(tenantName,"0");
     }
 
     @Test(description = "Create new Outlet", priority = 4, enabled = true)
@@ -142,7 +142,7 @@ public class TenantsTest {
         outlet.createOutletRoutineTime();
         /* change colors*/
         outlet.colorBox();
-       // outlet.changeColor("#ab1191","171, 17, 145","#1919c2","25, 25, 194");
+        outlet.changeColor("#ab1191","171, 17, 145","#1919c2","25, 25, 194");
         outlet.saveCreateOutlet();
     }
 
@@ -161,7 +161,7 @@ public class TenantsTest {
 
     @Test(description = "Verify Created tenant Details in summary page", priority = 7, enabled = true)
     public void verifyEditedTenant() {
-        tenantSummary.verifyTenantDetails(tenantEdit + tenantName);
+        tenantSummary.verifyTenantDetails(tenantEdit + tenantName,"1");
     }
 
     @Test(description = "Edit Created Outlet details", priority = 8, enabled = true)

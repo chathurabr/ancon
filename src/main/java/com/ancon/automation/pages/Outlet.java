@@ -42,6 +42,7 @@ public class Outlet extends CommonClass {
     private By time_Selection_Table = By.xpath("//table[contains(@class,'table-drag-select')]");
     private By source1 = By.xpath("//tbody//tr[2]//td[10]");
     private By destination1 = By.xpath("//tbody//tr[2]//td[14]");
+
     //color
     private By cb_Primary_Color = By.xpath("(//DIV[@class='colorBlockLarge___1aUen'])[1]");
     private By cb_Secondary_Color = By.xpath("(//DIV[@class='colorBlockLarge___1aUen'])[2]");
@@ -104,11 +105,11 @@ public class Outlet extends CommonClass {
         WebElement SecondaryColor = driver.findElement(cb_Secondary_Color);
         scrollIntoView(PrimaryColor);
         String pcolor = PrimaryColor.getCssValue("background-color");
-        // Assert.assertEquals(pcolor, "rgba(29, 61, 145, 1)");
+       // Assert.assertEquals(pcolor, "rgba(29, 61, 145, 1)");
         Assert.assertTrue(pcolor.contains("(29, 61, 145"));
         System.out.println("Verify default Primary Color");
         String scolor = SecondaryColor.getCssValue("background-color");
-        // Assert.assertEquals(scolor, "rgba(249, 89, 25, 1)");
+       // Assert.assertEquals(scolor, "rgba(249, 89, 25, 1)");
         Assert.assertTrue(scolor.contains("(249, 89, 25"));
         System.out.println("Verify default Secondary Color");
 
@@ -126,12 +127,12 @@ public class Outlet extends CommonClass {
 
     public Color hex2Rgb(String colorStr) {
         return new Color(
-                Integer.valueOf(colorStr.substring(1, 3), 16),
-                Integer.valueOf(colorStr.substring(3, 5), 16),
-                Integer.valueOf(colorStr.substring(5, 7), 16));
+                Integer.valueOf( colorStr.substring( 1, 3 ), 16 ),
+                Integer.valueOf( colorStr.substring( 3, 5 ), 16 ),
+                Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
     }
 
-    public void changeColor(String hex_P_color, String rgb_P_color, String hex_S_color, String rgb_S_color) {
+    public void changeColor(String hex_P_color, String rgb_P_color, String hex_S_color, String rgb_S_color){
         WebElement btn_Change_Color = driver.findElement(this.btn_Change_Color);
         scrollIntoView(btn_Change_Color);
         wait.until(ExpectedConditions.elementToBeClickable(btn_Change_Color)).click();
