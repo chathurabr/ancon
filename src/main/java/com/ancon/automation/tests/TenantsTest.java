@@ -35,7 +35,7 @@ public class TenantsTest {
 
     private String email;
     private String password;
-    private String tenantname;
+    private String tenantName;
     private String tenantBusinessNumber;
     private String tenantEmail;
     private String tenantFirstName;
@@ -73,7 +73,7 @@ public class TenantsTest {
         email = properties.getProperty("email");
         password = properties.getProperty("password");
         //Tenant Details
-        tenantname = properties.getProperty("tenantname");
+        tenantName = properties.getProperty("tenantname");
         tenantBusinessNumber = properties.getProperty("tenantBusinessNumber");
         tenantEmail = properties.getProperty("tenantEmail");
         tenantFirstName = properties.getProperty("tenantFirstName");
@@ -125,13 +125,13 @@ public class TenantsTest {
         tenants.verifyPageElements();
         tenants.createNewTenant("Create a Tenant");
         tenants.verifyTenantErrorMessages();
-        tenants.tenantDetails(tenantname, tenantBusinessNumber);
+        tenants.tenantDetails(tenantName, tenantBusinessNumber);
         tenants.tenantAdminDetails(tenantEmail, tenantFirstName, tenantLastName);
     }
 
     @Test(description = "Verify Created tenant Details in summary page", priority = 3, enabled = true)
     public void verifyCreatedTenant() {
-        tenantSummary.verifyTenantDetails(tenantname);
+        tenantSummary.verifyTenantDetails(tenantName);
     }
 
     @Test(description = "Create new Outlet", priority = 4, enabled = true)
@@ -142,7 +142,7 @@ public class TenantsTest {
         outlet.createOutletRoutineTime();
         /* change colors*/
         outlet.colorBox();
-        outlet.changeColor("#ab1191","171, 17, 145","#1919c2","25, 25, 194");
+       // outlet.changeColor("#ab1191","171, 17, 145","#1919c2","25, 25, 194");
         outlet.saveCreateOutlet();
     }
 
@@ -154,14 +154,14 @@ public class TenantsTest {
     @Test(description = "Edit Created Tenant details", priority = 6, enabled = true)
     public void editCreatedTenant() {
         tenants.editTenant("Edit a Tenant");
-        tenants.tenantDetails(tenantEdit + tenantname, tenantEdit + tenantBusinessNumber);
+        tenants.tenantDetails(tenantEdit + tenantName, tenantEdit + tenantBusinessNumber);
         tenants.editTenantAdmin(tenantEdit + tenantEmail, tenantEdit + tenantFirstName, tenantEdit + tenantLastName);
     }
 
 
     @Test(description = "Verify Created tenant Details in summary page", priority = 7, enabled = true)
     public void verifyEditedTenant() {
-        tenantSummary.verifyTenantDetails(tenantEdit + tenantname);
+        tenantSummary.verifyTenantDetails(tenantEdit + tenantName);
     }
 
     @Test(description = "Edit Created Outlet details", priority = 8, enabled = true)
@@ -185,22 +185,24 @@ public class TenantsTest {
         tenantSummary.verifyButtonChangeTenant();
     }
 
-    @Test(description = "Disable anyway Outlet", priority = 12, enabled = true)
+    @Test(description = "Set a custom opening time for outlet", priority = 12, enabled = true)
+    public void setCustomOutletTime() {
+        outlet.selectSingleOpeningTime(outletName);
+
+    }
+
+    @Test(description = "Disable anyway Outlet", priority = 13, enabled = true)
     public void disabledOutletCancel() {
         tenantSummary.disableOutletCancel();
     }
 
-    @Test(description = "Disable anyway Outlet", priority = 13, enabled = true)
+    @Test(description = "Disable anyway Outlet", priority = 14, enabled = true)
     public void disabledOutletAnyway() {
         tenantSummary.disableOutletanyway();
         tenantSummary.verifyButtonChangeOutlet();
     }
 
-    @Test(description = "Set a custom opening time for outlet", priority = 13, enabled = true)
-    public void setCustomOutletTime() {
 
-
-    }
 
 
 }

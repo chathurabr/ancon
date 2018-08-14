@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -37,6 +38,10 @@ public class Outlet extends CommonClass {
     private By dd_StartTime = By.xpath("(//DIV[@class='css-1rtrksz'])[1]");
     private By dd_CloseTime = By.xpath("(//DIV[@class='css-1rtrksz'])[2]");
     private By btn_Edit = By.xpath("(//SPAN[text()='Edit'][text()='Edit'])[2]");
+    private By advanced_Routine_Button = By.xpath("//div[contains(@class,'col-md-6')]//button[contains(@type,'button')][contains(text(),'Yes')]");
+    private By time_Selection_Table = By.xpath("//table[contains(@class,'table-drag-select')]");
+    private By source1 = By.xpath("//tbody//tr[2]//td[10]");
+    private By destination1 = By.xpath("//tbody//tr[2]//td[14]");
     //color
     private By cb_Primary_Color = By.xpath("(//DIV[@class='colorBlockLarge___1aUen'])[1]");
     private By cb_Secondary_Color = By.xpath("(//DIV[@class='colorBlockLarge___1aUen'])[2]");
@@ -99,33 +104,34 @@ public class Outlet extends CommonClass {
         WebElement SecondaryColor = driver.findElement(cb_Secondary_Color);
         scrollIntoView(PrimaryColor);
         String pcolor = PrimaryColor.getCssValue("background-color");
-       // Assert.assertEquals(pcolor, "rgba(29, 61, 145, 1)");
+        // Assert.assertEquals(pcolor, "rgba(29, 61, 145, 1)");
         Assert.assertTrue(pcolor.contains("(29, 61, 145"));
         System.out.println("Verify default Primary Color");
         String scolor = SecondaryColor.getCssValue("background-color");
-       // Assert.assertEquals(scolor, "rgba(249, 89, 25, 1)");
+        // Assert.assertEquals(scolor, "rgba(249, 89, 25, 1)");
         Assert.assertTrue(scolor.contains("(249, 89, 25"));
         System.out.println("Verify default Secondary Color");
 
     }
 
     //Get selected Primary Color
-    public String getSelectedPrimaryColor(){
+    public String getSelectedPrimaryColor() {
         return driver.findElement(By.xpath("(//BUTTON[@tabindex='-1'])[11]")).getCssValue("background-color");
     }
+
     //Get selected Secondary Color
-    public String getSelectedSecondaryColor(){
+    public String getSelectedSecondaryColor() {
         return driver.findElement(By.xpath("(//BUTTON[@tabindex='-1'])[13]")).getCssValue("background-color");
     }
 
     public Color hex2Rgb(String colorStr) {
         return new Color(
-                Integer.valueOf( colorStr.substring( 1, 3 ), 16 ),
-                Integer.valueOf( colorStr.substring( 3, 5 ), 16 ),
-                Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
+                Integer.valueOf(colorStr.substring(1, 3), 16),
+                Integer.valueOf(colorStr.substring(3, 5), 16),
+                Integer.valueOf(colorStr.substring(5, 7), 16));
     }
 
-    public void changeColor(String hex_P_color, String rgb_P_color, String hex_S_color, String rgb_S_color){
+    public void changeColor(String hex_P_color, String rgb_P_color, String hex_S_color, String rgb_S_color) {
         WebElement btn_Change_Color = driver.findElement(this.btn_Change_Color);
         scrollIntoView(btn_Change_Color);
         wait.until(ExpectedConditions.elementToBeClickable(btn_Change_Color)).click();
@@ -146,8 +152,8 @@ public class Outlet extends CommonClass {
         String getErrorMessageS = driver.findElement(By.xpath("(//LABEL[@class='control-label error-label'][text()='INVALID COLOR'])[2]")).getText();
         Assert.assertTrue(getSelectedPrimaryColor().contains("247, 247, 250"));
         Assert.assertTrue(getSelectedSecondaryColor().contains("247, 247, 250"));
-        Assert.assertEquals(getErrorMessageP,"INVALID COLOR");
-        Assert.assertEquals(getErrorMessageS,"INVALID COLOR");
+        Assert.assertEquals(getErrorMessageP, "INVALID COLOR");
+        Assert.assertEquals(getErrorMessageS, "INVALID COLOR");
         System.out.println("'INVALID COLOR' Error message is appearing for PRIMARY and SECONDARY COLOR");
 
         /*Verify Selected Color*/
@@ -173,7 +179,7 @@ public class Outlet extends CommonClass {
         System.out.println("preview_button_color_back:" + preview_button_color_back);
         System.out.println("preview_button_color_discard:" + preview_button_color_discard);
         System.out.println("preview_button_color_save:" + preview_button_color_save);
-        System.out.println("rgb_P_color"+rgb_P_color);
+        System.out.println("rgb_P_color" + rgb_P_color);
 
         Assert.assertTrue(preview_button_color_discard.contains(rgb_P_color));
         Assert.assertTrue(preview_button_color_back.contains(rgb_P_color));
@@ -203,29 +209,58 @@ public class Outlet extends CommonClass {
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
         scrollIntoView(driver.findElement(btn_expand));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//SPAN[text()='"+outletName+"']")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//SPAN[text()='" + outletName + "']")));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table/tbody[1]/tr[2]/td[7]")));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Edit))).click();
         System.out.println("Edit Outlet button clicked");
         Assert.assertEquals(getPageName(), "Edit an Outlet");
         //Outlet details
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_OutletName))).clear();
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_OutletName))).sendKeys("edited"+outletName);
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_OutletBusinessNumber))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_OutletName))).sendKeys("edited" + outletName);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_OutletBusinessNumber))).sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_OutletBusinessNumber))).sendKeys(outletNumber);
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_Street))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_Street))).sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_Street))).sendKeys(street);
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_Zip))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_Zip))).sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_Zip))).sendKeys(zip);
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_City))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_City))).sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_City))).sendKeys(city);
         scrollIntoView(driver.findElement(txt_Telephone));
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_Telephone))).sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_Telephone))).sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_Telephone))).clear();
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_Telephone))).sendKeys(telephone);
         System.out.println("Successfully edit the Outlet details");
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_save))).click();
     }
 
+    public void selectAdvancedRoutine() {
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(advanced_Routine_Button))).click();
+    }
+
+    public void selectSingleOpeningTime(String outletName) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+        scrollIntoView(driver.findElement(btn_expand));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//td[@class='btn-td']//a[2]//button[1]")))).click();
+        Assert.assertEquals(getPageName(), "Edit an Outlet");
+        scrollIntoView(driver.findElement(advanced_Routine_Button));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(advanced_Routine_Button))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(time_Selection_Table));
+        WebElement element1 = driver.findElement(source1);
+        WebElement target1 = driver.findElement(destination1);
+        (new Actions(driver)).dragAndDrop(element1, target1).perform();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_save))).click();
+    /*    wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+        scrollIntoView(driver.findElement(btn_expand));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table/tbody[1]/tr[2]/td[7]")));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//td[@class='btn-td']//a[1]//button[1]")))).click();
+        System.out.println("View Outlet button clicked");
+        Assert.assertEquals(getPageName(), "Outlet Details");
+        WebElement timeView = driver.findElement(By.xpath("//div[contains(@class,'tag___1sqlq')]/span"));
+        scrollIntoView(timeView);
+        String openingTime = timeView.getText();
+        Assert.assertEquals(openingTime,"Everyday Opens at 12:00 - 16:00 hours");*/
+
+    }
 
 }
