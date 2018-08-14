@@ -10,7 +10,9 @@ import com.ancon.automation.utils.DriverFactory;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
@@ -185,15 +187,34 @@ public class TenantsTest {
         tenantSummary.verifyButtonChangeTenant();
     }
 
-    @Test(description = "Disable anyway Outlet", priority = 12, enabled = true)
+    @Test(description = "Disable Outlet Cancel", priority = 12, enabled = true)
     public void disabledOutletCancel() {
         tenantSummary.disableOutletCancel();
     }
 
-    @Test(description = "Disable anyway Outlet", priority = 13, enabled = true)
+    @Test(description = "Disable Outlet", priority = 13, enabled = true)
     public void disabledOutletAnyway() {
         tenantSummary.disableOutletanyway();
         tenantSummary.verifyButtonChangeOutlet();
     }
+    @Test(description = "Delete Outlet Cancel", priority = 14, enabled = true)
+    public void cancelDeleteOutlet() {
+        tenantSummary.deleteOutletCancel();
+    }
 
+    @Test(description = "Delete Outlet", priority = 15, enabled = true)
+    public void deleteOutlet() {
+        tenantSummary.deleteOutlet();
+    }
+    @Test(description = "Delete Tenant Cancel", priority = 16, enabled = true)
+    public void cancelDeleteTenant() {
+        tenantSummary.deleteTenantCancel();
+        tenantSummary.verifyOutletDelete();
+    }
+
+    @Test(description = "Delete Tenant", priority = 17, enabled = true)
+    public void deleteTenant() {
+        tenantSummary.deleteTenant();
+        tenantSummary.verifyTenantDelete();
+    }
 }

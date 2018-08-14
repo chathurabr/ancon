@@ -1,10 +1,7 @@
 package com.ancon.automation.pages;
 
 import com.ancon.automation.utils.CommonClass;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -32,7 +29,7 @@ public class TenantSummary extends CommonClass {
 
 
     //Tenant_home_button
-    private By btn_View_1 = By.xpath("//table/tbody[1]/tr/td[7]/a[1]/button/span[contains(text(),'View')]");
+    private By btn_View_1 = By.xpath("//html/body/div/div/div/div/div[2]/div/div/div/div/div[2]/div[1]/div[1]/div/table/tbody[1]/tr/td[7]/a[1]/button");
     private By btn_View_2 = By.xpath("//table/tbody[1]/tr[@class'inner']/td[7]/a[1]/button/span[contains(text(),'View')]");
     private By btn_Edit_1 = By.xpath("//table/tbody[1]/tr/td[7]/a[2]/button/span[contains(text(),'Edit')]");
     private By btn_Edit_2 = By.xpath("//table/tbody[1]/tr[@class'inner']/td[7]/a[2]/button/span[contains(text(),'Edit')]");
@@ -46,7 +43,9 @@ public class TenantSummary extends CommonClass {
     //Disable popup
     private By btn_Cancel_1 = By.xpath("//button[contains(text(),'Cancel')]");
     private By btn_Disableanyway_1 = By.xpath("//div[@class='modal-content']/div[3]/button[contains(text(),'Disable Anyway')]");
-
+    //Delete Popup
+    private By btn_No = By.xpath("//button[contains(text(),'No')]");
+    private By btn_Yes = By.xpath("//button[contains(text(),'Yes')]");
 
     WebElement searchField;
     WebElement searchButton;
@@ -123,7 +122,7 @@ public class TenantSummary extends CommonClass {
     public String getOutletname() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
         scrollIntoView(driver.findElement(btn_expand));
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
+        //wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
         WebElement outletNameElement = driver.findElement(By.xpath("//table/tbody[1]/tr[2]/td[3]/div/span"));
         return outletNameElement.getText();
     }
@@ -169,27 +168,48 @@ public class TenantSummary extends CommonClass {
     }
 
     public void disableOutletCancel() {
-        scrollIntoView(driver.findElement(By.xpath("//html/body/div/div/div/div/div[2]/div/div/div/div/div[1]/h1")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+        scrollIntoView(driver.findElement(btn_expand));
+        try {
+            WebElement outletNameElement = driver.findElement(By.xpath("//table/tbody[1]/tr[2]/td[3]/div/span"));
+
+        } catch (NoSuchElementException e) {
+            // e.printStackTrace();
+            wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
+        }
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Disable_2))).click();
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Cancel_1))).click();
-        System.out.println("Cancel popup Successfully");
+        if (getHeadername().toLowerCase().contains(getOutletname().toLowerCase())) {
+            wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Cancel_1))).click();
+            System.out.println("Cancel Disable popup Successfully");
+        }
+        //System.out.println("Invalid Popup");
     }
 
     public void disableOutletanyway() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
         scrollIntoView(driver.findElement(btn_expand));
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Disable_2))).click();
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Disableanyway_1))).click();
-        System.out.println("Disable Outlet Successfully");
+        try {
+            WebElement outletNameElement = driver.findElement(By.xpath("//table/tbody[1]/tr[2]/td[3]/div/span"));
+
+        } catch (NoSuchElementException e) {
+           // e.printStackTrace();
+            wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
+        }
+           wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Disable_2))).click();
+        if (getHeadername().toLowerCase().contains(getOutletname().toLowerCase())) {
+            wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Disableanyway_1))).click();
+            System.out.println("Disable Outlet Successfully");
+        }
+        //System.out.println("Invalid Popup");
     }
 
     public void verifyButtonChangeOutlet() {
-        WebElement btn_enable_1 = driver.findElement(btn_Enable_2);
-        Assert.assertTrue(btn_enable_1.isDisplayed());
+        WebElement btn_enable_2 = driver.findElement(btn_Enable_2);
+        Assert.assertTrue(btn_enable_2.isDisplayed());
         System.out.println("Enable button is available");
         //verify Outlet enable button available
-        WebElement btn_delete_1 = driver.findElement(btn_Delete_2);
-        Assert.assertTrue(btn_delete_1.isDisplayed());
+        WebElement btn_delete_2 = driver.findElement(btn_Delete_2);
+        Assert.assertTrue(btn_delete_2.isDisplayed());
         System.out.println("Delete button is available");
     }
 
@@ -243,5 +263,45 @@ public class TenantSummary extends CommonClass {
         WebElement btn_desable = driver.findElement(btn_Disable_1);
         Assert.assertTrue(btn_desable.isDisplayed());
         System.out.println("View,Edit and Disable buttons are available");
+    }
+    public void deleteOutletCancel() {
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Delete_2))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_No))).click();
+        System.out.println("Canceled delete Outlet popup Successfully");
+    }
+
+    public void deleteOutlet() {
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Delete_2))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Yes))).click();
+        System.out.println("Delete Outlet Successfully");
+    }
+    public void deleteTenantCancel() {
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Delete_1))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_No))).click();
+        System.out.println("Cancelled Delete Tenant popup Successfully");
+    }
+    public void deleteTenant() {
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Delete_1))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Yes))).click();
+        System.out.println("Delete Tenant Successfully");
+    }
+    public void verifyOutletDelete(){
+        try {
+            WebElement outletNameElement = driver.findElement(By.xpath("//table/tbody[1]/tr[2]/td[3]/div/span"));
+
+        } catch (NoSuchElementException e) {
+            // e.printStackTrace();
+            System.out.println("Delete Outlet Successfully");
+        }
+    }
+    public void verifyTenantDelete(){
+        try {
+            WebElement TenantLastnameElement = driver.findElement(By.xpath("//table/tbody[1]/tr[1]/td[3]/div/span"));
+
+        } catch (NoSuchElementException e) {
+            // e.printStackTrace();
+            System.out.println("Delete Tenant Successfully");
+
+        }
     }
 }

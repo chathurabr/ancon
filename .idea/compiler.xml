@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ancon" />
         <module name="Ancon" />
+        <module name="ancon_latest" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

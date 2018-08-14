@@ -38,7 +38,7 @@ public class Tenants extends CommonClass {
     private By input_search = By.xpath("//input[@placeholder='Search Tenants or Outlets']");
     private By txt_OrderNumber = By.xpath("//td[@class='id-td id-content___3cuQ3'][text()='001']");
 
-    private By btn_View_1 = By.xpath("//table/tbody[1]/tr/td[7]/a[1]/button/span[contains(text(),'View')]");
+    private By btn_View_1 = By.xpath("//html/body/div/div/div/div/div[2]/div/div/div/div/div[2]/div[1]/div[1]/div/table/tbody[1]/tr/td[7]/a[1]/button");
     private By btn_Edit_1 = By.xpath("(//SPAN[text()='Edit'])[1]");
     private By btn_Disable_1 = By.xpath("//tbody[1]/tr/td[7]/button/span[contains(text(),'Disable')]");
     private By lbl_Error_Name = By.xpath("//form/div[1]/fieldset/div/div[1]/div[1]/label");
