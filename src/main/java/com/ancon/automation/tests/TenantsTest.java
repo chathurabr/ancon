@@ -107,7 +107,7 @@ public class TenantsTest {
     public void endReport() {
         extent.flush();
         extent.close();
-        //    driver.close();
+        //driver.close();
     }
 
     @Test(description = "login to the system with valid  Email and Password")
