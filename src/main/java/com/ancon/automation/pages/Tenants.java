@@ -62,7 +62,7 @@ public class Tenants extends CommonClass {
     }
 
     public void createNewTenant(String hederName) {
-       // sleepTime(2000);
+        sleepTime(1000);
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_CreateNew));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_CreateNew))).click();
         Assert.assertEquals(getPageName(), hederName);

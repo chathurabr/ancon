@@ -20,6 +20,7 @@ public class Outlet extends CommonClass {
     private WebDriverWait wait;
 
     private By btn_expand = By.xpath("//table/tbody[1]/tr[1]/td[2]/button/i[@class='a_icon-unfold']");
+    private By txt_outletNeme = By.xpath("//table/tbody[1]/tr[2]/td[3]/div/span");
     private By btn_View_1 = By.xpath("(//SPAN[text()='View'])[1]");
     private By btn_save = By.xpath("//button[contains(text(),'Save')]");
     private By btn_CreateNew = By.xpath("//button[contains(text(),'Create New')]");
@@ -50,6 +51,7 @@ public class Outlet extends CommonClass {
         this.wait = new WebDriverWait(driver, 30);
         this.driver = driver;
     }
+
 
     public void createOutlet(String outletName, String outletNumber, String street, String zip, String city, String telephone) {
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_View_1))).click();
