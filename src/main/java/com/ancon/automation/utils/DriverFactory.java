@@ -28,7 +28,7 @@ public class DriverFactory {
         // get data from property file
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream(filePath + CommonClass.path+"utils\\Base.properties"));
+            properties.load(new FileInputStream(".//Base.properties"));
             url= properties.getProperty("URL");
             browser =  properties.getProperty("browser");
         } catch (IOException e) {

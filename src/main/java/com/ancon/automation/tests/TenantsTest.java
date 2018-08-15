@@ -54,7 +54,7 @@ public class TenantsTest {
                 .addSystemInfo("Host Name", "Ancon")
                 .addSystemInfo("Environment", "Ancon Automation Testing")
                 .addSystemInfo("User Name", "Chathura");
-        extent.loadConfig(new File(System.getProperty("user.dir") + CommonClass.path + "utils\\extent-config.xml"));
+       // extent.loadConfig(new File(System.getProperty("user.dir") + CommonClass.path + "utils\\extent-config.xml"));
     }
 
     @BeforeClass
@@ -69,7 +69,7 @@ public class TenantsTest {
         // get data from property file
         Properties properties = new Properties();
         String filePath = System.getProperty("user.dir");
-        properties.load(new FileInputStream(filePath + CommonClass.path + "\\utils\\Base.properties"));
+        properties.load(new FileInputStream(".\\Base.properties"));
         email = properties.getProperty("email");
         password = properties.getProperty("password");
         //Tenant Details
