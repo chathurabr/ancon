@@ -14,11 +14,11 @@
         </classes>
     </test>-->
 
-    <!--<test name="Tenants Test">-->
-        <!--<classes>-->
-            <!--<class name="com.ancon.automation.tests.TenantsTest"/>-->
-        <!--</classes>-->
-    <!--</test>-->
+    <test name="Tenants Test">
+        <classes>
+            <class name="com.ancon.automation.tests.TenantsTest"/>
+        </classes>
+    </test>
 
     <!--<test name="Tenants Search Test">
         <classes>
