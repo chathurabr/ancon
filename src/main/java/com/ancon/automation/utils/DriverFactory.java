@@ -48,9 +48,9 @@ public class DriverFactory {
         else if(browser.equalsIgnoreCase("chrome")){
             //set path to chromedriver.exe
             System.setProperty("webdriver.chrome.driver", filePath + CommonClass.path+"webDriver\\chromedriver.exe");
-            ChromeOptions options = new ChromeOptions();
-            DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-            capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+         //   ChromeOptions options = new ChromeOptions();
+          //  DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+         //   capabilities.setCapability(ChromeOptions.CAPABILITY, options);
             driver = new ChromeDriver();
             System.out.println("Chrome Browser Opened");
         }
