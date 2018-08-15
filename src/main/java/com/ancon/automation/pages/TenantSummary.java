@@ -50,6 +50,9 @@ public class TenantSummary extends CommonClass {
     WebElement searchField;
     WebElement searchButton;
 
+    private String tenatName;
+    private String outletName;
+
     public TenantSummary(WebDriver driver) {
         super(driver);
         this.wait = new WebDriverWait(driver, 30);
@@ -115,8 +118,8 @@ public class TenantSummary extends CommonClass {
     }
 
     public String getTenantName() {
-        WebElement TenantLastnameElement = driver.findElement(By.xpath("//table/tbody[1]/tr[1]/td[3]/div/span"));
-        return TenantLastnameElement.getText();
+        WebElement tenantNameElement = driver.findElement(By.xpath("//html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[3]/div[1]/span[1]"));
+        return tenantNameElement.getText();
     }
 
     public String getOutletname() {
@@ -128,8 +131,8 @@ public class TenantSummary extends CommonClass {
     }
 
     public String getHeadername() {
-        WebElement HeadernameElement = driver.findElement(By.xpath("//div[@class='modal-content']/div[1]/h5"));
-        return HeadernameElement.getText();
+        WebElement headerNameElement = driver.findElement(By.xpath("//div[@class='modal-content']/div[1]/h5"));
+        return headerNameElement.getText();
     }
 
     public void disableTenantCancel() {
@@ -158,8 +161,8 @@ public class TenantSummary extends CommonClass {
 
     public void verifyButtonChangeTenant() {
         //verify Tenant Disable button available
-        WebElement btn_enable = driver.findElement(btn_Enable_1);
-        Assert.assertTrue(btn_enable.isDisplayed());
+        WebElement btn_enable_1 = driver.findElement(btn_Enable_1);
+        Assert.assertTrue(btn_enable_1.isDisplayed());
         System.out.println("Enable button is available");
         //verify Tenant enable button available
         WebElement btn_delete = driver.findElement(btn_Delete_1);
@@ -182,7 +185,6 @@ public class TenantSummary extends CommonClass {
             wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Cancel_1))).click();
             System.out.println("Cancel Disable popup Successfully");
         }
-        //System.out.println("Invalid Popup");
     }
 
     public void disableOutletanyway() {
@@ -200,7 +202,6 @@ public class TenantSummary extends CommonClass {
             wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Disableanyway_1))).click();
             System.out.println("Disable Outlet Successfully");
         }
-        //System.out.println("Invalid Popup");
     }
 
     public void verifyButtonChangeOutlet() {
@@ -271,6 +272,7 @@ public class TenantSummary extends CommonClass {
     }
 
     public void deleteOutlet() {
+        outletName = getOutletname();
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Delete_2))).click();
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Yes))).click();
         System.out.println("Delete Outlet Successfully");
@@ -281,26 +283,27 @@ public class TenantSummary extends CommonClass {
         System.out.println("Cancelled Delete Tenant popup Successfully");
     }
     public void deleteTenant() {
+        tenatName = getTenantName();
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Delete_1))).click();
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Yes))).click();
         System.out.println("Delete Tenant Successfully");
     }
     public void verifyOutletDelete(){
         try {
-            WebElement outletNameElement = driver.findElement(By.xpath("//table/tbody[1]/tr[2]/td[3]/div/span"));
-
+            WebElement outletNameElement = driver.findElement(By.xpath("//table/tbody[1]/tr[2]/td[3]/div/span[text()='" + outletName + "']"));
+            System.out.println("Delete Outlet Unsuccessfully");
         } catch (NoSuchElementException e) {
             // e.printStackTrace();
-            System.out.println("Delete Outlet Successfully");
+            System.out.println("Outlet Deleted Successfully");
         }
     }
     public void verifyTenantDelete(){
         try {
-            WebElement TenantLastnameElement = driver.findElement(By.xpath("//table/tbody[1]/tr[1]/td[3]/div/span"));
-
+            WebElement tenantNameElement = driver.findElement(By.xpath("//table/tbody[1]/tr[1]/td[3]/div/span[text()='" + tenatName + "']"));
+            System.out.println("Delete Tenant Unsuccessfully");
         } catch (NoSuchElementException e) {
             // e.printStackTrace();
-            System.out.println("Delete Tenant Successfully");
+            System.out.println("Tenant Deleted Successfully");
 
         }
     }
