@@ -239,9 +239,11 @@ public class Outlet extends CommonClass {
     }
 
     public void editCreatedOutlet(String outletName, String outletNumber, String street, String zip, String city, String telephone) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+/*        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
         scrollIntoView(driver.findElement(btn_expand));
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();*/
+        buttonExpand();
+
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//SPAN[text()='"+outletName+"']")));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table/tbody[1]/tr[2]/td[7]")));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Edit))).click();
@@ -271,8 +273,9 @@ public class Outlet extends CommonClass {
     }
 
     public void selectSingleOpeningTime(String outletName) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
-        scrollIntoView(driver.findElement(btn_expand));
+        /*wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+        scrollIntoView(driver.findElement(btn_expand));*/
+        buttonExpand();
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//td[@class='btn-td']//a[2]//button[1]")))).click();
         Assert.assertEquals(getPageName(), "Edit an Outlet");
         scrollIntoView(driver.findElement(advanced_Routine_Button));

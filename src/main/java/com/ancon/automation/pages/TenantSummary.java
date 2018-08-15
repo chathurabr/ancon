@@ -1,10 +1,7 @@
 package com.ancon.automation.pages;
 
 import com.ancon.automation.utils.CommonClass;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -121,9 +118,10 @@ public class TenantSummary extends CommonClass {
     }
 
     public String getOutletname() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+/*        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
         scrollIntoView(driver.findElement(btn_expand));
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();*/
+        buttonExpand();
         WebElement outletNameElement = driver.findElement(By.xpath("//table/tbody[1]/tr[2]/td[3]/div/span"));
         return outletNameElement.getText();
     }
@@ -195,9 +193,10 @@ public class TenantSummary extends CommonClass {
 
     // Verify outlet details in summary page
     public void verifyOutlet(String OutletName1) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+    /*    wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
         scrollIntoView(driver.findElement(btn_expand));
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();*/
+        buttonExpand();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//SPAN[text()='" + OutletName1 + "']")));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table/tbody[1]/tr[2]/td[7]")));
         String Outletname = driver.findElement(txt_outletNeme).getText();
@@ -248,4 +247,6 @@ public class TenantSummary extends CommonClass {
         Assert.assertTrue(btn_desable.isDisplayed());
         System.out.println("View,Edit and Disable buttons are available");
     }
+
+
 }

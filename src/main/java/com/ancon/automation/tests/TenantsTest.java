@@ -190,18 +190,18 @@ public class TenantsTest {
         tenantSummary.verifyButtonChangeTenant();
     }
 
-    @Test(description = "Set a custom opening time for outlet", priority = 12, enabled = true)
+    @Test(description = "Set a custom opening time for outlet", priority = 12, enabled = false)
     public void setCustomOutletTime() {
         outlet.selectSingleOpeningTime(outletName);
 
     }
 
-    @Test(description = "Disable anyway Outlet", priority = 13, enabled = true)
+    @Test(description = "Disable anyway Outlet", priority = 13, enabled = false)
     public void disabledOutletCancel() {
         tenantSummary.disableOutletCancel();
     }
 
-    @Test(description = "Disable anyway Outlet", priority = 14, enabled = true)
+    @Test(description = "Disable anyway Outlet", priority = 14, enabled = false)
     public void disabledOutletAnyway() {
         tenantSummary.disableOutletanyway();
         tenantSummary.verifyButtonChangeOutlet();
