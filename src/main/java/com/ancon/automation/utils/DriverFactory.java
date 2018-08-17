@@ -29,7 +29,7 @@ public class DriverFactory {
         // get data from property file
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream(".//Base.properties"));
+            properties.load(new FileInputStream("Base.properties"));
             url= properties.getProperty("URL");
             browser =  properties.getProperty("browser");
         } catch (IOException e) {
@@ -39,7 +39,7 @@ public class DriverFactory {
         //Check if parameter passed from TestNG is 'firefox'
         if(browser.equalsIgnoreCase("firefox")){
             //create firefox instance
-            System.setProperty("webdriver.gecko.driver", filePath +CommonClass.path+"webDriver\\geckodriver.exe");
+            System.setProperty("webdriver.gecko.driver", filePath+"//src//main//java//com//ancon//automation//webDriver//geckodriver.exe");
             driver = new FirefoxDriver();
             System.out.println("Firefox Browser Opened");
         }
@@ -47,10 +47,7 @@ public class DriverFactory {
         //Check if parameter passed as 'chrome'
         else if(browser.equalsIgnoreCase("chrome")){
             //set path to chromedriver.exe
-            System.setProperty("webdriver.chrome.driver", filePath + CommonClass.path+"webDriver//chromedriver.exe");
-         //   ChromeOptions options = new ChromeOptions();
-          //  DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-         //   capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+            System.setProperty("webdriver.chrome.driver", filePath +"/src/main/java//com/ancon/automation/webDriver/chromedriver.exe");
             driver = new ChromeDriver();
             System.out.println("Chrome Browser Opened");
         }
