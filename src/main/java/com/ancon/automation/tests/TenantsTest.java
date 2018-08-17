@@ -55,10 +55,10 @@ public class TenantsTest {
                 .addSystemInfo("Environment", "Ancon Automation Testing")
                 .addSystemInfo("User Name", "Chathura");
        // extent.loadConfig(new File(System.getProperty("user.dir") + CommonClass.path + "utils\\extent-config.xml"));
-    }
+/*    }
 
     @BeforeClass
-    public void SetUp() throws IOException {
+    public void SetUp() throws IOException {*/
         driver = DriverFactory.getDriver();
         commonClass = new CommonClass(driver);
         login = new Login(driver);
@@ -69,7 +69,11 @@ public class TenantsTest {
         // get data from property file
         Properties properties = new Properties();
         String filePath = System.getProperty("user.dir");
-        properties.load(new FileInputStream(".\\Base.properties"));
+        try {
+            properties.load(new FileInputStream(".\\Base.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         email = properties.getProperty("email");
         password = properties.getProperty("password");
         //Tenant Details
