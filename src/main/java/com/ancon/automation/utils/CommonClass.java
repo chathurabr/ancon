@@ -10,7 +10,8 @@ import org.testng.Assert;
  * Created by chathura on 11/07/2018.
  */
 public class CommonClass {
-    public static String path= "\\src\\main\\java\\com\\ancon\\automation\\";
+   // public static String path= "\\src\\main\\java\\com\\ancon\\automation\\";
+    public static String path= "//src//main//java//com//ancon//automation//";
     private static WebDriver driver ;
     private  WebDriverWait wait;
 
