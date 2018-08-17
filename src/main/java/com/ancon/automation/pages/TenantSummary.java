@@ -118,15 +118,15 @@ public class TenantSummary extends CommonClass {
     }
 
     public String getTenantName() {
-        WebElement tenantNameElement = driver.findElement(By.xpath("//html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[3]/div[1]/span[1]"));
+        WebElement tenantNameElement = driver.findElement(By.xpath("//html/body/div/div/div/div/div[2]/div/div/div/div/div[2]/div[1]/div[1]/table/tbody[1]/tr[1]/td[3]/div"));
         return tenantNameElement.getText();
     }
 
     public String getOutletname() {
-/*        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+       wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
         scrollIntoView(driver.findElement(btn_expand));
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();*/
-        buttonExpand();
+       // wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
+        //buttonExpand();
         WebElement outletNameElement = driver.findElement(By.xpath("//table/tbody[1]/tr[2]/td[3]/div/span"));
         return outletNameElement.getText();
     }

@@ -192,14 +192,14 @@ public class TenantsTest {
         tenantSummary.verifyButtonChangeTenant();
     }
 
-    @Test(description = "Disable Outlet Cancel", priority = 12, enabled = true)
-    @Test(description = "Set a custom opening time for outlet", priority = 12, enabled = false)
+
+/*    @Test(description = "Set a custom opening time for outlet", priority = 12, enabled = false)
     public void setCustomOutletTime() {
         outlet.selectSingleOpeningTime(outletName);
 
-    }
+    }*/
 
-    @Test(description = "Disable anyway Outlet", priority = 13, enabled = false)
+    @Test(description = "Disable anyway Outlet", priority = 12, enabled = true)
     public void disabledOutletCancel() {
         tenantSummary.disableOutletCancel();
     }
@@ -217,11 +217,12 @@ public class TenantsTest {
     @Test(description = "Delete Outlet", priority = 15, enabled = true)
     public void deleteOutlet() {
         tenantSummary.deleteOutlet();
+        tenantSummary.verifyOutletDelete();
     }
+
     @Test(description = "Delete Tenant Cancel", priority = 16, enabled = true)
     public void cancelDeleteTenant() {
         tenantSummary.deleteTenantCancel();
-        tenantSummary.verifyOutletDelete();
     }
 
     @Test(description = "Delete Tenant", priority = 17, enabled = true)
