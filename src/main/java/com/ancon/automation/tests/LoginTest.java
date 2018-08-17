@@ -40,7 +40,7 @@ public class LoginTest {
                 .addSystemInfo("Host Name", "Ancon")
                 .addSystemInfo("Environment", "Ancon Automation Testing")
                 .addSystemInfo("User Name", "Chathura");
-        extent.loadConfig(new File(System.getProperty("user.dir")+".\\extent-config.xml"));
+     //   extent.loadConfig(new File(System.getProperty("user.dir")+".\\extent-config.xml"));
     }
 
     @BeforeClass
