@@ -29,7 +29,7 @@ public class TenantSummary extends CommonClass {
 
 
     //Tenant_home_button
-    private By btn_View_1 = By.xpath("//html/body/div/div/div/div/div[2]/div/div/div/div/div[2]/div[1]/div[1]/div/table/tbody[1]/tr/td[7]/a[1]/button");
+    private By btn_View_1 = By.xpath("//table/tbody[1]/tr/td[7]/a[1]/button/span[contains(text(),'View')]");
     private By btn_View_2 = By.xpath("//table/tbody[1]/tr[@class'inner']/td[7]/a[1]/button/span[contains(text(),'View')]");
     private By btn_Edit_1 = By.xpath("//table/tbody[1]/tr/td[7]/a[2]/button/span[contains(text(),'Edit')]");
     private By btn_Edit_2 = By.xpath("//table/tbody[1]/tr[@class'inner']/td[7]/a[2]/button/span[contains(text(),'Edit')]");
@@ -123,9 +123,10 @@ public class TenantSummary extends CommonClass {
     }
 
     public String getOutletname() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+/*        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
         scrollIntoView(driver.findElement(btn_expand));
-        //wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();*/
+        buttonExpand();
         WebElement outletNameElement = driver.findElement(By.xpath("//table/tbody[1]/tr[2]/td[3]/div/span"));
         return outletNameElement.getText();
     }
@@ -237,7 +238,7 @@ public class TenantSummary extends CommonClass {
     }
 
     // Verify Tenant details in summary page
-    public void verifyTenantDetails(String name) {
+    public void verifyTenantDetails(String name,String numberOutlets) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_CreateNew));
         scrollIntoView(driver.findElement(By.xpath("//DIV[@role='button'][text()='Name']")));
         sleepTime(2000);
@@ -254,6 +255,10 @@ public class TenantSummary extends CommonClass {
         String tcdate = driver.findElement(By.xpath("//table/tbody[1]/tr/td[4]")).getText();
         Assert.assertEquals(tcdate, dtf.format(now));
         System.out.println("Tenant Created date verified : " + tcdate);
+        //number of outlets
+        WebElement outlets = driver.findElement(lbl_Outlets);
+        String numberOfOutlets = wait.until(ExpectedConditions.elementToBeClickable(outlets)).getText();
+        Assert.assertEquals(numberOfOutlets,numberOutlets);
         // verify View button available
         WebElement btn_view = driver.findElement(btn_View_1);
         Assert.assertTrue(btn_view.isDisplayed());

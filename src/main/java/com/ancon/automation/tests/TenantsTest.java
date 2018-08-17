@@ -56,7 +56,7 @@ public class TenantsTest {
                 .addSystemInfo("Host Name", "Ancon")
                 .addSystemInfo("Environment", "Ancon Automation Testing")
                 .addSystemInfo("User Name", "Chathura");
-        extent.loadConfig(new File(System.getProperty("user.dir") + CommonClass.path + "utils\\extent-config.xml"));
+       // extent.loadConfig(new File(System.getProperty("user.dir") + CommonClass.path + "utils\\extent-config.xml"));
     }
 
     @BeforeClass
@@ -71,7 +71,7 @@ public class TenantsTest {
         // get data from property file
         Properties properties = new Properties();
         String filePath = System.getProperty("user.dir");
-        properties.load(new FileInputStream(filePath + CommonClass.path + "\\utils\\Base.properties"));
+        properties.load(new FileInputStream(".\\Base.properties"));
         email = properties.getProperty("email");
         password = properties.getProperty("password");
         //Tenant Details
@@ -133,7 +133,7 @@ public class TenantsTest {
 
     @Test(description = "Verify Created tenant Details in summary page", priority = 3, enabled = true)
     public void verifyCreatedTenant() {
-        tenantSummary.verifyTenantDetails(tenantname);
+        tenantSummary.verifyTenantDetails(tenantname,"0");
     }
 
     @Test(description = "Create new Outlet", priority = 4, enabled = true)
@@ -141,10 +141,15 @@ public class TenantsTest {
         /*enter Outlet Details*/
         outlet.createOutlet(outletName, outletBusinessNumber, "street1", "zip2", "city2", "0784596321");
         /*Set Opening Hours*/
-        outlet.createOutletRoutineTme();
+        outlet.nonAdvancedRoutineTime();
         /* change colors*/
-        outlet.colorBox();
-        //  outlet.changeColor("#ab1191","171, 17, 145","#1919c2","25, 25, 194");
+        outlet.colorBox("29, 61, 145","249, 89, 25");
+        outlet.changeColor("#008000","0, 128, 0","#008","0, 0, 136");
+        outlet.colorBox("0, 128, 0","0, 0, 136");
+        /* set advanced Routine Times*/
+        outlet.advancedRoutineTimes();
+        outlet.clickOntimebox(7,20);  // mon 6 - 29
+        /*save*/
         outlet.saveCreateOutlet();
     }
 
@@ -157,13 +162,13 @@ public class TenantsTest {
     public void editCreatedTenant() {
         tenants.editTenant("Edit a Tenant");
         tenants.tenantDetails(tenantEdit + tenantname, tenantEdit + tenantBusinessNumber);
-        tenants.editTenatAdnim(tenantEdit + tenantEmail, tenantEdit + tenantFirstName, tenantEdit + tenantLastName);
+        tenants.editTenantAdmin(tenantEdit + tenantEmail, tenantEdit + tenantFirstName, tenantEdit + tenantLastName);
     }
 
 
     @Test(description = "Verify Created tenant Details in summary page", priority = 7, enabled = true)
     public void verifyEditedTenant() {
-        tenantSummary.verifyTenantDetails(tenantEdit + tenantname);
+        tenantSummary.verifyTenantDetails(tenantEdit + tenantname,"1");
     }
 
     @Test(description = "Edit Created Outlet details", priority = 8, enabled = true)
@@ -188,6 +193,13 @@ public class TenantsTest {
     }
 
     @Test(description = "Disable Outlet Cancel", priority = 12, enabled = true)
+    @Test(description = "Set a custom opening time for outlet", priority = 12, enabled = false)
+    public void setCustomOutletTime() {
+        outlet.selectSingleOpeningTime(outletName);
+
+    }
+
+    @Test(description = "Disable anyway Outlet", priority = 13, enabled = false)
     public void disabledOutletCancel() {
         tenantSummary.disableOutletCancel();
     }

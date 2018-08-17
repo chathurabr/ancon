@@ -1,0 +1,29 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Suite1" parallel="false">
+
+
+    <!--<test name="Login Test">-->
+        <!--<classes>-->
+            <!--<class name="com.ancon.automation.tests.LoginTest"/>-->
+        <!--</classes>-->
+    <!--</test>-->
+
+ <!--   <test name="Login Test">
+        <classes>
+            <class name="com.ancon.automation.tests.LoginTest"/>
+        </classes>
+    </test>-->
+
+    <test name="Tenants Test">
+        <classes>
+            <class name="com.ancon.automation.tests.TenantsTest"/>
+        </classes>
+    </test>
+
+    <!--<test name="Tenants Search Test">
+        <classes>
+            <class name="com.ancon.automation.tests.SearchTest"/>
+        </classes>
+    </test>-->
+
+</suite>

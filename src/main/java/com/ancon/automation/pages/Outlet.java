@@ -1,17 +1,13 @@
 package com.ancon.automation.pages;
 
 import com.ancon.automation.utils.CommonClass;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.awt.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * Created by chathura on 07/08/2018.
@@ -39,6 +35,11 @@ public class Outlet extends CommonClass {
     private By dd_StartTime = By.xpath("(//DIV[@class='css-1rtrksz'])[1]");
     private By dd_CloseTime = By.xpath("(//DIV[@class='css-1rtrksz'])[2]");
     private By btn_Edit = By.xpath("(//SPAN[text()='Edit'][text()='Edit'])[2]");
+    private By advanced_Routine_Button = By.xpath("//div[contains(@class,'col-md-6')]//button[contains(@type,'button')][contains(text(),'Yes')]");
+    private By time_Selection_Table = By.xpath("//table[contains(@class,'table-drag-select')]");
+    private By source1 = By.xpath("//tbody//tr[2]//td[10]");
+    private By destination1 = By.xpath("//tbody//tr[2]//td[14]");
+
     //color
     private By cb_PrimaryColor = By.xpath("(//DIV[@class='colorBlockLarge___1aUen'])[1]");
     private By cb_SecondaryColor = By.xpath("(//DIV[@class='colorBlockLarge___1aUen'])[2]");
@@ -46,6 +47,9 @@ public class Outlet extends CommonClass {
     private By lbl_heder_color = By.xpath("//H5[@class='modal-title'][text()='Change Outlet Colors']");
     private By txt_prmaryColor = By.xpath("(//INPUT[@tabindex='0'])[8]");
     private By txt_secondColor = By.xpath("(//INPUT[@tabindex='0'])[9]");
+    private By btn_save_colorbox = By.xpath("//html/body/div[2]/div/div[1]/div/div/div[3]/button[2]");
+    // routing time
+    private By btn_time_yes = By.xpath("(//BUTTON[@type='button'][text()='Yes'][text()='Yes'])[2]");
 
 
 
@@ -77,16 +81,22 @@ public class Outlet extends CommonClass {
     }
 
     //Opening Hours
-    //Have an advanced routine ? Yes
-    public void createOutletRoutineTme() {
+    //Have an advanced routine ? No
+    public void nonAdvancedRoutineTime() {
         //set Open time
         WebElement openTime = driver.findElement(dd_StartTime);
         scrollIntoView(openTime);
         openTime.click();
         sleepTime(500);
-        WebElement otime = driver.findElement(By.xpath("//*[contains(text(),'07:00')]"));
-        scrollIntoView(otime);
-        wait.until(ExpectedConditions.elementToBeClickable(otime)).click();
+        try{
+        scrollIntoView(driver.findElement(By.xpath("//*[contains(text(),'03:00')]")));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//*[contains(text(),'03:00')]")))).click();
+            System.out.println("Entered advanced routine Open Time 03:00");
+        }catch(NoSuchElementException e) {
+            e.printStackTrace();
+            openTime.click();
+        }
+        try{
         //set Close time
         WebElement closeTime = driver.findElement(dd_CloseTime);
         closeTime.click();
@@ -94,21 +104,45 @@ public class Outlet extends CommonClass {
         WebElement time = driver.findElement(By.xpath("//*[contains(text(),'07:00')]"));
         scrollIntoView(time);
         wait.until(ExpectedConditions.elementToBeClickable(time)).click();
-        System.out.println("Entered advanced routine Open and Close Times (03:00 - 07:00)");
+            System.out.println("Entered advanced routine Close Time 07:00");
+        }catch(NoSuchElementException e) {
+            e.printStackTrace();}
+
     }
 
-    public void colorBox() {
+    //Opening Hours
+    //Have an advanced routine ? yes
+    public void advancedRoutineTimes() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_time_yes));
+        scrollIntoView(driver.findElement(btn_time_yes));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_time_yes))).click();
+    }
+
+    public void clickOntimebox(int open , int close){
+        for (int i = open; i <= close; i++) {
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//SPAN)["+i+"]")));
+            scrollIntoView(driver.findElement(By.xpath("(//SPAN)["+i+"]")));
+            driver.findElement(By.xpath("(//SPAN)["+i+"]")).click();
+
+      /*      outlet.clickOntimebox(31,44);  // Tue 30 - 53
+            outlet.clickOntimebox(55,74);  // Wed 54 - 77
+            outlet.clickOntimebox(78,95);  // Thu 78 - 101
+            outlet.clickOntimebox(109,121);  // Fri 102 - 125
+            outlet.clickOntimebox(129,148);  // Sat 126 - 149
+            outlet.clickOntimebox(156,167);  // Sun 150 - 173*/
+        }
+    }
+
+    public void colorBox(String pColor, String sColor) {
         WebElement PrimaryColor = driver.findElement(cb_PrimaryColor);
         WebElement SecondaryColor = driver.findElement(cb_SecondaryColor);
         scrollIntoView(PrimaryColor);
         String pcolor = PrimaryColor.getCssValue("background-color");
-       // Assert.assertEquals(pcolor, "rgba(29, 61, 145, 1)");
-        Assert.assertTrue(pcolor.contains("(29, 61, 145"));
-        System.out.println("Verify default Primary Color");
+        Assert.assertTrue(pcolor.contains(pColor));
+        System.out.println("Verify default / Selected Primary Color in Outlet Details page");
         String scolor = SecondaryColor.getCssValue("background-color");
-       // Assert.assertEquals(scolor, "rgba(249, 89, 25, 1)");
-        Assert.assertTrue(scolor.contains("(249, 89, 25"));
-        System.out.println("Verify default Secondary Color");
+        Assert.assertTrue(scolor.contains(sColor));
+        System.out.println("Verify default / Selected Secondary Color in Outlet Details page");
 
     }
 
@@ -121,12 +155,6 @@ public class Outlet extends CommonClass {
         return driver.findElement(By.xpath("(//BUTTON[@tabindex='-1'])[13]")).getCssValue("background-color");
     }
 
-    public Color hex2Rgb(String colorStr) {
-        return new Color(
-                Integer.valueOf( colorStr.substring( 1, 3 ), 16 ),
-                Integer.valueOf( colorStr.substring( 3, 5 ), 16 ),
-                Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
-    }
 
     public void changeColor(String hex_P_color, String rgb_P_color, String hex_S_color, String rgb_S_color){
         WebElement btn_Change_Color = driver.findElement(btn_changeColor);
@@ -160,8 +188,6 @@ public class Outlet extends CommonClass {
         wait.until(ExpectedConditions.elementToBeClickable(secondary_Change_Color)).clear();
         secondary_Change_Color.sendKeys(hex_S_color);
         // verify rgb values
-       // System.out.println("getSelectedPrimaryColor(): "+getSelectedPrimaryColor());
-       // System.out.println("rgb_P_color: "+rgb_P_color);
         Assert.assertTrue(getSelectedPrimaryColor().contains(rgb_P_color));
         Assert.assertTrue(getSelectedSecondaryColor().contains(rgb_S_color));
         //verify preview
@@ -171,22 +197,30 @@ public class Outlet extends CommonClass {
         System.out.println("SECONDARY COLOR (Used as main background color) - Verified");
 
         //Used for buttons and links
-        String preview_button_color_back = driver.findElement(By.xpath("//html/body/div[2]/div/div[1]/div/div/div[2]/div[2]/div/div/div[1]/div[2]/button")).getCssValue("color");
-        String preview_button_color_discard = driver.findElement(By.xpath("//html/body/div[2]/div/div[1]/div/div/div[2]/div[2]/div/div/div[1]/div[2]/div/button[text()='Discard']")).getCssValue("color");
-        String preview_button_color_save = driver.findElement(By.xpath("//html/body/div[2]/div/div[1]/div/div/div[2]/div[2]/div/div/div[1]/div[2]/div/button[text()='Save']")).getCssValue("background-color");
 
-        System.out.println("preview_button_color_back:" + preview_button_color_back);
-        System.out.println("preview_button_color_discard:" + preview_button_color_discard);
-        System.out.println("preview_button_color_save:" + preview_button_color_save);
-        System.out.println("rgb_P_color"+rgb_P_color);
+        String preview_button_color_back = driver.findElement(By.xpath("//html/body/div[2]/div/div[1]/div/div/div[2]/div[2]/div/div/div[1]/div[2]/button/i")).getCssValue("color");
+      //  String preview_button_color_discard = driver.findElement(By.xpath("//html/body/div[2]/div/div[1]/div/div/div[2]/div[2]/div/div/div[1]/div[2]/div/button[text()='Discard']")).getCssValue("color");
+        String preview_button_color_discard = driver.findElement(By.cssSelector(".mainButtons___2Q9RS > div:nth-child(2) > button:nth-child(1)")).getCssValue("color");
+       // String preview_button_color_save = driver.findElement(By.xpath("//html/body/div[2]/div/div[1]/div/div/div[2]/div[2]/div/div/div[1]/div[2]/div/button[text()='Save']")).getCssValue("background-color");
+        String preview_button_color_save = driver.findElement(By.cssSelector(".mainButtons___2Q9RS > div:nth-child(2) > button:nth-child(2)")).getCssValue("background-color");
 
-        Assert.assertTrue(preview_button_color_discard.contains(rgb_P_color));
-        Assert.assertTrue(preview_button_color_back.contains(rgb_P_color));
-        Assert.assertTrue(preview_button_color_save.contains(rgb_P_color));
-        System.out.println("Primary Color (Used for buttons and links) - Verified selected colors");
-        //save color box
-        driver.findElement(By.xpath("//html/body/div[2]/div/div[1]/div/div/div[3]/button[2]")).click();
-        System.out.println("Successfully changed the colors");
+        try {
+            Assert.assertTrue(preview_button_color_back.contains(rgb_P_color));
+            Assert.assertEquals(preview_button_color_discard,preview_button_color_save);
+            System.out.println("Primary Color (Used for buttons and links) - Verified selected colors");
+            //save color box
+            driver.findElement(btn_save_colorbox).click();
+            System.out.println("Successfully changed the colors");
+
+        } catch (AssertionError e) {
+            e.printStackTrace();
+            driver.findElement(btn_save_colorbox).click();
+            System.out.println("Error in Primary Color (Used for buttons and links)");
+/*            System.out.println("--preview_button_color_back:" + preview_button_color_back);
+            System.out.println("--preview_button_color_discard:" + preview_button_color_discard);
+            System.out.println("--preview_button_color_save:" + preview_button_color_save);
+            System.out.println("--rgb_P_color"+rgb_P_color);*/
+        }
     }
 
     //save Created Outlet
@@ -205,9 +239,11 @@ public class Outlet extends CommonClass {
     }
 
     public void editCreatedOutlet(String outletName, String outletNumber, String street, String zip, String city, String telephone) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+/*        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
         scrollIntoView(driver.findElement(btn_expand));
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();*/
+        buttonExpand();
+
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//SPAN[text()='"+outletName+"']")));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table/tbody[1]/tr[2]/td[7]")));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_Edit))).click();
@@ -232,5 +268,35 @@ public class Outlet extends CommonClass {
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_save))).click();
     }
 
+    public void selectAdvancedRoutine() {
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(advanced_Routine_Button))).click();
+    }
+
+    public void selectSingleOpeningTime(String outletName) {
+        /*wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+        scrollIntoView(driver.findElement(btn_expand));*/
+        buttonExpand();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//td[@class='btn-td']//a[2]//button[1]")))).click();
+        Assert.assertEquals(getPageName(), "Edit an Outlet");
+        scrollIntoView(driver.findElement(advanced_Routine_Button));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(advanced_Routine_Button))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(time_Selection_Table));
+        WebElement element1 = driver.findElement(source1);
+        WebElement target1 = driver.findElement(destination1);
+        (new Actions(driver)).dragAndDrop(element1, target1).perform();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_save))).click();
+    /*    wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+        scrollIntoView(driver.findElement(btn_expand));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table/tbody[1]/tr[2]/td[7]")));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//td[@class='btn-td']//a[1]//button[1]")))).click();
+        System.out.println("View Outlet button clicked");
+        Assert.assertEquals(getPageName(), "Outlet Details");
+        WebElement timeView = driver.findElement(By.xpath("//div[contains(@class,'tag___1sqlq')]/span"));
+        scrollIntoView(timeView);
+        String openingTime = timeView.getText();
+        Assert.assertEquals(openingTime,"Everyday Opens at 12:00 - 16:00 hours");*/
+
+    }
 
 }

@@ -3,6 +3,7 @@ package com.ancon.automation.utils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -28,7 +29,7 @@ public class DriverFactory {
         // get data from property file
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream(filePath + CommonClass.path+"utils\\Base.properties"));
+            properties.load(new FileInputStream(".//Base.properties"));
             url= properties.getProperty("URL");
             browser =  properties.getProperty("browser");
         } catch (IOException e) {
@@ -47,10 +48,10 @@ public class DriverFactory {
         else if(browser.equalsIgnoreCase("chrome")){
             //set path to chromedriver.exe
             System.setProperty("webdriver.chrome.driver", filePath + CommonClass.path+"webDriver\\chromedriver.exe");
-            //create chrome instance
+         //   ChromeOptions options = new ChromeOptions();
+          //  DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+         //   capabilities.setCapability(ChromeOptions.CAPABILITY, options);
             driver = new ChromeDriver();
-            DesiredCapabilities chromeCapabilities = DesiredCapabilities.chrome();
-            chromeCapabilities.setCapability(CapabilityType.ForSeleniumServer.ENSURING_CLEAN_SESSION, true);
             System.out.println("Chrome Browser Opened");
         }
 

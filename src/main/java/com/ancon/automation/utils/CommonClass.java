@@ -32,7 +32,7 @@ public class CommonClass {
     }
 
     // get page name from header
-    public String getPageName() {
+    protected String getPageName() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(lbl_pagename));
         return driver.findElement(lbl_pagename).getText();
     }
@@ -47,7 +47,7 @@ public class CommonClass {
     }
 
     //Scroll the page
-    public static void scrollIntoView(WebElement element){
+    protected static void scrollIntoView(WebElement element){
         JavascriptExecutor executor = (JavascriptExecutor)driver;
         executor.executeScript("arguments[0].scrollIntoView(true);",element);
     }
@@ -71,6 +71,21 @@ public class CommonClass {
             attempts++;
         }
         return result;
+    }
+
+    protected void buttonExpand(){
+        try {
+           // WebElement outletNameElement = driver.findElement(By.xpath("//table/tbody[1]/tr[2]/td[3]/div/span"));
+            WebDriverWait wait2 = new WebDriverWait(driver,3);
+            wait2.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//table/tbody[1]/tr[2]/td[3]/div/span"))));
+        } catch (NoSuchElementException e) {
+            //   e.printStackTrace();
+            WebElement btn_expand = driver.findElement(By.xpath("//table/tbody[1]/tr[1]/td[2]/button/i[@class='a_icon-unfold']"));
+            wait.until(ExpectedConditions.visibilityOf((btn_expand)));
+            scrollIntoView(btn_expand);
+            wait.until(ExpectedConditions.elementToBeClickable(btn_expand)).click();
+            System.out.println("Expand button clicked");
+        }
     }
 
 }

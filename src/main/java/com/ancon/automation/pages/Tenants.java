@@ -62,7 +62,7 @@ public class Tenants extends CommonClass {
     }
 
     public void createNewTenant(String hederName) {
-       // sleepTime(2000);
+        sleepTime(1000);
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_CreateNew));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_CreateNew))).click();
         Assert.assertEquals(getPageName(), hederName);
@@ -126,7 +126,7 @@ public class Tenants extends CommonClass {
         System.out.println("Mandatory field validation message appeared - 'EMAIL : Required'");
     }
 
-    public void editTenatAdnim(String email, String firstName, String lastName) {
+    public void editTenantAdmin(String email, String firstName, String lastName) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(btn_ChangeAdmin));
         scrollIntoView(driver.findElement(btn_ChangeAdmin));
         driver.findElement(btn_ChangeAdmin).click();
