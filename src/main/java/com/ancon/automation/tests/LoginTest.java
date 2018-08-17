@@ -53,7 +53,7 @@ public class LoginTest {
         Properties properties = new Properties();
         try {
             String filePath = System.getProperty("user.dir");
-            properties.load(new FileInputStream(filePath + CommonClass.path + "utils\\Base.properties"));
+            properties.load(new FileInputStream(".\\Base.properties"));
             email = properties.getProperty("email");
             password = properties.getProperty("password");
         } catch (IOException e) {
