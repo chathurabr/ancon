@@ -47,7 +47,7 @@ public class DriverFactory {
         //Check if parameter passed as 'chrome'
         else if(browser.equalsIgnoreCase("chrome")){
             //set path to chromedriver.exe
-            System.setProperty("webdriver.chrome.driver", filePath+"/src/main/java//com/ancon/automation/webDriver/chromedriver");
+            System.setProperty("webdriver.chrome.driver", filePath+"/src/main/java//com/ancon/automation/webDriver/chromedriver.exe");
             driver = new ChromeDriver();
             System.out.println("Chrome Browser Opened");
         }

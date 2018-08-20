@@ -131,7 +131,7 @@ public class TenantsTest {
         tenants.tenantAdminDetails(tenantEmail, tenantFirstName, tenantLastName);
     }
 
-    @Test(description = "Verify Created tenant Details in summary page", priority = 3, enabled = false)
+    @Test(description = "Verify Created tenant Details in summary page", priority = 3, enabled = true)
     public void verifyCreatedTenant() {
         tenantSummary.verifyTenantDetails(tenantname,"0");
     }
