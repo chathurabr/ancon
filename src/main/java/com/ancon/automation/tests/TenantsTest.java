@@ -247,4 +247,8 @@ public class TenantsTest {
         tenantSummary.deleteTenant();
         tenantSummary.verifyTenantDelete();
     }
+
+/*    @Test(description = "Tenant", priority = 20, enabled = true)
+    }*/
+
 }
