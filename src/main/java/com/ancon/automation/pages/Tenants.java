@@ -106,6 +106,7 @@ public class Tenants extends CommonClass {
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(txt_lastName))).sendKeys(lastName);
         System.out.println("TLast name :" + lastName);
         //click on save button
+        sleepTime(500);
         scrollIntoView(driver.findElement(btn_save));
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_save))).click();
         System.out.println("successfully Created a Tenant");
