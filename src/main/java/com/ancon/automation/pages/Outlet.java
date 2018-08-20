@@ -51,6 +51,19 @@ public class Outlet extends CommonClass {
     // routing time
     private By btn_time_yes = By.xpath("(//BUTTON[@type='button'][text()='Yes'][text()='Yes'])[2]");
 
+    //view outlet
+    private By btn_OutletView = By.xpath("//span[contains(text(),'View')]");
+    private By view_outletName = By.xpath("//h3[@class='color-shade4']");
+    private By view_outletBusinessNumber = By.xpath("//h5[@class='color-shade4']");
+    private By view_streetName = By.xpath("//label[contains(text(),'Street')]/following-sibling::input");
+    private By view_zip = By.xpath("//label[contains(text(),'Zip')]/following-sibling::input");
+    private By view_city = By.xpath("//label[contains(text(),'City')]/following-sibling::input");
+    private By view_telephone = By.xpath("//input[contains(text(),'Telephone')]/following-sibling::input");
+   // private By view_telephone = By.xpath("//input[@type='email']");
+
+    //edit outlet
+    private By btn_OutletEdit = By.xpath("//span[contains(text(),'Edit')]");
+
 
 
     public Outlet(WebDriver driver) {
@@ -238,6 +251,51 @@ public class Outlet extends CommonClass {
         System.out.println("Back to Tenants Summary page successfully ");
     }
 
+    //Click on back button in outlet details page and navigate back to Tenants Summary page
+    public void navigateToTenantSummaryPage() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_BackFromOutlet));
+        WebElement backButton = driver.findElement(btn_BackFromOutlet);
+        scrollIntoView(backButton);
+        wait.until(ExpectedConditions.elementToBeClickable(backButton)).click();
+    }
+
+    //Click on View button of Outlet in tenant details page
+    public void clickOnViewButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_OutletView))).click();
+        System.out.println("Clicked on View button");
+    }
+
+    //Click on Edit button of Outlet
+    public void clickOnEditButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_OutletEdit))).click();
+        System.out.println("Clicked on Edit button");
+    }
+
+    //View created outlet details
+    public void verifyCreatedOutletDetails(String outletName, String outletNumber, String streetName, String zip, String city, String telephone) {
+        Assert.assertEquals(getPageName(), "Outlet Details");
+        String addedOutletName = driver.findElement(view_outletName).getText();
+        System.out.println(" " + addedOutletName);
+        Assert.assertEquals(outletName, addedOutletName);
+        String addedOutletNumber = driver.findElement(view_outletBusinessNumber).getText();
+        System.out.println(" " + addedOutletNumber);
+        Assert.assertEquals(outletNumber, addedOutletNumber);
+        String addedStreetName = driver.findElement(view_streetName).getAttribute("value");
+        System.out.println(" " + addedStreetName);
+        Assert.assertEquals(streetName, addedStreetName);
+        String addedZip = driver.findElement(view_zip).getAttribute("value");
+        System.out.println(" " + addedZip);
+        Assert.assertEquals(zip, addedZip);
+        String addedCity = driver.findElement(view_city).getAttribute("value");
+        System.out.println(" " + addedCity);
+        Assert.assertEquals(city, addedCity);
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(view_telephone));
+   //     scrollIntoView(driver.findElement(view_telephone));
+  //      String addedTelephone = driver.findElement(view_telephone).getAttribute("value");
+ //       System.out.println(" " + addedTelephone);
+//        Assert.assertEquals(telephone,addedTelephone);
+    }
+
     public void editCreatedOutlet(String outletName, String outletNumber, String street, String zip, String city, String telephone) {
 /*        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
         scrollIntoView(driver.findElement(btn_expand));
@@ -297,6 +355,32 @@ public class Outlet extends CommonClass {
         String openingTime = timeView.getText();
         Assert.assertEquals(openingTime,"Everyday Opens at 12:00 - 16:00 hours");*/
 
+    }
+
+    //View edited outlet details
+    public void verifyEditedOutletDetails(String outletName, String outletNumber, String streetName, String zip, String city, String telephone) {
+        Assert.assertEquals(getPageName(), "Edit an Outlet");
+        String editedOutletName = driver.findElement(txt_outletName).getAttribute("value");
+        System.out.println(" " + editedOutletName);
+        Assert.assertEquals(outletName, editedOutletName);
+        String editedOutletNumber = driver.findElement(txt_outletBusinessNumber).getAttribute("value");
+        System.out.println(" " + editedOutletNumber);
+        Assert.assertEquals(outletNumber, editedOutletNumber);
+        String editedStreetName = driver.findElement(txt_street).getAttribute("value");
+        System.out.println(" " + editedStreetName);
+        Assert.assertEquals(streetName, editedStreetName);
+        String editedZip = driver.findElement(txt_zip).getAttribute("value");
+        System.out.println(" " + editedZip);
+        Assert.assertEquals(zip, editedZip);
+        String editedCity = driver.findElement(txt_city).getAttribute("value");
+        System.out.println(" " + editedCity);
+        Assert.assertEquals(city, editedCity);
+   //     wait.until(ExpectedConditions.visibilityOfElementLocated(view_telephone));
+   //     scrollIntoView(driver.findElement(view_telephone));
+  //      String editedTelephone = driver.findElement(view_telephone).getAttribute("value");
+ //       System.out.println(" " + editedTelephone);
+  //      Assert.assertEquals(telephone,editedTelephone);
+       // Assert.assertTrue(telephone.contains(editedTelephone));
     }
 
 }

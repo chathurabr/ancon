@@ -139,7 +139,7 @@ public class TenantsTest {
     @Test(description = "Create new Outlet", priority = 4, enabled = true)
     public void createnewOutlet() {
         /*enter Outlet Details*/
-        outlet.createOutlet(outletName, outletBusinessNumber, "street1", "zip2", "city2", "0784596321");
+        outlet.createOutlet(outletName, outletBusinessNumber, "street1", "zip2", "city2", "+46784596321");
         /*Set Opening Hours*/
         outlet.nonAdvancedRoutineTime();
         /* change colors*/
@@ -158,7 +158,15 @@ public class TenantsTest {
         tenantSummary.verifyOutlet(outletName);
     }
 
-    @Test(description = "Edit Created Tenant details", priority = 6, enabled = true)
+    @Test(description = "Verify outlet details when clicking view button in tenants summary page", priority = 6, enabled = true)
+    public void viewOutletDetails() {
+        driver.navigate().refresh();
+        tenantSummary.clickViewOutlet();
+        outlet.verifyCreatedOutletDetails(outletName, outletBusinessNumber, "street1", "zip2", "city2", "+46784596321");
+        outlet.navigateToTenantSummaryPage();
+    }
+
+    @Test(description = "Edit Created Tenant details", priority = 7, enabled = true)
     public void editCreatedTenant() {
         tenants.editTenant("Edit a Tenant");
         tenants.tenantDetails(tenantEdit + tenantname, tenantEdit + tenantBusinessNumber);
@@ -166,27 +174,35 @@ public class TenantsTest {
     }
 
 
-    @Test(description = "Verify Created tenant Details in summary page", priority = 7, enabled = true)
+    @Test(description = "Verify Created tenant Details in summary page", priority = 8, enabled = true)
     public void verifyEditedTenant() {
         tenantSummary.verifyTenantDetails(tenantEdit + tenantname,"1");
     }
 
-    @Test(description = "Edit Created Outlet details", priority = 8, enabled = true)
+    @Test(description = "Edit Created Outlet details", priority = 9, enabled = true)
     public void editCreatedOutlet() {
         outlet.editCreatedOutlet(outletName, "55" + outletBusinessNumber, "street11", "zip22", "city22", "+94784596321");
     }
 
-    @Test(description = "Verify Created Outlet Details", priority = 9, enabled = true)
+    @Test(description = "Verify Created Outlet Details", priority = 10, enabled = true)
     public void verifyEditedOutlet() {
         tenantSummary.verifyOutlet("edited" + outletName);
     }
 
-    @Test(description = "Disable Cancel Tenant", priority = 10, enabled = true)
+    @Test(description = "Verify outlet details when clicking edit button in tenants summary page", priority = 11, enabled = true)
+    public void editOutletDetails() {
+        driver.navigate().refresh();
+        tenantSummary.clickEditOutlet();
+        outlet.verifyEditedOutletDetails("edited"+outletName, "55" + outletBusinessNumber, "street11", "zip22", "city22", "+94784596321");
+        outlet.navigateToTenantSummaryPage();
+    }
+
+    @Test(description = "Disable Cancel Tenant", priority = 12, enabled = true)
     public void disabledTenantCancel() {
         tenantSummary.disableTenantCancel();
     }
 
-    @Test(description = "Disable anyway Tenant", priority = 11, enabled = true)
+    @Test(description = "Disable anyway Tenant", priority = 13, enabled = true)
     public void disabledTenantAnyway() {
         tenantSummary.disableTenantAnyway();
         tenantSummary.verifyButtonChangeTenant();
@@ -199,33 +215,33 @@ public class TenantsTest {
 
     }*/
 
-    @Test(description = "Disable anyway Outlet", priority = 12, enabled = true)
+    @Test(description = "Disable anyway Outlet", priority = 14, enabled = true)
     public void disabledOutletCancel() {
         tenantSummary.disableOutletCancel();
     }
 
-    @Test(description = "Disable Outlet", priority = 13, enabled = true)
+    @Test(description = "Disable Outlet", priority = 15, enabled = true)
     public void disabledOutletAnyway() {
         tenantSummary.disableOutletanyway();
         tenantSummary.verifyButtonChangeOutlet();
     }
-    @Test(description = "Delete Outlet Cancel", priority = 14, enabled = true)
+    @Test(description = "Delete Outlet Cancel", priority = 16, enabled = true)
     public void cancelDeleteOutlet() {
         tenantSummary.deleteOutletCancel();
     }
 
-    @Test(description = "Delete Outlet", priority = 15, enabled = true)
+    @Test(description = "Delete Outlet", priority = 17, enabled = true)
     public void deleteOutlet() {
         tenantSummary.deleteOutlet();
         tenantSummary.verifyOutletDelete();
     }
 
-    @Test(description = "Delete Tenant Cancel", priority = 16, enabled = true)
+    @Test(description = "Delete Tenant Cancel", priority = 18, enabled = true)
     public void cancelDeleteTenant() {
         tenantSummary.deleteTenantCancel();
     }
 
-    @Test(description = "Delete Tenant", priority = 17, enabled = true)
+    @Test(description = "Delete Tenant", priority = 19, enabled = true)
     public void deleteTenant() {
         tenantSummary.deleteTenant();
         tenantSummary.verifyTenantDelete();

@@ -47,6 +47,9 @@ public class TenantSummary extends CommonClass {
     private By btn_No = By.xpath("//button[contains(text(),'No')]");
     private By btn_Yes = By.xpath("//button[contains(text(),'Yes')]");
 
+    private By btn_view_outlet = By.xpath("//td[@class='btn-td']//a[1]");
+    private By btn_edit_outlet = By.xpath("//td[@class='btn-td']//a[2]");
+
     WebElement searchField;
     WebElement searchButton;
 
@@ -134,6 +137,24 @@ public class TenantSummary extends CommonClass {
     public String getHeadername() {
         WebElement headerNameElement = driver.findElement(By.xpath("//div[@class='modal-content']/div[1]/h5"));
         return headerNameElement.getText();
+    }
+
+    //Click View Outlet in Summary page
+    public void clickViewOutlet() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+        scrollIntoView(driver.findElement(btn_expand));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_view_outlet)).click();
+        System.out.println("Navigated to View outlet page");
+    }
+
+    //Click Edit Outlet in Summary page
+    public void clickEditOutlet() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_expand));
+        scrollIntoView(driver.findElement(btn_expand));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(btn_expand))).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(btn_edit_outlet)).click();
+        System.out.println("Navigated to Edit outlet page");
     }
 
     public void disableTenantCancel() {
