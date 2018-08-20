@@ -189,12 +189,13 @@ public class TenantsTest {
         tenantSummary.verifyOutlet("edited" + outletName);
     }
 
+    // tenats new view
     @Test(description = "Verify outlet details when clicking edit button in tenants summary page", priority = 11, enabled = true)
     public void editOutletDetails() {
-       // driver.navigate().refresh();
+        driver.navigate().refresh();
         tenantSummary.clickEditOutlet();
-        //outlet.verifyEditedOutletDetails("edited"+outletName, "55" + outletBusinessNumber, "street11", "zip22", "city22", "+94784596321");
-        //outlet.navigateToTenantSummaryPage();
+        outlet.verifyEditedOutletDetails("edited"+outletName, "55" + outletBusinessNumber, "street11", "zip22", "city22", "+94784596321");
+        outlet.navigateToTenantSummaryPage();
     }
 
     @Test(description = "Disable Cancel Tenant", priority = 12, enabled = true)
